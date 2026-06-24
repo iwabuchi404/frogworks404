@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HalfGrip — frogworks404</title>
+
+  
+  <meta name="description" content="Androidネイティブカメラアプリ + 自作USB-C HIDグリップデバイス。半押しAFロックを含むミラーレス的な操作感をスマホで実現する。">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDMincho:wght@400;700&family=BIZ+UDPGothic:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://iwabuchi404.github.io/frogworks404/main.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body>
+  <div class="page-layout">
+
+    
+    
+    <aside class="page-sidebar" aria-label="サイトナビゲーション">
+      <div class="sidebar-inner">
+        <a href="https://iwabuchi404.github.io/frogworks404" class="sidebar-brand">
+          <span class="sidebar-brand-text">frogworks404</span>
+        </a>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-meta">
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">記録開始</span>
+            <span class="sidebar-meta-value">2024.01</span>
+          </div>
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">エントリ数</span>
+            <span class="sidebar-meta-value">3</span>
+          </div>
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">最終更新</span>
+            
+            
+            <span class="sidebar-meta-value">2025.06</span>
+            
+          </div>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <nav class="sidebar-nav">
+          <div class="sidebar-nav-label">PAGES</div>
+          <a href="https://iwabuchi404.github.io/frogworks404" class="sidebar-nav-link">記録一覧</a>
+          <a href="https://iwabuchi404.github.io/frogworks404/pages/projects" class="sidebar-nav-link">プロジェクト</a>
+          <a href="https://iwabuchi404.github.io/frogworks404/pages/about" class="sidebar-nav-link">About</a>
+        </nav>
+
+        <nav class="sidebar-nav">
+          <div class="sidebar-nav-label">TAGS</div>
+          <div class="sidebar-tag-list">
+            <a href="https://iwabuchi404.github.io/frogworks404/tags/build-log" class="sidebar-tag-badge sidebar-tag-badge-build-log">build-log</a>
+            <a href="https://iwabuchi404.github.io/frogworks404/tags/software" class="sidebar-tag-badge sidebar-tag-badge-software">software</a>
+            <a href="https://iwabuchi404.github.io/frogworks404/tags/idea" class="sidebar-tag-badge sidebar-tag-badge-idea">idea</a>
+            <a href="https://iwabuchi404.github.io/frogworks404/tags/note" class="sidebar-tag-badge sidebar-tag-badge-note">note</a>
+          </div>
+        </nav>
+
+        <div class="sidebar-links">
+          <div class="sidebar-nav-label">LINKS</div>
+          <a href="https:&#x2F;&#x2F;github.com&#x2F;frogworks404" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">X ↗</a>
+          <a href="https:&#x2F;&#x2F;frogworks404.booth.pm" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">BOOTH ↗</a>
+        </div>
+      </div>
+    </aside>
+
+    
+    <div class="inner">
+      
+
+
+<header class="site-header">
+  <div class="cover-box">
+    <div class="cover-eyebrow">
+      <a href="https://iwabuchi404.github.io/frogworks404/projects" class="cover-back">← プロジェクト一覧</a>
+      <span class="cover-sep"> ／ </span>
+      <span class="cover-tag">build-log</span> <span class="cover-tag">wip</span>
+    </div>
+    <h1 class="cover-title cover-title--sm">HalfGrip</h1>
+    
+    <hr class="cover-divider">
+    <p class="cover-desc">Androidネイティブカメラアプリ + 自作USB-C HIDグリップデバイス。半押しAFロックを含むミラーレス的な操作感をスマホで実現する。</p>
+    
+    
+  </div>
+  <div class="header-table">
+    <div class="header-cell">
+      <span class="cell-label">公開日</span>
+      <span class="cell-value">2025.03.10</span>
+    </div>
+    
+    <div class="header-cell">
+      <span class="cell-label">進捗</span>
+      <span class="cell-value">30%</span>
+    </div>
+    
+    
+    <div class="header-cell">
+      <span class="cell-label">ステータス</span>
+      <span class="cell-value">active</span>
+    </div>
+    
+  </div>
+</header>
+
+<main class="article-wrap">
+  
+  <div class="entry-progress article-progress">
+    <div class="prog-track"><div class="prog-fill" style="width:30%"></div></div>
+    <span class="prog-label">
+      Step 1 MVPコア開発中
+    </span>
+  </div>
+  
+
+  <div class="article-body article-body--product">
+    <h2 id="gai-yao">概要</h2>
+<p>HalfGripは、Androidネイティブカメラアプリと自作USB-C HIDグリップデバイスの組み合わせ。
+半押しAFロックを含むミラーレス的な操作感をスマホで実現する。</p>
+<h2 id="debaisu">デバイス</h2>
+<ul>
+<li><strong>マイコン</strong>: RP2040 Zero</li>
+<li><strong>接続</strong>: USB-C有線（HIDゲームパッドとして認識）</li>
+<li><strong>筐体</strong>: Nothing Phone 3専用グリップ型（Bambu Lab A1 Miniで出力）</li>
+<li><strong>ボタン構成</strong>: メインシャッター2段階、サブボタン×1、ロータリーエンコーダ、追加タクトスイッチ2〜3個</li>
+<li><strong>ファームウェア</strong>: CircuitPython + <code>usb_hid</code></li>
+</ul>
+<h2 id="apuri">アプリ</h2>
+<ul>
+<li><strong>言語</strong>: Kotlin</li>
+<li><strong>カメラAPI</strong>: Camera2 API</li>
+<li><strong>最小Android</strong>: 12以上</li>
+<li><strong>UI</strong>: Jetpack Compose</li>
+<li><strong>アーキテクチャ</strong>: MVVM（ViewModel + StateFlow）</li>
+</ul>
+<h2 id="kai-fa-sutetupu">開発ステップ</h2>
+<ul>
+<li><strong>Step 1 — MVPコア</strong>: Camera2プレビュー、静止画撮影・JPEG保存、KeyEventでシャッター</li>
+<li><strong>Step 2 — 入力拡張</strong>: AFロック制御、MotionEvent対応、MFフォーカス・ズーム制御</li>
+<li><strong>Step 3 — 画質系</strong>: RAW(DNG)保存、露出・ISO・SS手動制御、HDR、フォーカスピーキング</li>
+<li><strong>Step 4 — UX仕上げ</strong>: キーマッピングプロファイル保存、グリッド・水平儀</li>
+</ul>
+<h2 id="uishe-ji">UI設計</h2>
+<p>撮影画面はL字XMB（クロスメディアバー）を採用。横軸に選択中カテゴリの値リスト、縦軸にカテゴリ一覧を配置。全操作がタッチで可能で、グリップ無しでも使える設計。</p>
+
+  </div>
+
+  
+  
+  
+  
+  
+
+  
+</main>
+
+      <footer class="big-footer">
+  <div class="footer-cover">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-brand-title">frogworks404</div>
+        <div class="footer-brand-desc">ソフトウェア・ハードウェア・アイデアの記録</div>
+      </div>
+      <div class="footer-columns footer-columns--nav">
+        <div class="footer-col">
+          <div class="footer-col-label">ページ</div>
+          <a href="https://iwabuchi404.github.io/frogworks404">記録一覧</a>
+          <a href="https://iwabuchi404.github.io/frogworks404/pages/projects">プロジェクト一覧</a>
+          <a href="https://iwabuchi404.github.io/frogworks404/pages/about">About</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label">リンク</div>
+          <a href="https:&#x2F;&#x2F;github.com&#x2F;frogworks404" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" target="_blank" rel="noopener noreferrer">X</a>
+          <a href="https:&#x2F;&#x2F;frogworks404.booth.pm" target="_blank" rel="noopener noreferrer">BOOTH</a>
+        </div>
+      </div>
+    </div>
+    <hr class="footer-bottom-divider">
+    <div class="footer-meta">
+      <span class="footer-meta-text">最終更新 2026.06.24</span>
+      <span class="footer-meta-text">© frogworks404 2024–</span>
+    </div>
+  </div>
+</footer>
+
+    </div>
+
+  </div>
+</body>
+</html>

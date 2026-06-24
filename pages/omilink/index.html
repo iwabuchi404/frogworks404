@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>omiLink — frogworks404</title>
+
+  
+  <meta name="description" content="URL・メモをAndroidホーム画面風グリッドで管理するブックマークPWA。ドラッグ&amp;リサイズ可能なウィジェット感覚の操作。">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDMincho:wght@400;700&family=BIZ+UDPGothic:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://iwabuchi404.github.io/frogworks404/main.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body>
+  <div class="page-layout">
+
+    
+    
+    <aside class="page-sidebar" aria-label="サイトナビゲーション">
+      <div class="sidebar-inner">
+        <a href="https://iwabuchi404.github.io/frogworks404" class="sidebar-brand">
+          <span class="sidebar-brand-text">frogworks404</span>
+        </a>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-meta">
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">記録開始</span>
+            <span class="sidebar-meta-value">2024.01</span>
+          </div>
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">エントリ数</span>
+            <span class="sidebar-meta-value">3</span>
+          </div>
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">最終更新</span>
+            
+            
+            <span class="sidebar-meta-value">2025.06</span>
+            
+          </div>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <nav class="sidebar-nav">
+          <div class="sidebar-nav-label">PAGES</div>
+          <a href="https://iwabuchi404.github.io/frogworks404" class="sidebar-nav-link">記録一覧</a>
+          <a href="https://iwabuchi404.github.io/frogworks404/pages/projects" class="sidebar-nav-link">プロジェクト</a>
+          <a href="https://iwabuchi404.github.io/frogworks404/pages/about" class="sidebar-nav-link">About</a>
+        </nav>
+
+        <nav class="sidebar-nav">
+          <div class="sidebar-nav-label">TAGS</div>
+          <div class="sidebar-tag-list">
+            <a href="https://iwabuchi404.github.io/frogworks404/tags/build-log" class="sidebar-tag-badge sidebar-tag-badge-build-log">build-log</a>
+            <a href="https://iwabuchi404.github.io/frogworks404/tags/software" class="sidebar-tag-badge sidebar-tag-badge-software">software</a>
+            <a href="https://iwabuchi404.github.io/frogworks404/tags/idea" class="sidebar-tag-badge sidebar-tag-badge-idea">idea</a>
+            <a href="https://iwabuchi404.github.io/frogworks404/tags/note" class="sidebar-tag-badge sidebar-tag-badge-note">note</a>
+          </div>
+        </nav>
+
+        <div class="sidebar-links">
+          <div class="sidebar-nav-label">LINKS</div>
+          <a href="https:&#x2F;&#x2F;github.com&#x2F;frogworks404" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">X ↗</a>
+          <a href="https:&#x2F;&#x2F;frogworks404.booth.pm" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">BOOTH ↗</a>
+        </div>
+      </div>
+    </aside>
+
+    
+    <div class="inner">
+      
+
+
+<header class="site-header">
+  <div class="cover-box">
+    <div class="cover-eyebrow">
+      <a href="https://iwabuchi404.github.io/frogworks404/projects" class="cover-back">← プロジェクト一覧</a>
+      <span class="cover-sep"> ／ </span>
+      <span class="cover-tag">software</span>
+    </div>
+    <h1 class="cover-title cover-title--sm">omiLink</h1>
+    
+    <hr class="cover-divider">
+    <p class="cover-desc">URL・メモをAndroidホーム画面風グリッドで管理するブックマークPWA。ドラッグ&amp;リサイズ可能なウィジェット感覚の操作。</p>
+    
+    
+  </div>
+  <div class="header-table">
+    <div class="header-cell">
+      <span class="cell-label">公開日</span>
+      <span class="cell-value">2025.05.01</span>
+    </div>
+    
+    <div class="header-cell">
+      <span class="cell-label">進捗</span>
+      <span class="cell-value">80%</span>
+    </div>
+    
+    
+    <div class="header-cell">
+      <span class="cell-label">ステータス</span>
+      <span class="cell-value">shipped</span>
+    </div>
+    
+  </div>
+</header>
+
+<main class="article-wrap">
+  
+  <div class="entry-progress article-progress">
+    <div class="prog-track"><div class="prog-fill" style="width:80%"></div></div>
+    <span class="prog-label">
+      運用中
+    </span>
+  </div>
+  
+
+  <div class="article-body article-body--product">
+    <h2 id="gai-yao">概要</h2>
+<p>omiLinkは、URL・メモをAndroidホーム画面風グリッドで管理するブックマークPWA。
+ウィジェット感覚でドラッグ&amp;リサイズ可能な操作感を実現する。</p>
+<h2 id="sutatuku">スタック</h2>
+<table><thead><tr><th>レイヤー</th><th>技術</th></tr></thead><tbody>
+<tr><td>フロントエンド</td><td>Vue 3 (Composition API) + TypeScript</td></tr>
+<tr><td>バンドラ</td><td>Vite + vite-plugin-pwa</td></tr>
+<tr><td>ドラッグ&amp;リサイズ</td><td>interact.js</td></tr>
+<tr><td>バックエンド</td><td>PocketBase（SQLiteベース）</td></tr>
+<tr><td>スタイル</td><td>Vanilla CSS（FLOCSS風）</td></tr>
+<tr><td>インフラ</td><td>GCE e2-micro（無料枠）+ Cloudflare Tunnel</td></tr>
+<tr><td>CI/CD</td><td>GitHub Actions → GCE 自動デプロイ</td></tr>
+</tbody></table>
+<h2 id="detamoderu">データモデル</h2>
+<ul>
+<li><strong>items</strong>: ブックマーク・メモ共通（type, title, url, description, og_image_url, favicon_url）</li>
+<li><strong>views</strong>: グリッドビュー設定（cols, rows, cell_size, sort_order）</li>
+<li><strong>placements</strong>: items × views 中間テーブル（col, row, width, height）</li>
+</ul>
+<h2 id="guritudoshi-yang">グリッド仕様</h2>
+<p>セルサイズ100px・ギャップ10px。サイズに応じて表示が変化:</p>
+<ul>
+<li>1×1: アイコンのみ</li>
+<li>縦長(w=1,h≥2): アイコン+タイトル</li>
+<li>横長(w≥2,h=1): タイトル+コンテンツ</li>
+<li>大(w×h≥4): OGP画像+タイトル</li>
+</ul>
+
+  </div>
+
+  
+  
+  
+  
+  
+
+  
+</main>
+
+      <footer class="big-footer">
+  <div class="footer-cover">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-brand-title">frogworks404</div>
+        <div class="footer-brand-desc">ソフトウェア・ハードウェア・アイデアの記録</div>
+      </div>
+      <div class="footer-columns footer-columns--nav">
+        <div class="footer-col">
+          <div class="footer-col-label">ページ</div>
+          <a href="https://iwabuchi404.github.io/frogworks404">記録一覧</a>
+          <a href="https://iwabuchi404.github.io/frogworks404/pages/projects">プロジェクト一覧</a>
+          <a href="https://iwabuchi404.github.io/frogworks404/pages/about">About</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label">リンク</div>
+          <a href="https:&#x2F;&#x2F;github.com&#x2F;frogworks404" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" target="_blank" rel="noopener noreferrer">X</a>
+          <a href="https:&#x2F;&#x2F;frogworks404.booth.pm" target="_blank" rel="noopener noreferrer">BOOTH</a>
+        </div>
+      </div>
+    </div>
+    <hr class="footer-bottom-divider">
+    <div class="footer-meta">
+      <span class="footer-meta-text">最終更新 2026.06.24</span>
+      <span class="footer-meta-text">© frogworks404 2024–</span>
+    </div>
+  </div>
+</footer>
+
+    </div>
+
+  </div>
+</body>
+</html>
