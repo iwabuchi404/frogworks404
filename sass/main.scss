@@ -13,7 +13,7 @@
   --cover-bg:   #111118;
   --grid-size:  24px;
   --sans:       "BIZ UDPGothic", "Hiragino Kaku Gothic ProN", sans-serif;
-  --serif:      "BIZ UDMincho", "Hiragino Mincho ProN", serif;
+  --serif:      "Iowan Old Style", "Palatino Linotype", "Palatino", "BIZ UDMincho", "Hiragino Mincho ProN", serif;
   --mono:       "JetBrains Mono", monospace;
 }
 
@@ -36,6 +36,9 @@ body {
   font-size: 17px;                          // 15 → 17px
   line-height: 1.85;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 // ── ページレイアウト（サイドバー + コンテンツ） ─────────────────────────

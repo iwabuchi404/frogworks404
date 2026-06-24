@@ -1,7 +1,7 @@
 ---
-title: "duckflow"
-date: "2025-03-25"
-description: "開発者のローカル環境で動作する対話型AIコーディングエージェント。弱いLLMでもユーザーとの協業を通じて実用的な成果を出す「相棒」を目指す。"
+title: 'duckflow '
+date: '2025-03-25'
+description: 開発者のローカル環境で動作する対話型AIコーディングエージェント。弱いLLMでもユーザーとの協業を通じて実用的な成果を出す「相棒」を目指す。
 template: pages/project.html
 slug: duckflow
 taxonomies:
@@ -11,7 +11,7 @@ taxonomies:
 extra:
   entry_type: product
   progress: 40
-  progress_label: "Phase 1.6 — 協業ループ中核化"
+  progress_label: Phase 1.6 — 協業ループ中核化
   project: true
   status: active
 ---
