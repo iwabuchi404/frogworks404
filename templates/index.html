@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}{{ config.title }}{% endblock title %}
+
+{% block content %}
+{% set log = get_section(path="log/_index.md") %}
+{% set pages_section = get_section(path="pages/_index.md") %}
+
+<header class="site-header">
+  <div class="cover-box">
+    <div class="cover-eyebrow">制作・実験記録 ／ Activity Log</div>
+    <h1 class="cover-title">{{ config.title }}</h1>
+    <hr class="cover-divider">
+    <p class="cover-desc">{{ config.description }}</p>
+  </div>
+  <div class="header-table">
+    <div class="header-cell">
+      <span class="cell-label">記録開始</span>
+      <span class="cell-value">{{ config.extra.start_date }}</span>
+    </div>
+    <div class="header-cell">
+      <span class="cell-label">エントリ数</span>
+      <span class="cell-value">{{ log.pages | length + pages_section.pages | length }}</span>
+    </div>
+    <div class="header-cell">
+      <span class="cell-label">最終更新</span>
+      {% if log.pages | length > 0 %}
+      {% set latest = log.pages | first %}
+      <span class="cell-value">{% if latest.date %}{{ latest.date | date(format="%Y.%m") }}{% else %}—{% endif %}</span>
+      {% else %}
+      <span class="cell-value">—</span>
+      {% endif %}
+    </div>
+  </div>
+</header>
+
+<div x-data="{ activeTag: 'all' }">
+  <nav class="filter-bar" aria-label="タグフィルター">
+    <span class="filter-label">FILTER —</span>
+    <button class="chip" :class="{ on: activeTag === 'all' }" @click="activeTag = 'all'">すべて</button>
+    <button class="chip" :class="{ on: activeTag === 'build-log' }" @click="activeTag = 'build-log'">build-log</button>
+    <button class="chip" :class="{ on: activeTag === 'software' }" @click="activeTag = 'software'">software</button>
+    <button class="chip" :class="{ on: activeTag === 'idea' }" @click="activeTag = 'idea'">idea</button>
+    <button class="chip" :class="{ on: activeTag === 'note' }" @click="activeTag = 'note'">note</button>
+  </nav>
+
+  <main class="feed">
+    <div class="section-divider"><span>最新の記録</span></div>
+
+    {% for page in log.pages %}
+    {% set page_tags = page.taxonomies.tags | default(value=[]) %}
+    <article
+      class="entry{% if page.extra.entry_type == 'product' %} entry--product{% endif %}"
+      x-show='activeTag === "all" || {{ page_tags | json_encode | safe }}.includes(activeTag)'
+    >
+      <div class="entry-meta">
+        <span class="entry-date">{% if page.date %}{{ page.date | date(format="%Y.%m.%d") }}{% else %}—{% endif %}</span>
+        {% for tag in page_tags %}
+        <span class="badge badge-{{ tag }}">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      <h2 class="entry-title">
+        <a href="{{ page.permalink }}">{{ page.title }}</a>
+        {% if page.extra.entry_type == 'product' %}
+        <span class="entry-arrow">→</span>
+        {% endif %}
+      </h2>
+      {% if page.description %}
+      <p class="entry-body">{{ page.description }}</p>
+      {% endif %}
+      {% if page.extra.progress is defined %}
+      <div class="entry-progress">
+        <div class="prog-track"><div class="prog-fill" style="width:{{ page.extra.progress }}%"></div></div>
+        <span class="prog-label">
+          {% if page.extra.progress_label is defined %}{{ page.extra.progress_label }}{% else %}{{ page.extra.progress }}%{% endif %}
+        </span>
+      </div>
+      {% endif %}
+    </article>
+    {% endfor %}
+
+    {% for page in pages_section.pages %}
+    {% if page.extra.project %}
+    {% set page_tags = page.taxonomies.tags | default(value=[]) %}
+    <article
+      class="entry{% if page.extra.entry_type == 'product' %} entry--product{% endif %}"
+      x-show='activeTag === "all" || {{ page_tags | json_encode | safe }}.includes(activeTag)'
+    >
+      <div class="entry-meta">
+        <span class="entry-date">{% if page.date %}{{ page.date | date(format="%Y.%m.%d") }}{% else %}—{% endif %}</span>
+        {% for tag in page_tags %}
+        <span class="badge badge-{{ tag }}">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      <h2 class="entry-title">
+        <a href="{{ page.permalink }}">{{ page.title }}</a>
+        {% if page.extra.entry_type == 'product' %}
+        <span class="entry-arrow">→</span>
+        {% endif %}
+      </h2>
+      {% if page.description %}
+      <p class="entry-body">{{ page.description }}</p>
+      {% endif %}
+      {% if page.extra.progress is defined %}
+      <div class="entry-progress">
+        <div class="prog-track"><div class="prog-fill" style="width:{{ page.extra.progress }}%"></div></div>
+        <span class="prog-label">
+          {% if page.extra.progress_label is defined %}{{ page.extra.progress_label }}{% else %}{{ page.extra.progress }}%{% endif %}
+        </span>
+      </div>
+      {% endif %}
+    </article>
+    {% endif %}
+    {% endfor %}
+  </main>
+</div>
+{% endblock content %}

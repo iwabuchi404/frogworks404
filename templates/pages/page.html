@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} — {{ config.title }}{% endblock title %}
+
+{% block content %}
+<header class="site-header">
+  <div class="cover-box">
+    <div class="cover-eyebrow">
+      <a href="{{ get_url(path='/') }}" class="cover-back">← 記録一覧</a>
+    </div>
+    <h1 class="cover-title cover-title--sm">{{ page.title }}</h1>
+  </div>
+</header>
+
+<main class="article-wrap">
+  <div class="article-body">
+    {{ page.content | safe }}
+  </div>
+</main>
+{% endblock content %}

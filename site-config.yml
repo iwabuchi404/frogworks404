@@ -1,0 +1,209 @@
+site:
+  name: "frogworks404"
+  preview_url: ""
+
+media:
+  public_path: "/uploads"
+  upload_dir: "static/uploads"
+
+content_types:
+  log:
+    label: "記録エントリ"
+    folder: "content/log"
+    sort: "date_desc"
+
+    list_columns:
+      - key: "date"
+        label: "日付"
+      - key: "title"
+        label: "タイトル"
+      - key: "extra.entry_type"
+        label: "タイプ"
+
+    fields:
+      - key: "title"
+        type: "text"
+        label: "タイトル"
+        required: true
+        placeholder: "エントリのタイトル"
+
+      - key: "date"
+        type: "date"
+        label: "公開日"
+        default: "today"
+
+      - key: "draft"
+        type: "toggle"
+        label: "下書き"
+        default: false
+
+      - key: "description"
+        type: "textarea"
+        label: "概要"
+        rows: 3
+        placeholder: "エントリの概要（フィードカードに表示）"
+
+      - key: "extra.entry_type"
+        type: "select"
+        label: "エントリタイプ"
+        options: ["article", "product"]
+        default: "article"
+
+      - key: "_content"
+        type: "markdown"
+        label: "本文"
+
+      - key: "extra.progress"
+        type: "text"
+        label: "進捗 (%)"
+        placeholder: "0〜100"
+
+      - key: "extra.progress_label"
+        type: "text"
+        label: "進捗ラベル"
+        placeholder: "例: Phase 1 — 62%"
+
+      - key: "extra.project"
+        type: "toggle"
+        label: "プロジェクト一覧に掲載"
+        default: false
+
+      - key: "extra.status"
+        type: "select"
+        label: "プロジェクトステータス"
+        options: ["active", "shipped", "paused", "idea"]
+        default: "idea"
+
+      - key: "extra.project_slug"
+        type: "text"
+        label: "関連プロジェクトslug"
+        placeholder: "例: context-mixer"
+
+      - key: "taxonomies.tags"
+        type: "list"
+        label: "タグ"
+        help: "build-log / software / idea / note / wip 等（Phase 3でタグ型に移行予定）"
+
+  pages:
+    label: "固定ページ"
+    folder: "content/pages"
+
+    fields:
+      - key: "title"
+        type: "text"
+        label: "ページタイトル"
+        required: true
+
+      - key: "description"
+        type: "textarea"
+        label: "概要 (SEO)"
+        rows: 2
+
+      - key: "template"
+        type: "text"
+        label: "テンプレート"
+        default: "pages/page.html"
+        readonly: true
+
+      - key: "slug"
+        type: "text"
+        label: "カスタムURL"
+        placeholder: "about"
+        help: "未入力の場合はタイトルから自動生成されます"
+
+      - key: "date"
+        type: "date"
+        label: "公開日"
+        default: "today"
+
+      - key: "draft"
+        type: "toggle"
+        label: "下書き"
+        default: false
+
+      - key: "extra.entry_type"
+        type: "select"
+        label: "エントリタイプ"
+        options: ["article", "product"]
+        default: "article"
+
+      - key: "_content"
+        type: "markdown"
+        label: "本文"
+
+      - key: "extra.progress"
+        type: "text"
+        label: "進捗 (%)"
+        placeholder: "0〜100"
+
+      - key: "extra.progress_label"
+        type: "text"
+        label: "進捗ラベル"
+        placeholder: "例: Phase 1 — 62%"
+
+      - key: "extra.project"
+        type: "toggle"
+        label: "プロジェクト一覧に掲載"
+        default: false
+
+      - key: "extra.status"
+        type: "select"
+        label: "プロジェクトステータス"
+        options: ["active", "shipped", "paused", "idea"]
+        default: "idea"
+
+      - key: "extra.github_url"
+        type: "text"
+        label: "GitHub URL"
+        placeholder: "https://github.com/..."
+
+      - key: "extra.demo_url"
+        type: "text"
+        label: "デモ／サイトURL"
+        placeholder: "https://..."
+
+      - key: "extra.docs_url"
+        type: "text"
+        label: "ドキュメントURL"
+        placeholder: "https://..."
+
+      - key: "taxonomies.tags"
+        type: "list"
+        label: "タグ"
+        help: "build-log / software / idea / note / wip 等"
+
+site_settings:
+  target_file: "config.toml"
+  format: "toml"
+  groups:
+    - id: "basic"
+      label: "基本設定"
+      fields:
+        - key: "title"
+          label: "サイトタイトル"
+          type: "text"
+          required: true
+        - key: "description"
+          label: "サイト説明"
+          type: "textarea"
+        - key: "base_url"
+          label: "ベースURL"
+          type: "text"
+          readonly: true
+
+    - id: "profile"
+      label: "プロフィール"
+      fields:
+        - key: "extra.start_date"
+          label: "記録開始日"
+          type: "text"
+          placeholder: "例: 2024.01"
+        - key: "extra.github"
+          label: "GitHub URL"
+          type: "text"
+        - key: "extra.x"
+          label: "X (Twitter) URL"
+          type: "text"
+        - key: "extra.booth"
+          label: "BOOTH URL"
+          type: "text"

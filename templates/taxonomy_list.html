@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}タグ一覧 — {{ config.title }}{% endblock title %}
+
+{% block content %}
+<header class="site-header">
+  <div class="cover-box">
+    <div class="cover-eyebrow">
+      <a href="{{ get_url(path='/') }}" class="cover-back">← 記録一覧</a>
+    </div>
+    <h1 class="cover-title cover-title--sm">タグ一覧</h1>
+  </div>
+</header>
+
+<main class="article-wrap">
+  <div class="article-body">
+    <ul>
+      {% for term in terms %}
+      <li><a href="{{ term.permalink }}">{{ term.name }} ({{ term.pages | length }})</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</main>
+{% endblock content %}

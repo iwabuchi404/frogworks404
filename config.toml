@@ -1,0 +1,16 @@
+base_url = "https://frogworks404.dev"
+title = "frogworks404"
+description = "ソフトウェア・ハードウェア・アイデアの記録"
+default_language = "ja"
+compile_sass = true
+build_search_index = false
+
+taxonomies = [
+    {name = "tags"},
+]
+
+[extra]
+start_date = "2024.01"
+github = "https://github.com/frogworks404"
+x = "https://x.com/frogworks404"
+booth = "https://frogworks404.booth.pm"

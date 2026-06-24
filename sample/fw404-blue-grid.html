@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>frogworks404 — 青方眼</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper:       #e8e8e8;
+      --ink:         #1a1a1e;
+      --ink-mid:     #525260;
+      --ink-faint:   #9898a8;
+      --rule:        rgba(40, 50, 100, 0.15);
+      --grid-color:  rgba(40, 80, 200, 0.07);
+      --margin-red:  #a03030;
+      --blue-label:  #1e3a7a;
+      --grid-size:   20px;
+      --margin-w:    48px;
+      --sans:        "BIZ UDPGothic", "Hiragino Kaku Gothic ProN", sans-serif;
+      --mono:        "JetBrains Mono", monospace;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      background-size: var(--grid-size) var(--grid-size);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.8;
+      padding-left: var(--margin-w);
+      border-left: 2px solid var(--margin-red);
+      min-height: 100vh;
+    }
+
+    .inner { max-width: 700px; margin: 0 auto; padding: 0 28px; }
+
+    /* HEADER */
+    .site-header {
+      padding: 56px 0 40px;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .header-eyebrow {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .site-title {
+      font-size: 38px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .site-desc {
+      font-size: 13px;
+      color: var(--ink-mid);
+    }
+
+    .header-table {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--rule);
+    }
+
+    .header-cell {
+      padding: 8px 14px;
+      border-right: 1px solid var(--rule);
+    }
+
+    .header-cell:last-child { border-right: none; }
+
+    .cell-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--ink-faint);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .cell-value {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    /* FILTER */
+    .filter-bar {
+      padding: 18px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .filter-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--ink-faint);
+      margin-right: 4px;
+    }
+
+    .chip {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      padding: 3px 9px;
+      border: 1px solid var(--rule);
+      color: var(--ink-mid);
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .chip.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+    /* SECTION DIVIDER */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 24px 0 4px;
+    }
+
+    .section-divider span {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--ink-faint);
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    /* ENTRY */
+    .entry {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .entry-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .entry-date {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-faint);
+      letter-spacing: 0.04em;
+    }
+
+    .badge {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      padding: 2px 7px;
+      border: 1px solid currentColor;
+      line-height: 1.4;
+    }
+
+    .badge-build    { color: var(--blue-label); }
+    .badge-software { color: var(--ink-mid); }
+    .badge-idea     { color: var(--margin-red); }
+    .badge-note     { color: var(--ink-mid); }
+    .badge-wip      { color: var(--ink-faint); }
+
+    .entry-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+      margin-bottom: 10px;
+    }
+
+    .entry-title a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .entry-title a:hover {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-color: var(--ink-faint);
+    }
+
+    .entry-body {
+      font-size: 14px;
+      color: var(--ink-mid);
+      line-height: 1.9;
+      max-width: 560px;
+    }
+
+    .entry-progress {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .prog-track {
+      width: 72px;
+      height: 2px;
+      background: var(--rule);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .prog-fill {
+      position: absolute;
+      top: 0; left: 0; height: 100%;
+      background: var(--ink);
+    }
+
+    .prog-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--ink-faint);
+      letter-spacing: 0.05em;
+    }
+
+    /* FOOTER */
+    .site-footer {
+      padding: 32px 0 48px;
+      border-top: 2px solid var(--ink);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-id {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-faint);
+    }
+
+    .footer-links { display: flex; gap: 20px; }
+
+    .footer-links a {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-mid);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+    }
+
+    .footer-links a:hover { color: var(--ink); }
+
+    @media (max-width: 600px) {
+      :root { --margin-w: 24px; }
+      .site-title { font-size: 28px; }
+      .header-table { grid-template-columns: 1fr 1fr; }
+      .header-cell:nth-child(3) { display: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="inner">
+
+  <header class="site-header">
+    <div class="header-eyebrow">制作・実験記録 ／ Activity Log</div>
+    <h1 class="site-title">frogworks404</h1>
+    <p class="site-desc">ソフトウェア・ハードウェア・アイデアの記録</p>
+    <div class="header-table">
+      <div class="header-cell">
+        <span class="cell-label">記録開始</span>
+        <span class="cell-value">2024.01</span>
+      </div>
+      <div class="header-cell">
+        <span class="cell-label">エントリ数</span>
+        <span class="cell-value">24</span>
+      </div>
+      <div class="header-cell">
+        <span class="cell-label">最終更新</span>
+        <span class="cell-value">2025.06</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="filter-bar">
+    <span class="filter-label">FILTER —</span>
+    <button class="chip on">すべて</button>
+    <button class="chip">build-log</button>
+    <button class="chip">software</button>
+    <button class="chip">idea</button>
+    <button class="chip">note</button>
+  </nav>
+
+  <main class="feed">
+    <div class="section-divider"><span>最新の記録</span></div>
+
+    <article class="entry">
+      <div class="entry-meta">
+        <span class="entry-date">2025.06.10</span>
+        <span class="badge badge-build">build-log</span>
+        <span class="badge badge-wip">wip</span>
+      </div>
+      <h2 class="entry-title"><a href="#">触覚ノブデバイス — Phase 1 試作記録</a></h2>
+      <p class="entry-body">左手用ノブ入力デバイスの試作。渦電流ブレーキによるフォースフィードバックを目的とした構成で、フリーホイールの逆ダイオード修正を経てエアギャップ詰めの段階へ。ファームウェアはほぼ完成。</p>
+      <div class="entry-progress">
+        <div class="prog-track"><div class="prog-fill" style="width:62%"></div></div>
+        <span class="prog-label">Phase 1 — 62%</span>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-meta">
+        <span class="entry-date">2025.05.28</span>
+        <span class="badge badge-software">software</span>
+        <span class="badge badge-wip">wip</span>
+      </div>
+      <h2 class="entry-title"><a href="#">Elbow — Claude Code コンテキスト圧縮プロキシ</a></h2>
+      <p class="entry-body">Claude Codeのコンテキスト効率化を目的としたTypeScript/Node.jsプロキシ。Jina Readerを使ったウェブコンテンツ取り込みを検討中。Windows環境前提で構築。</p>
+      <div class="entry-progress">
+        <div class="prog-track"><div class="prog-fill" style="width:35%"></div></div>
+        <span class="prog-label">設計・実装中 — 35%</span>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-meta">
+        <span class="entry-date">2025.05.12</span>
+        <span class="badge badge-note">note</span>
+      </div>
+      <h2 class="entry-title"><a href="#">AIとの設計作業にASCIIワイヤーフレームが有効な理由</a></h2>
+      <p class="entry-body">LLMとUIを共同設計するとき、画像よりもASCIIのワイヤーフレームのほうがトークン効率が高く、修正サイクルも速い。この仮説を実装として形にするためのコンセプトメモ。</p>
+    </article>
+
+    <article class="entry">
+      <div class="entry-meta">
+        <span class="entry-date">2025.04.20</span>
+        <span class="badge badge-software">software</span>
+        <span class="badge badge-wip">wip</span>
+      </div>
+      <h2 class="entry-title"><a href="#">ALIM — ローカルAI音声コンパニオン</a></h2>
+      <p class="entry-body">Kokoro TTS + Moonshine STT + FastAPI構成のオフラインAI音声アシスタント。CRT風フロントエンドにこだわった、性能よりも体験を優先した設計。</p>
+      <div class="entry-progress">
+        <div class="prog-track"><div class="prog-fill" style="width:50%"></div></div>
+        <span class="prog-label">実装中 — 50%</span>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry-meta">
+        <span class="entry-date">2025.03.08</span>
+        <span class="badge badge-idea">idea</span>
+      </div>
+      <h2 class="entry-title"><a href="#">「ディレクター脳」とプロンプト設計の親和性について</a></h2>
+      <p class="entry-body">制作ディレクターとしての思考様式——意図を言語化し、他者に渡す——はAIへのプロンプト設計とほぼ同じ構造を持つ。職種の壁を超えた概念の話。</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <span class="footer-id">frogworks404 © 2024–</span>
+    <div class="footer-links">
+      <a href="#">GitHub</a>
+      <a href="#">𝕏</a>
+      <a href="#">about</a>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<footer class="big-footer">
+  <div class="footer-cover">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-brand-title">{{ config.title }}</div>
+        <div class="footer-brand-desc">{{ config.description }}</div>
+      </div>
+      <div class="footer-columns footer-columns--nav">
+        <div class="footer-col">
+          <div class="footer-col-label">ページ</div>
+          <a href="{{ get_url(path='/') }}">記録一覧</a>
+          <a href="{{ get_url(path='/pages/projects') }}">プロジェクト一覧</a>
+          <a href="{{ get_url(path='/pages/about') }}">About</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label">リンク</div>
+          <a href="{{ config.extra.github }}" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="{{ config.extra.x }}" target="_blank" rel="noopener noreferrer">X</a>
+          <a href="{{ config.extra.booth }}" target="_blank" rel="noopener noreferrer">BOOTH</a>
+        </div>
+      </div>
+    </div>
+    <hr class="footer-bottom-divider">
+    <div class="footer-meta">
+      <span class="footer-meta-text">最終更新 {{ now() | date(format="%Y.%m.%d") }}</span>
+      <span class="footer-meta-text">© {{ config.title }} 2024–</span>
+    </div>
+  </div>
+</footer>

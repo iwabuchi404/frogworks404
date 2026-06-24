@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ config.title }}{% endblock title %}</title>
+
+  {% if page.description %}
+  <meta name="description" content="{{ page.description }}">
+  {% elif section.description %}
+  <meta name="description" content="{{ section.description }}">
+  {% else %}
+  <meta name="description" content="{{ config.description }}">
+  {% endif %}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDMincho:wght@400;700&family=BIZ+UDPGothic:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ get_url(path='main.css') }}">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body>
+  <div class="page-layout">
+
+    {# ── 背表紙サイドバー（大画面のみ表示） ── #}
+    {% set log = get_section(path="log/_index.md") %}
+    <aside class="page-sidebar" aria-label="サイトナビゲーション">
+      <div class="sidebar-inner">
+        <a href="{{ get_url(path='/') }}" class="sidebar-brand">
+          <span class="sidebar-brand-text">{{ config.title }}</span>
+        </a>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-meta">
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">記録開始</span>
+            <span class="sidebar-meta-value">{{ config.extra.start_date }}</span>
+          </div>
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">エントリ数</span>
+            <span class="sidebar-meta-value">{{ log.pages | length }}</span>
+          </div>
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">最終更新</span>
+            {% if log.pages | length > 0 %}
+            {% set latest = log.pages | first %}
+            <span class="sidebar-meta-value">{% if latest.date %}{{ latest.date | date(format="%Y.%m") }}{% else %}—{% endif %}</span>
+            {% else %}
+            <span class="sidebar-meta-value">—</span>
+            {% endif %}
+          </div>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <nav class="sidebar-nav">
+          <div class="sidebar-nav-label">PAGES</div>
+          <a href="{{ get_url(path='/') }}" class="sidebar-nav-link">記録一覧</a>
+          <a href="{{ get_url(path='/pages/projects') }}" class="sidebar-nav-link">プロジェクト</a>
+          <a href="{{ get_url(path='/pages/about') }}" class="sidebar-nav-link">About</a>
+        </nav>
+
+        <nav class="sidebar-nav">
+          <div class="sidebar-nav-label">TAGS</div>
+          <div class="sidebar-tag-list">
+            <a href="{{ get_url(path='/tags/build-log') }}" class="sidebar-tag-badge sidebar-tag-badge-build-log">build-log</a>
+            <a href="{{ get_url(path='/tags/software') }}" class="sidebar-tag-badge sidebar-tag-badge-software">software</a>
+            <a href="{{ get_url(path='/tags/idea') }}" class="sidebar-tag-badge sidebar-tag-badge-idea">idea</a>
+            <a href="{{ get_url(path='/tags/note') }}" class="sidebar-tag-badge sidebar-tag-badge-note">note</a>
+          </div>
+        </nav>
+
+        <div class="sidebar-links">
+          <div class="sidebar-nav-label">LINKS</div>
+          <a href="{{ config.extra.github }}" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          <a href="{{ config.extra.x }}" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">X ↗</a>
+          <a href="{{ config.extra.booth }}" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">BOOTH ↗</a>
+        </div>
+      </div>
+    </aside>
+
+    {# ── メインコンテンツ ── #}
+    <div class="inner">
+      {% block content %}{% endblock content %}
+      {% include "partials/big-footer.html" %}
+    </div>
+
+  </div>
+</body>
+</html>

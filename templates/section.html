@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}{{ section.title | default(value=config.title) }} — {{ config.title }}{% endblock title %}
+
+{% block content %}
+<header class="site-header">
+  <div class="cover-box">
+    <div class="cover-eyebrow">
+      <a href="{{ get_url(path='/') }}" class="cover-back">← 記録一覧</a>
+    </div>
+    <h1 class="cover-title cover-title--sm">{{ section.title | default(value=config.title) }}</h1>
+  </div>
+</header>
+
+<main class="feed">
+  <div class="section-divider"><span>{{ section.pages | length }} エントリ</span></div>
+
+  {% for page in section.pages %}
+  {% set page_tags = page.taxonomies.tags | default(value=[]) %}
+  <article class="entry{% if page.extra.entry_type == 'product' %} entry--product{% endif %}">
+    <div class="entry-meta">
+      <span class="entry-date">{% if page.date %}{{ page.date | date(format="%Y.%m.%d") }}{% endif %}</span>
+      {% for tag in page_tags %}<span class="badge badge-{{ tag }}">{{ tag }}</span>{% endfor %}
+    </div>
+    <h2 class="entry-title">
+      <a href="{{ page.permalink }}">{{ page.title }}</a>
+      {% if page.extra.entry_type == 'product' %}<span class="entry-arrow">→</span>{% endif %}
+    </h2>
+    {% if page.description %}<p class="entry-body">{{ page.description }}</p>{% endif %}
+  </article>
+  {% endfor %}
+</main>
+{% endblock content %}

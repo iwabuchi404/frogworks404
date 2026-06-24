@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} — {{ config.title }}{% endblock title %}
+
+{% block content %}
+{% set page_tags = page.taxonomies.tags | default(value=[]) %}
+
+<header class="site-header">
+  <div class="cover-box">
+    <div class="cover-eyebrow">
+      <a href="{{ get_url(path='/') }}" class="cover-back">← 記録一覧</a>
+      <span class="cover-sep"> ／ </span>
+      {% for tag in page_tags %}<span class="cover-tag">{{ tag }}</span>{% if not loop.last %} {% endif %}{% endfor %}
+    </div>
+    <h1 class="cover-title cover-title--sm">{{ page.title }}</h1>
+    {% if page.description %}
+    <hr class="cover-divider">
+    <p class="cover-desc">{{ page.description }}</p>
+    {% endif %}
+  </div>
+  <div class="header-table">
+    <div class="header-cell">
+      <span class="cell-label">公開日</span>
+      <span class="cell-value">{% if page.date %}{{ page.date | date(format="%Y.%m.%d") }}{% else %}—{% endif %}</span>
+    </div>
+    {% if page.extra.progress is defined %}
+    <div class="header-cell">
+      <span class="cell-label">進捗</span>
+      <span class="cell-value">{{ page.extra.progress }}%</span>
+    </div>
+    {% endif %}
+    {% if page.extra.status is defined %}
+    <div class="header-cell">
+      <span class="cell-label">ステータス</span>
+      <span class="cell-value">{{ page.extra.status }}</span>
+    </div>
+    {% endif %}
+  </div>
+</header>
+
+<main class="article-wrap">
+  {% if page.extra.entry_type == 'product' and page.extra.progress is defined %}
+  <div class="entry-progress article-progress">
+    <div class="prog-track"><div class="prog-fill" style="width:{{ page.extra.progress }}%"></div></div>
+    <span class="prog-label">
+      {% if page.extra.progress_label is defined %}{{ page.extra.progress_label }}{% else %}{{ page.extra.progress }}%{% endif %}
+    </span>
+  </div>
+  {% endif %}
+
+  <div class="article-body{% if page.extra.entry_type == 'product' %} article-body--product{% endif %}">
+    {{ page.content | safe }}
+  </div>
+</main>
+{% endblock content %}
