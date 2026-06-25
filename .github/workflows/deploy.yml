@@ -19,7 +19,7 @@ jobs:
           tool: zola@0.19.2
 
       - name: Build
-        run: zola build --base-url flog404.work
+        run: zola build --base-url https://flog404.work
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
