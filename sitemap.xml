@@ -1,81 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>www.flog404.work/</loc>
+        <loc>flog404.work/</loc>
     </url>
     <url>
-        <loc>www.flog404.work/log/</loc>
+        <loc>flog404.work/log/</loc>
     </url>
     <url>
-        <loc>www.flog404.work/log/ai-cortex/</loc>
+        <loc>flog404.work/log/2025-06-20-ai-cortex/</loc>
         <lastmod>2025-06-20</lastmod>
     </url>
     <url>
-        <loc>www.flog404.work/log/ascii-wireframe/</loc>
+        <loc>flog404.work/log/ascii-wireframe/</loc>
         <lastmod>2025-05-12</lastmod>
     </url>
     <url>
-        <loc>www.flog404.work/log/context-mixer-design/</loc>
+        <loc>flog404.work/log/context-mixer-design/</loc>
         <lastmod>2025-06-18</lastmod>
     </url>
     <url>
-        <loc>www.flog404.work/log/haptic-knob/</loc>
+        <loc>flog404.work/log/haptic-knob/</loc>
         <lastmod>2025-06-10</lastmod>
     </url>
     <url>
-        <loc>www.flog404.work/pages/about/</loc>
+        <loc>flog404.work/pages/about/</loc>
     </url>
     <url>
-        <loc>www.flog404.work/pages/asciiwire/</loc>
+        <loc>flog404.work/pages/asciiwire/</loc>
         <lastmod>2025-04-20</lastmod>
     </url>
     <url>
-        <loc>www.flog404.work/pages/context-mixer/</loc>
+        <loc>flog404.work/pages/context-mixer/</loc>
         <lastmod>2025-06-20</lastmod>
     </url>
     <url>
-        <loc>www.flog404.work/pages/duckflow/</loc>
+        <loc>flog404.work/pages/duckflow/</loc>
         <lastmod>2025-03-25</lastmod>
     </url>
     <url>
-        <loc>www.flog404.work/pages/fubako/</loc>
+        <loc>flog404.work/pages/fubako/</loc>
         <lastmod>2025-02-20</lastmod>
     </url>
     <url>
-        <loc>www.flog404.work/pages/halfgrip/</loc>
+        <loc>flog404.work/pages/halfgrip/</loc>
         <lastmod>2025-03-10</lastmod>
     </url>
     <url>
-        <loc>www.flog404.work/pages/kamox/</loc>
+        <loc>flog404.work/pages/kamox/</loc>
         <lastmod>2025-04-05</lastmod>
     </url>
     <url>
-        <loc>www.flog404.work/pages/omilink/</loc>
+        <loc>flog404.work/pages/omilink/</loc>
         <lastmod>2025-05-01</lastmod>
     </url>
     <url>
-        <loc>www.flog404.work/pages/photon-mixer/</loc>
+        <loc>flog404.work/pages/photon-mixer/</loc>
         <lastmod>2025-04-12</lastmod>
     </url>
     <url>
-        <loc>www.flog404.work/pages/projects/</loc>
+        <loc>flog404.work/pages/projects/</loc>
     </url>
     <url>
-        <loc>www.flog404.work/tags/</loc>
+        <loc>flog404.work/tags/</loc>
     </url>
     <url>
-        <loc>www.flog404.work/tags/build-log/</loc>
+        <loc>flog404.work/tags/build-log/</loc>
     </url>
     <url>
-        <loc>www.flog404.work/tags/idea/</loc>
+        <loc>flog404.work/tags/idea/</loc>
     </url>
     <url>
-        <loc>www.flog404.work/tags/note/</loc>
+        <loc>flog404.work/tags/note/</loc>
     </url>
     <url>
-        <loc>www.flog404.work/tags/software/</loc>
+        <loc>flog404.work/tags/software/</loc>
     </url>
     <url>
-        <loc>www.flog404.work/tags/wip/</loc>
+        <loc>flog404.work/tags/wip/</loc>
     </url>
 </urlset>
