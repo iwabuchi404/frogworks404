@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 Allow: /
-Sitemap: https://flog404.work/sitemap.xml
+Sitemap: https://frog404.work/sitemap.xml
