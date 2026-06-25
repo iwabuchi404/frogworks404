@@ -18,44 +18,22 @@
 
 <main class="feed">
 
-  {# ── 進行中 ── #}
-  {% set has_active = false %}
-  {% for page in pages_section.pages %}{% if page.extra.project and page.extra.status == "active" %}{% set_global has_active = true %}{% endif %}{% endfor %}
-  {% if has_active %}
-  <div class="section-divider"><span>進行中</span></div>
-  {% for page in pages_section.pages %}
-  {% if page.extra.project and page.extra.status == "active" %}
-  {% set page_tags = page.taxonomies.tags | default(value=[]) %}
-  <article class="entry entry--product">
-    <div class="entry-meta">
-      <span class="entry-date">{{ page.date | date(format="%Y.%m.%d") }}</span>
-      {% for tag in page_tags %}<span class="badge badge-{{ tag }}">{{ tag }}</span>{% endfor %}
-    </div>
-    <h2 class="entry-title">
-      <a href="{{ page.permalink }}">{{ page.title }}</a>
-      <span class="entry-arrow">→</span>
-    </h2>
-    {% if page.description %}<p class="entry-body">{{ page.description }}</p>{% endif %}
-    {% if page.extra.progress is defined %}
-    <div class="entry-progress">
-      <div class="prog-track"><div class="prog-fill" style="width:{{ page.extra.progress }}%"></div></div>
-      <span class="prog-label">
-        {% if page.extra.progress_label is defined %}{{ page.extra.progress_label }}{% else %}{{ page.extra.progress }}%{% endif %}
-      </span>
-    </div>
-    {% endif %}
-  </article>
-  {% endif %}
-  {% endfor %}
-  {% endif %}
+  {% set status_order = ["in-operation", "usable", "prototype", "concept", "paused"] %}
+  {% set status_labels = {
+    "in-operation": "継続運用中",
+    "usable": "利用可能",
+    "prototype": "試作",
+    "concept": "構想",
+    "paused": "休止"
+  } %}
 
-  {# ── 公開済み ── #}
-  {% set has_shipped = false %}
-  {% for page in pages_section.pages %}{% if page.extra.project and page.extra.status == "shipped" %}{% set_global has_shipped = true %}{% endif %}{% endfor %}
-  {% if has_shipped %}
-  <div class="section-divider"><span>公開済み</span></div>
+  {% for current_status in status_order %}
+  {% set has_status = false %}
+  {% for page in pages_section.pages %}{% if page.extra.project and page.extra.status == current_status %}{% set_global has_status = true %}{% endif %}{% endfor %}
+  {% if has_status %}
+  <div class="section-divider"><span>{{ status_labels[current_status] }}</span></div>
   {% for page in pages_section.pages %}
-  {% if page.extra.project and page.extra.status == "shipped" %}
+  {% if page.extra.project and page.extra.status == current_status %}
   {% set page_tags = page.taxonomies.tags | default(value=[]) %}
   <article class="entry entry--product">
     <div class="entry-meta">
@@ -71,46 +49,7 @@
   {% endif %}
   {% endfor %}
   {% endif %}
-
-  {# ── 休止中 ── #}
-  {% set has_paused = false %}
-  {% for page in pages_section.pages %}{% if page.extra.project and page.extra.status == "paused" %}{% set_global has_paused = true %}{% endif %}{% endfor %}
-  {% if has_paused %}
-  <div class="section-divider"><span>休止中</span></div>
-  {% for page in pages_section.pages %}
-  {% if page.extra.project and page.extra.status == "paused" %}
-  {% set page_tags = page.taxonomies.tags | default(value=[]) %}
-  <article class="entry">
-    <div class="entry-meta">
-      <span class="entry-date">{{ page.date | date(format="%Y.%m.%d") }}</span>
-      {% for tag in page_tags %}<span class="badge badge-{{ tag }}">{{ tag }}</span>{% endfor %}
-    </div>
-    <h2 class="entry-title"><a href="{{ page.permalink }}">{{ page.title }}</a></h2>
-    {% if page.description %}<p class="entry-body">{{ page.description }}</p>{% endif %}
-  </article>
-  {% endif %}
   {% endfor %}
-  {% endif %}
-
-  {# ── アイデア ── #}
-  {% set has_idea = false %}
-  {% for page in pages_section.pages %}{% if page.extra.project and page.extra.status == "idea" %}{% set_global has_idea = true %}{% endif %}{% endfor %}
-  {% if has_idea %}
-  <div class="section-divider"><span>アイデア</span></div>
-  {% for page in pages_section.pages %}
-  {% if page.extra.project and page.extra.status == "idea" %}
-  {% set page_tags = page.taxonomies.tags | default(value=[]) %}
-  <article class="entry">
-    <div class="entry-meta">
-      <span class="entry-date">{{ page.date | date(format="%Y.%m.%d") }}</span>
-      {% for tag in page_tags %}<span class="badge badge-{{ tag }}">{{ tag }}</span>{% endfor %}
-    </div>
-    <h2 class="entry-title"><a href="{{ page.permalink }}">{{ page.title }}</a></h2>
-    {% if page.description %}<p class="entry-body">{{ page.description }}</p>{% endif %}
-  </article>
-  {% endif %}
-  {% endfor %}
-  {% endif %}
 
 </main>
 {% endblock content %}

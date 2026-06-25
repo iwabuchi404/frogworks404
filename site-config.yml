@@ -53,26 +53,23 @@ content_types:
         type: "markdown"
         label: "本文"
 
-      - key: "extra.progress"
-        type: "text"
-        label: "進捗 (%)"
-        placeholder: "0〜100"
-
-      - key: "extra.progress_label"
-        type: "text"
-        label: "進捗ラベル"
-        placeholder: "例: Phase 1 — 62%"
-
-      - key: "extra.project"
-        type: "toggle"
-        label: "プロジェクト一覧に掲載"
-        default: false
-
       - key: "extra.status"
         type: "select"
         label: "プロジェクトステータス"
-        options: ["active", "shipped", "paused", "idea"]
-        default: "idea"
+        options:
+          - value: "in-operation"
+            label: "継続運用中"
+          - value: "usable"
+            label: "利用可能"
+          - value: "prototype"
+            label: "試作"
+          - value: "concept"
+            label: "構想"
+          - value: "tech-verify"
+            label: "技術検証"
+          - value: "paused"
+            label: "休止"
+        default: "concept"
 
       - key: "extra.project_slug"
         type: "text"
@@ -131,26 +128,23 @@ content_types:
         type: "markdown"
         label: "本文"
 
-      - key: "extra.progress"
-        type: "text"
-        label: "進捗 (%)"
-        placeholder: "0〜100"
-
-      - key: "extra.progress_label"
-        type: "text"
-        label: "進捗ラベル"
-        placeholder: "例: Phase 1 — 62%"
-
-      - key: "extra.project"
-        type: "toggle"
-        label: "プロジェクト一覧に掲載"
-        default: false
-
       - key: "extra.status"
         type: "select"
         label: "プロジェクトステータス"
-        options: ["active", "shipped", "paused", "idea"]
-        default: "idea"
+        options:
+          - value: "in-operation"
+            label: "継続運用中"
+          - value: "usable"
+            label: "利用可能"
+          - value: "prototype"
+            label: "試作"
+          - value: "concept"
+            label: "構想"
+          - value: "tech-verify"
+            label: "技術検証"
+          - value: "paused"
+            label: "休止"
+        default: "concept"
 
       - key: "extra.github_url"
         type: "text"

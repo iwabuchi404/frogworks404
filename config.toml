@@ -1,6 +1,6 @@
 base_url = "https://frogworks404.dev"
 title = "frogworks404"
-description = "ソフトウェア・ハードウェア・アイデアの記録"
+description = "人と機械の間にある摩擦を、道具として作り直す。AIとの知識共有、制作プロセス、入力デバイス、デジタル表現を題材に、ソフトウェアとハードウェアを試作している。"
 default_language = "ja"
 compile_sass = true
 build_search_index = false

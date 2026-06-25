@@ -10,10 +10,8 @@ taxonomies:
     - build-log
 extra:
   entry_type: product
-  progress: 75
-  progress_label: Phase 3品質向上中
   project: true
-  status: active
+  status: in-operation
   github_url: https://github.com/iwabuchi404/Fubako
 ---
 

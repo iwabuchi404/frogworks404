@@ -37,6 +37,7 @@
 
     {# ── 背表紙サイドバー（大画面のみ表示） ── #}
     {% set log = get_section(path="log/_index.md") %}
+    {% set pages_section = get_section(path="pages/_index.md") %}
     <aside class="page-sidebar" aria-label="サイトナビゲーション">
       <div class="sidebar-inner">
         <a href="{{ get_url(path='/') }}" class="sidebar-brand">
@@ -52,7 +53,7 @@
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">エントリ数</span>
-            <span class="sidebar-meta-value">{{ log.pages | length }}</span>
+            <span class="sidebar-meta-value">{{ log.pages | length + pages_section.pages | length }}</span>
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">最終更新</span>

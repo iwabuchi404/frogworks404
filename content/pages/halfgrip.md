@@ -10,10 +10,8 @@ taxonomies:
     - wip
 extra:
   entry_type: product
-  progress: 30
-  progress_label: "Step 1 MVPコア開発中"
   project: true
-  status: active
+  status: prototype
 ---
 
 ## 概要

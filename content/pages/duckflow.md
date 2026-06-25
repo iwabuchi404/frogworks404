@@ -10,10 +10,8 @@ taxonomies:
     - wip
 extra:
   entry_type: product
-  progress: 40
-  progress_label: Phase 1.6 — 協業ループ中核化
   project: true
-  status: active
+  status: prototype
   github_url: https://github.com/iwabuchi404/duckflow
 ---
 

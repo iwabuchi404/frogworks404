@@ -9,10 +9,8 @@ taxonomies:
     - software
 extra:
   entry_type: product
-  progress: 50
-  progress_label: NPM公開済み・VSCode拡張開発中
   project: true
-  status: active
+  status: usable
   github_url: https://github.com/iwabuchi404/ASCIIwire
 ---
 

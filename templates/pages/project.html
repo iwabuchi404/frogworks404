@@ -30,31 +30,24 @@
       <span class="cell-label">公開日</span>
       <span class="cell-value">{% if page.date %}{{ page.date | date(format="%Y.%m.%d") }}{% else %}—{% endif %}</span>
     </div>
-    {% if page.extra.progress is defined %}
-    <div class="header-cell">
-      <span class="cell-label">進捗</span>
-      <span class="cell-value">{{ page.extra.progress }}%</span>
-    </div>
-    {% endif %}
     {% if page.extra.status is defined %}
+    {% set status_label = {
+      'concept': '構想',
+      'tech-verify': '技術検証',
+      'prototype': '試作',
+      'usable': '利用可能',
+      'in-operation': '継続運用中',
+      'paused': '休止'
+    } %}
     <div class="header-cell">
       <span class="cell-label">ステータス</span>
-      <span class="cell-value">{{ page.extra.status }}</span>
+      <span class="cell-value">{{ status_label[page.extra.status] | default(value=page.extra.status) }}</span>
     </div>
     {% endif %}
   </div>
 </header>
 
 <main class="article-wrap">
-  {% if page.extra.entry_type == 'product' and page.extra.progress is defined %}
-  <div class="entry-progress article-progress">
-    <div class="prog-track"><div class="prog-fill" style="width:{{ page.extra.progress }}%"></div></div>
-    <span class="prog-label">
-      {% if page.extra.progress_label is defined %}{{ page.extra.progress_label }}{% else %}{{ page.extra.progress }}%{% endif %}
-    </span>
-  </div>
-  {% endif %}
-
   <div class="article-body{% if page.extra.entry_type == 'product' %} article-body--product{% endif %}">
     {{ page.content | safe }}
   </div>

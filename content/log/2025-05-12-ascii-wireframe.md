@@ -36,5 +36,5 @@ LLMとUIを共同設計する際、Figmaやスクリーンショットを共有�
 
 ## 実装（ASCIIwire）
 
-この考えを実装に落としたのが [ASCIIwire](https://github.com/frogworks404/asciiwire)。
+この考えを実装に落としたのが [ASCIIwire](https://github.com/iwabuchi404/ASCIIwire)。
 マークダウンベースのDSLからASCIIアートを生成するCLIツール。

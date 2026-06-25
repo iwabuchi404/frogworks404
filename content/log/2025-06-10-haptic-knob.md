@@ -8,10 +8,8 @@ taxonomies:
     - wip
 extra:
   entry_type: product
-  progress: 62
-  progress_label: Phase 1 — 62%
   project: true
-  status: active
+  status: prototype
   project_slug: dial-mixer
   slug: dial-mixer
 ---

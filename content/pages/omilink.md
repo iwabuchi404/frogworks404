@@ -9,10 +9,8 @@ taxonomies:
     - software
 extra:
   entry_type: product
-  progress: 80
-  progress_label: 運用中
   project: true
-  status: shipped
+  status: in-operation
   github_url: https://github.com/iwabuchi404/omilink
   demo_url: https://omilink.flog404.work/
 ---
