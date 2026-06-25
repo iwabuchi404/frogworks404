@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Cortex   ContextMixerの運用ルールとナレッジ構造 — frogworks404</title>
+
+  
+  <meta name="description" content="ContextMixerを実際に運用するために作った、プロジェクト単位のナレッジ構造とエージェント行動ルールの設計記録">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDMincho:wght@400;700&family=BIZ+UDPGothic:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://iwabuchi404.github.io/frogworks404/main.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
+  
+  
+</head>
+<body>
+  <div class="page-layout">
+
+    
+    
+    <aside class="page-sidebar" aria-label="サイトナビゲーション">
+      <div class="sidebar-inner">
+        <a href="https://iwabuchi404.github.io/frogworks404" class="sidebar-brand">
+          <span class="sidebar-brand-text">frogworks404</span>
+        </a>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-meta">
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">記録開始</span>
+            <span class="sidebar-meta-value">2024.01</span>
+          </div>
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">エントリ数</span>
+            <span class="sidebar-meta-value">4</span>
+          </div>
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">最終更新</span>
+            
+            
+            <span class="sidebar-meta-value">2025.06</span>
+            
+          </div>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <nav class="sidebar-nav">
+          <div class="sidebar-nav-label">PAGES</div>
+          <a href="https://iwabuchi404.github.io/frogworks404" class="sidebar-nav-link">記録一覧</a>
+          <a href="https://iwabuchi404.github.io/frogworks404/pages/projects" class="sidebar-nav-link">プロジェクト</a>
+          <a href="https://iwabuchi404.github.io/frogworks404/pages/about" class="sidebar-nav-link">About</a>
+        </nav>
+
+        <nav class="sidebar-nav">
+          <div class="sidebar-nav-label">TAGS</div>
+          <div class="sidebar-tag-list">
+            <a href="https://iwabuchi404.github.io/frogworks404/tags/build-log" class="sidebar-tag-badge sidebar-tag-badge-build-log">build-log</a>
+            <a href="https://iwabuchi404.github.io/frogworks404/tags/software" class="sidebar-tag-badge sidebar-tag-badge-software">software</a>
+            <a href="https://iwabuchi404.github.io/frogworks404/tags/idea" class="sidebar-tag-badge sidebar-tag-badge-idea">idea</a>
+            <a href="https://iwabuchi404.github.io/frogworks404/tags/note" class="sidebar-tag-badge sidebar-tag-badge-note">note</a>
+          </div>
+        </nav>
+
+        <div class="sidebar-links">
+          <div class="sidebar-nav-label">LINKS</div>
+          <a href="https:&#x2F;&#x2F;github.com&#x2F;frogworks404" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">X ↗</a>
+          <a href="https:&#x2F;&#x2F;frogworks404.booth.pm" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">BOOTH ↗</a>
+        </div>
+      </div>
+    </aside>
+
+    
+    <div class="inner">
+      
+<header class="site-header">
+  <div class="cover-box">
+    <div class="cover-eyebrow">
+      <a href="https://iwabuchi404.github.io/frogworks404" class="cover-back">← 記録一覧</a>
+    </div>
+    <h1 class="cover-title cover-title--sm">AI Cortex   ContextMixerの運用ルールとナレッジ構造</h1>
+  </div>
+</header>
+
+<main class="article-wrap">
+  <div class="article-body">
+    <h2 id="contextmixerwozuo-tutaci-nikao-erukoto">ContextMixerを作った次に考えること</h2>
+<p>ContextMixerは作って終わりではなく、運用して初めて価値が出る。AIが自発的にナレッジベースを読み書きするには、何をどこに書くか、いつ書くか、書いていいかのルールが必要です。</p>
+<p>この運用仕組みを「AI Cortex」と呼んでいます。</p>
+<h2 id="puroziekutodan-wei-nonaretuzigou-zao">プロジェクト単位のナレッジ構造</h2>
+<p>各プロジェクトには4つのドキュメントを置きます。</p>
+<ul>
+<li><strong>context</strong> — 現在のフェーズ、直近の作業、未解決事項、次のエージェントへの引き継ぎ</li>
+<li><strong>spec</strong> — ゴール、要件、技術構成（確定事項のみ）</li>
+<li><strong>decisions</strong> — 設計判断の理由と経緯、検討した選択肢と却下理由</li>
+<li><strong>notes</strong> — ライブラリのクセ、バグ、実装Tips、アイデア出しの記録</li>
+</ul>
+<p>エージェントが作業を始める時にまず <code>context</code> を読み、必要に応じて <code>spec</code> も読む。作業終了時に <code>context</code> を更新して次のエージェントに引き継ぐ。このサイクルを回すことで、セッションをまたいでコンテキストが失われなくなります。</p>
+<p>記録したい情報の種類を明確にしておくのが大事で、仕様・設計判断・技術調査・UXアイデア（ボツ案含む）・ライブラリの罠・未解決事項と分けておくと、後から「なぜこの選択をしたのか」を追いやすくなります。</p>
+<h2 id="claude-mdtoskillderuruwogong-you">CLAUDE.mdとSkillでルールを共有</h2>
+<p>エージェントの行動ルールは <code>CLAUDE.md</code> とSkillファイルで定義しています。<code>CLAUDE.md</code> には最小限の指示を書き、詳細なルールはSkillファイルに切り出しました。</p>
+<pre data-lang="markdown" class="language-markdown "><code class="language-markdown" data-lang="markdown"># {プロジェクト名}
+
+## ナレッジベース
+作業に関わる情報はすべてContextMixerで管理している。
+
+## 作業開始時に必ず実行すること
+1. 該当プロジェクトの context を読む
+2. タスクに関連する場合は spec も読む
+
+## knowledge-management スキルを使うタイミング
+- 作業終了時（contextの更新・記録判断）
+- 技術選定・ライブラリ選択をした時
+- 仕様や設計方針を決定・変更した時
+- ライブラリのバグ・クセ・回避策を発見した時
+</code></pre>
+<p>Skillファイルには禁止事項も書いています。「ユーザー確認なしにdecisionsを作成しない」「specに検討中の内容を書かない」「過去の記録を上書き・削除しない」。AIが勝手に判断を記録して事実と混ざるのを防ぐためです。</p>
+<h2 id="notionkaracontextmixerhenoyi-xing">NotionからContextMixerへの移行</h2>
+<p>最初はNotionでこの構造を作っていました。Claude.aiチャットからNotion MCP経由で読み書きできるのが理由です。GitHubリポジトリ + GitHub MCPも検討しましたが、当時Claude.ai webにGitHub MCPコネクターが存在せず、チャットからの書き込みができないという制約がありました。</p>
+<p>Obsidian Vault + Git + filesystem MCPも候補にありました。ローカルファイルでツールロックインなし、Claude Codeからはアクセスしやすい。しかしClaude.aiチャットからローカルファイルにアクセスできないのがネックでした。PocketBase + カスタムMCPも考えましたが、長文テキストをDBに入れる抵抗感とMCPサーバーの自作コストで見送り。</p>
+<p>Notionで運用してみて、レイテンシとトークン消費の問題が浮かんできた。Notionのリッチなブロック構造は人間には便利ですが、AIが1段落のためにページ全体を取得しなければならないのは無駄が多い。そこでContextMixerを自作して移行しました。粒度を選べる取得APIのおかげで、トークン消費は劇的に減りました。</p>
+<h2 id="yun-yong-sitemitenosuo-gan">運用してみての所感</h2>
+<p>ContextMixerに移行してから、30以上のプロジェクトコレクションが動いています。各コレクションにcontext/spec/decisions/notesが置かれ、エージェントがセッションをまたいで引き継ぐサイクルが回っている。</p>
+<p>一番効果を感じるのはClaude Codeでの開発場面で、「前回どこまでやったか」を人間が説明しなくて済むこと。エージェントが自分でcontextを読んで続きから始められる。MCP経由で検索もできるので、「このプロジェクトの設計方針は」と聞けばAIが勝手にContextMixerを検索して持ってきてくれます。</p>
+<h2 id="jin-hou-nogai-shan">今後の改善</h2>
+<p>AI Cortexの運用を続ける中で、いくつか課題も見えてきました。</p>
+<p>重複するドキュメントができることがあります。同日に似たテーマの思考記録が複数書かれることがあり、書き込み前に検索で重複をチェックする習慣をエージェントに教える必要があります。</p>
+<p>また「誰の指示でいつ何を学習したか」という監査証跡の仕組みも、ai-cortexのrulesコレクションと関連して今後整備していきたい領域です。</p>
+
+  </div>
+</main>
+
+      <footer class="big-footer">
+  <div class="footer-cover">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-brand-title">frogworks404</div>
+        <div class="footer-brand-desc">ソフトウェア・ハードウェア・アイデアの記録</div>
+      </div>
+      <div class="footer-columns footer-columns--nav">
+        <div class="footer-col">
+          <div class="footer-col-label">ページ</div>
+          <a href="https://iwabuchi404.github.io/frogworks404">記録一覧</a>
+          <a href="https://iwabuchi404.github.io/frogworks404/pages/projects">プロジェクト一覧</a>
+          <a href="https://iwabuchi404.github.io/frogworks404/pages/about">About</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label">リンク</div>
+          <a href="https:&#x2F;&#x2F;github.com&#x2F;frogworks404" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" target="_blank" rel="noopener noreferrer">X</a>
+          <a href="https:&#x2F;&#x2F;frogworks404.booth.pm" target="_blank" rel="noopener noreferrer">BOOTH</a>
+        </div>
+      </div>
+    </div>
+    <hr class="footer-bottom-divider">
+    <div class="footer-meta">
+      <span class="footer-meta-text">最終更新 2026.06.25</span>
+      <span class="footer-meta-text">© frogworks404 2024–</span>
+    </div>
+  </div>
+</footer>
+
+    </div>
+
+  </div>
+</body>
+</html>
