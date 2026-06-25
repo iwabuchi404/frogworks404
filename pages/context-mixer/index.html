@@ -23,6 +23,7 @@
 
     
     
+    
     <aside class="page-sidebar" aria-label="サイトナビゲーション">
       <div class="sidebar-inner">
         <a href="https://frog404.work" class="sidebar-brand">
@@ -38,7 +39,7 @@
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">エントリ数</span>
-            <span class="sidebar-meta-value">4</span>
+            <span class="sidebar-meta-value">12</span>
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">最終更新</span>
@@ -61,10 +62,12 @@
         <nav class="sidebar-nav">
           <div class="sidebar-nav-label">TAGS</div>
           <div class="sidebar-tag-list">
-            <a href="https://frog404.work/tags/build-log" class="sidebar-tag-badge sidebar-tag-badge-build-log">build-log</a>
-            <a href="https://frog404.work/tags/software" class="sidebar-tag-badge sidebar-tag-badge-software">software</a>
-            <a href="https://frog404.work/tags/idea" class="sidebar-tag-badge sidebar-tag-badge-idea">idea</a>
-            <a href="https://frog404.work/tags/note" class="sidebar-tag-badge sidebar-tag-badge-note">note</a>
+            <a href="https://frog404.work/tags/ai-collaboration" class="sidebar-tag-badge sidebar-tag-badge-ai-collaboration">ai-collaboration</a>
+            <a href="https://frog404.work/tags/developer-tools" class="sidebar-tag-badge sidebar-tag-badge-developer-tools">developer-tools</a>
+            <a href="https://frog404.work/tags/interface" class="sidebar-tag-badge sidebar-tag-badge-interface">interface</a>
+            <a href="https://frog404.work/tags/hardware" class="sidebar-tag-badge sidebar-tag-badge-hardware">hardware</a>
+            <a href="https://frog404.work/tags/creative-tools" class="sidebar-tag-badge sidebar-tag-badge-creative-tools">creative-tools</a>
+            <a href="https://frog404.work/tags/knowledge" class="sidebar-tag-badge sidebar-tag-badge-knowledge">knowledge</a>
           </div>
         </nav>
 
@@ -89,7 +92,7 @@
     <div class="cover-eyebrow">
       <a href="https://frog404.work/projects" class="cover-back">← プロジェクト一覧</a>
       <span class="cover-sep"> ／ </span>
-      <span class="cover-tag">software</span> <span class="cover-tag">wip</span>
+      <span class="cover-tag">ai-collaboration</span> <span class="cover-tag">knowledge</span>
     </div>
     <h1 class="cover-title cover-title--sm">ContextMixer</h1>
     
@@ -111,60 +114,65 @@
     </div>
     
     <div class="header-cell">
-      <span class="cell-label">進捗</span>
-      <span class="cell-value">80%</span>
-    </div>
-    
-    
-    <div class="header-cell">
       <span class="cell-label">ステータス</span>
-      <span class="cell-value">active</span>
+      <span class="cell-value">
+        継続運用中
+        
+      </span>
     </div>
     
   </div>
 </header>
 
 <main class="article-wrap">
-  
-  <div class="entry-progress article-progress">
-    <div class="prog-track"><div class="prog-fill" style="width:80%"></div></div>
-    <span class="prog-label">
-      Phase 1.5完了 — Phase A設計中
-    </span>
-  </div>
-  
-
   <div class="article-body article-body--product">
     <h2 id="korehahe-ka">これは何か</h2>
-<p>AIと人間が同じ場所でドキュメントを読み書きするためのナレッジベースです。NotionやObsidianとの違いは、Notionは人間が使いやすいことを優先していると思います、Obsidianも基本は人間向けだったり、ローカルベースのツールです。ContextMixerはAI使いやすさも考慮した設計になっていて、人間とAIの協業のためのナレッジベースを目指しています。</p>
+<p>AIと人間が同じ場所でドキュメントを読み書きするためのナレッジベースです。</p>
+<p>NotionやObsidianは人間が使いやすいことを優先して作られています。ContextMixerは、AIがアクセスしやすさも同じくらい重視して設計しました。人間とAIが協業するためのナレッジベースを目指しています。</p>
 <h2 id="zuo-tutadong-ji">作った動機</h2>
-<p>もともとは個人プロジェクトのドキュメント管理にNotionを使っていました、ローカルでの管理であればObsidianなどの選択肢もあったと思いますが、チャットアプリからもアクセスしたかったので選択肢からは外れました。NotionにMCPでアクセスするのは思ったよりもトークンを食うようで、さらに読み書きもちょっとした追記でもAIからは時間がかかり、1から自分で作ってみることにしました。この問題はおそらくNotionの問題というよりは、AIツールとの連携の問題でAI前提の設計になっていないという話でNotionはAI登場以前からあったので当然の話です。</p>
-<h2 id="te-zheng">特徴</h2>
-<p>ContextMixerは既存のナレッジベースと違い、AIと人間それぞれからアクセスして活用されることを想定した設計になっています。
-既存サービス、アプリは人間向けかAI向けどちらかに最適化を目指したものが多いと思いますが、ContextMixerは人間とAIの協業をコンセプトとしています。</p>
-<h3 id="li-du-woxuan-berudokiyumentoqu-de">粒度を選べるドキュメント取得</h3>
+<p>もともと個人プロジェクトのドキュメント管理にNotionを使っていました。NotionにMCPでアクセスすると、少しの追記にもトークンと時間がかかります。これはNotionの問題というより、AI前提の設計になっていないからで、NotionはAI登場以前からあるので当然です。</p>
+<p>Notionのリッチなブロック構造は人間には便利ですが、AIが1段落のためにページ全体を取得しなければならないのは無駄が多い。ローカル管理のObsidianも候補でしたが、チャットアプリからアクセスしたかったので選択肢から外れました。</p>
+<p>ならAI向きに作り直せばいい、というのが始まりです。</p>
+<h2 id="san-ben-zhu">三本柱</h2>
+<p>ContextMixerの設計は3つの柱で成り立っています。</p>
+<h3 id="1-li-du-woxuan-berudokiyumentoqu-de-progressive-retrieval">1. 粒度を選べるドキュメント取得（Progressive Retrieval）</h3>
 <p>ドキュメントを「どこまで読むか」を指定できるAPI設計になっています。</p>
+<table><thead><tr><th>取得モード</th><th>内容</th><th>想定トークン</th></tr></thead><tbody>
+<tr><td><code>meta</code></td><td>タイトルと概要だけ</td><td>数十</td></tr>
+<tr><td><code>outline</code></td><td>見出し構造</td><td>数百</td></tr>
+<tr><td><code>section</code></td><td>特定セクションだけ</td><td>数百〜数千</td></tr>
+<tr><td><code>full</code></td><td>全文</td><td>全量</td></tr>
+</tbody></table>
+<p>AIはまず <code>meta</code> を見て、関係ありそうなら <code>section</code> で必要な部分だけ取る。全文を毎回読まないので、トークン消費が劇的に減ります。</p>
+<p>Notion MCPとContextMixerの取得を比較すると、同じコンテキストを組み立てるのに必要なトークンが大きく違います。</p>
+<table><thead><tr><th>操作</th><th>Notion MCP</th><th>ContextMixer</th></tr></thead><tbody>
+<tr><td>プロジェクトの概要を知る</td><td>ページ全文取得（数千トークン）</td><td><code>meta</code> 取得（数十トークン）</td></tr>
+<tr><td>設計判断を確認</td><td>ページ全文取得 → AIが抽出</td><td><code>section</code> で該当箇所だけ</td></tr>
+<tr><td>コンテキスト組み立て</td><td>4ページ分を手動で取得</td><td><code>bundle</code> で一発取得（予定）</td></tr>
+</tbody></table>
+<h3 id="2-mcpdui-ying">2. MCP対応</h3>
+<p>Claude DesktopやClaude.aiからMCP経由で直接ドキュメントを検索・取得・書き込みできます。OAuth 2.1認証、ツールは9個。</p>
+<p>MCPを入れてから、プロンプトにコンテキストを手動で貼る作業がほぼなくなりました。「このプロジェクトの設計方針を確認して」と言えば、AIが勝手にContextMixerを検索してドキュメントを持ってきます。</p>
+<h3 id="3-setusiyonwomataguyin-kiji-gi-ai-cortex">3. セッションをまたぐ引き継ぎ（AI Cortex）</h3>
+<p>各プロジェクトに4つのドキュメントを置き、AIがセッションをまたいで文脈を引き継ぐ仕組みを運用しています。</p>
 <ul>
-<li><strong>meta</strong> — タイトルと概要だけ。数十トークンで済む</li>
-<li><strong>outline</strong> — 見出し構造</li>
-<li><strong>full</strong> — 全文</li>
-<li><strong>section</strong> — 特定セクションだけ</li>
+<li><strong>context</strong> — 現在のフェーズ、直近の作業、次のエージェントへの引き継ぎ</li>
+<li><strong>spec</strong> — ゴール、要件、技術構成</li>
+<li><strong>decisions</strong> — 設計判断の理由と経緯</li>
+<li><strong>notes</strong> — ライブラリのクセ、バグ、実装Tips</li>
 </ul>
-<p>AIは普通 meta を見て、必要ならsectionを取る。全文を毎回食わせないのでトークン消費がかなり変わると思います。</p>
-<h3 id="mcpdui-ying">MCP対応</h3>
-<p>Claude DesktopやClaude.aiからMCP経由で直接ドキュメントを検索・取得・書き込みできる。OAuth 2.1認証、ツールは9個。これを入れてからコンテキストの手動組み立てがほぼなくなった。</p>
-<h3 id="wu-liao-dedong-ku">無料で動く</h3>
-<p>個人的な興味もありCloudflareのプラットフォームをかなり活用する構成にしてみました。
-Cloudflare Workers + D1 + R2。個人利用の範囲で課金されることはまずないかと思います。</p>
+<p>エージェントが作業を始める時に <code>context</code> を読み、終了時に更新する。これで「前回どこまでやったか」を人間が説明しなくて済むようになります。</p>
+<h2 id="kosutogou-cheng">コスト構成</h2>
+<p>Cloudflareのプラットフォームを活用し、個人利用の範囲で課金されない構成にしました。</p>
 <table><thead><tr><th>サービス</th><th>無料枠</th></tr></thead><tbody>
 <tr><td>Workers</td><td>10万req/日</td></tr>
-<tr><td>D1</td><td>5GB・500万read/月</td></tr>
+<tr><td>D1</td><td>500MB/DB・500万行read/日</td></tr>
 <tr><td>R2</td><td>10GB・転送無料</td></tr>
 </tbody></table>
 <blockquote>
-<p>※2026/06現在</p>
+<p>※2025/06現在</p>
 </blockquote>
-<p>ナレッジベースを数年維持するのにランニングコストがかかるのは避けたかったので、ここは設計時にかなり調査して決定しました。</p>
+<p>ナレッジベースは一度作ったら何年も使うものなので、ランニングコストがかからない設計にこだわりました。</p>
 <h2 id="sutatuku">スタック</h2>
 <table><thead><tr><th>要素</th><th>選択</th></tr></thead><tbody>
 <tr><td>Runtime</td><td>Hono on Cloudflare Workers</td></tr>
@@ -174,11 +182,10 @@ Cloudflare Workers + D1 + R2。個人利用の範囲で課金されることは�
 <tr><td>認証</td><td>Clerk + APIキー + OAuth 2.1</td></tr>
 <tr><td>検索</td><td>FTS5 trigram</td></tr>
 </tbody></table>
-<p>フロントエンドは当初Vueで設計していましたが、もっとシンプルでいいのでは？と思いHTMXに変えました。詳しくは開発記録の方に書きました。</p>
+<p>フロントエンドは当初Vueで設計していましたが、やることを考えればもっとシンプルでいいことに気づきHTMXに変えました。詳しくは開発記録に書いています。</p>
 <h2 id="jin-nozhuang-tai">今の状態</h2>
-<p>自分の個人プロジェクトのナレッジベースとして毎日活用しています。主な利用形態はClaude DesktopとClaude CodeからのMCPアクセス。Web UIは人間が確認用に使うイメージ。</p>
-<p>人間向けのUIがまだ弱く、コレクションエクスポートなども未対応なので基礎的な機能のアップデートをもう少し続ける予定です。
-少し先の予定はまだ細かく決めてませんが、他のサービスのデータのインポート機能とか、Googleが発表したOKF対応ができるといいなと思ってます。</p>
+<p>自分の個人プロジェクトのナレッジベースとして毎日活用しています。主な利用形態はClaude DesktopとClaude CodeからのMCPアクセス。30以上のプロジェクトコレクションが動いていて、Web UIは人間が確認用に使うイメージです。</p>
+<p>人間向けのUIがまだ弱く、コレクションエクスポートなども未対応なので基礎的な機能のアップデートをもう少し続ける予定です。少し先の予定はまだ細かく決めてませんが、他のサービスのデータのインポート機能や、Googleが発表したOKF（Open Knowledge Format）対応ができるといいなと思ってます。</p>
 
   </div>
 
@@ -210,7 +217,7 @@ Cloudflare Workers + D1 + R2。個人利用の範囲で課金されることは�
     <article class="entry">
       <div class="entry-meta">
         <span class="entry-date">2025.06.18</span>
-        <span class="badge badge-note">note</span>
+        <span class="badge badge-ai-collaboration">ai-collaboration</span><span class="badge badge-knowledge">knowledge</span>
       </div>
       <h2 class="entry-title">
         <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;context-mixer-design&#x2F;">ContextMixerの設計思想 — AIが探索しやすいナレッジベースとは何か</a>
@@ -241,7 +248,7 @@ Cloudflare Workers + D1 + R2。個人利用の範囲で課金されることは�
     <div class="footer-top">
       <div class="footer-brand">
         <div class="footer-brand-title">frogworks404</div>
-        <div class="footer-brand-desc">ソフトウェア・ハードウェア・アイデアの記録</div>
+        <div class="footer-brand-desc">人と機械の間にある摩擦を、道具として作り直す。AIとの知識共有、制作プロセス、入力デバイス、デジタル表現を題材に、ソフトウェアとハードウェアを試作している。</div>
       </div>
       <div class="footer-columns footer-columns--nav">
         <div class="footer-col">

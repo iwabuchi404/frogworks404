@@ -23,6 +23,7 @@
 
     
     
+    
     <aside class="page-sidebar" aria-label="サイトナビゲーション">
       <div class="sidebar-inner">
         <a href="https://frog404.work" class="sidebar-brand">
@@ -38,7 +39,7 @@
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">エントリ数</span>
-            <span class="sidebar-meta-value">4</span>
+            <span class="sidebar-meta-value">12</span>
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">最終更新</span>
@@ -61,10 +62,12 @@
         <nav class="sidebar-nav">
           <div class="sidebar-nav-label">TAGS</div>
           <div class="sidebar-tag-list">
-            <a href="https://frog404.work/tags/build-log" class="sidebar-tag-badge sidebar-tag-badge-build-log">build-log</a>
-            <a href="https://frog404.work/tags/software" class="sidebar-tag-badge sidebar-tag-badge-software">software</a>
-            <a href="https://frog404.work/tags/idea" class="sidebar-tag-badge sidebar-tag-badge-idea">idea</a>
-            <a href="https://frog404.work/tags/note" class="sidebar-tag-badge sidebar-tag-badge-note">note</a>
+            <a href="https://frog404.work/tags/ai-collaboration" class="sidebar-tag-badge sidebar-tag-badge-ai-collaboration">ai-collaboration</a>
+            <a href="https://frog404.work/tags/developer-tools" class="sidebar-tag-badge sidebar-tag-badge-developer-tools">developer-tools</a>
+            <a href="https://frog404.work/tags/interface" class="sidebar-tag-badge sidebar-tag-badge-interface">interface</a>
+            <a href="https://frog404.work/tags/hardware" class="sidebar-tag-badge sidebar-tag-badge-hardware">hardware</a>
+            <a href="https://frog404.work/tags/creative-tools" class="sidebar-tag-badge sidebar-tag-badge-creative-tools">creative-tools</a>
+            <a href="https://frog404.work/tags/knowledge" class="sidebar-tag-badge sidebar-tag-badge-knowledge">knowledge</a>
           </div>
         </nav>
 
@@ -89,7 +92,7 @@
     <div class="cover-eyebrow">
       <a href="https://frog404.work/projects" class="cover-back">← プロジェクト一覧</a>
       <span class="cover-sep"> ／ </span>
-      <span class="cover-tag">software</span> <span class="cover-tag">idea</span>
+      <span class="cover-tag">creative-tools</span>
     </div>
     <h1 class="cover-title cover-title--sm">PhotonMixer</h1>
     
@@ -111,47 +114,35 @@
     </div>
     
     <div class="header-cell">
-      <span class="cell-label">進捗</span>
-      <span class="cell-value">15%</span>
-    </div>
-    
-    
-    <div class="header-cell">
       <span class="cell-label">ステータス</span>
-      <span class="cell-value">idea</span>
+      <span class="cell-value">
+        構想
+        
+      </span>
     </div>
     
   </div>
 </header>
 
 <main class="article-wrap">
-  
-  <div class="entry-progress article-progress">
-    <div class="prog-track"><div class="prog-fill" style="width:15%"></div></div>
-    <span class="prog-label">
-      設計仕様確定・プロトタイプ未着手
-    </span>
-  </div>
-  
-
   <div class="article-body article-body--product">
     <h2 id="korehahe-ka">これは何か</h2>
 <p>PhotonMixerは、デジタルならではの表現を追求するイラストソフトの構想です。</p>
-<p>既存のイラストソフトは「アナログ画材をデジタルで再現する」ことを目指していますが、PhotonMixerは逆です。デジタルにしかできない色の扱い——1.0を超える明るさ（HDR）、光の加算混色、正確なリニアカラー——を表現の道具として使います。</p>
-<p>まだ設計段階で、プロトタイプは作っていません。</p>
+<p>既存のイラストソフトの多くは「アナログ画材をデジタルで再現する」ことを主眼に置いています。もちろんKritaやPhotoshopなどは16bit浮動小数やHDR対応を進めていますが、まだデフォルトのワークフローとしてはsRGB空間での8bit描画が主流です。PhotonMixerは、最初からリニアカラーとHDRを前提にした描画パイプラインを目指します。</p>
+<p>まだ初期設計の段階で、プロトタイプは作っていません。</p>
 <h2 id="zuo-tutadong-ji">作った動機</h2>
-<p>イラストソフトの色の扱いって、実はアナログの制約を引きずっているんです。sRGBという狭い色空間で、0〜1の範囲で、アナログ絵の具みたいな混色を再現しようとしている。</p>
+<p>イラストソフトの色の扱いって、アナログの制約を引きずっていると思います。sRGBという狭い色空間で、0〜1の範囲で、アナログ絵の具みたいな混色を再現しようとしている。</p>
 <p>でもデジタルなら、光そのものを足し合わせることができる。1.0より明るい色も保持できる。HDRディスプレイなら、それをそのまま表示できる。アナログの模倣をやめれば、デジタル独自の表現が見えてくるはずで、それを実現するソフトを作りたくなりました。</p>
 <h2 id="te-zheng-gou-xiang">特徴（構想）</h2>
 <h3 id="riniakaradeguang-woxi-u">リニアカラーで光を扱う</h3>
-<p>内部の色計算をすべてfloat32のリニア空間で行います。通常のイラストソフトはsRGB空間で計算していますが、リニア空間で計算すると「光を足す」ことが文字通り正確にできるようになります。</p>
+<p>内部の色計算をすべてfloat32のリニア空間で行います。リニア空間で計算すると「光を足す」ことが文字通り正確にできるようになります。</p>
 <h3 id="hdrdui-ying">HDR対応</h3>
 <p>1.0を超える明るさの色を保持できるので、発光部分や太陽などの表現が「白飛び」せずにデータとして残ります。HDRディスプレイで見れば、本当に明るい部分が明るく表示されます。</p>
 <h3 id="penti-yan">ペン体験</h3>
 <p>SAIレベルのペンの追従性と精度を目指しています。4xサブピクセルバッファで高精度描画、速度に連動する手ブレ補正など、描き心地にこだわる設計です。</p>
 <h3 id="fei-po-huai-noguang-xiao-guo">非破壊の光効果</h3>
 <p>GlowやBloomを効果レイヤーとして非破壊で適用できます。HDR情報が残っているので、発光表現が自然にできます。</p>
-<h2 id="sutatuku">スタック</h2>
+<h2 id="xiang-ding-sutatuku">想定スタック</h2>
 <table><thead><tr><th>要素</th><th>選択</th></tr></thead><tbody>
 <tr><td>ランタイム</td><td>Electron</td></tr>
 <tr><td>言語</td><td>TypeScript</td></tr>
@@ -161,7 +152,7 @@
 <tr><td>ビルド</td><td>Vite</td></tr>
 </tbody></table>
 <h2 id="jin-nozhuang-tai">今の状態</h2>
-<p>設計仕様は確定していて、ペンエンジン、カラーパイプライン、ファイルフォーマット（.pmx）まで設計済みです。ただしプロトタイプはまだ着手していません。WebGPUのエコシステムが成熟してきたら本格的に開発を始める予定です。</p>
+<p>初期設計は完了していて、ペンエンジン、カラーパイプライン、ファイルフォーマット（.pmx）まで設計済みです。ただしプロトタイプはまだ着手していません。WebGPUのエコシステムが成熟してきたら本格的に開発を始める予定です。</p>
 
   </div>
 
@@ -185,7 +176,7 @@
     <div class="footer-top">
       <div class="footer-brand">
         <div class="footer-brand-title">frogworks404</div>
-        <div class="footer-brand-desc">ソフトウェア・ハードウェア・アイデアの記録</div>
+        <div class="footer-brand-desc">人と機械の間にある摩擦を、道具として作り直す。AIとの知識共有、制作プロセス、入力デバイス、デジタル表現を題材に、ソフトウェアとハードウェアを試作している。</div>
       </div>
       <div class="footer-columns footer-columns--nav">
         <div class="footer-col">
