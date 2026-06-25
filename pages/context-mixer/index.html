@@ -149,15 +149,9 @@
 <tr><td><code>full</code></td><td>全文</td><td>全量</td></tr>
 </tbody></table>
 <p>AIはまず <code>meta</code> を見て、関係ありそうなら <code>section</code> で必要な部分だけ取る。全文を毎回読まないので、トークン消費が劇的に減ります。</p>
-<p>Notion MCPとContextMixerの取得を比較すると、同じコンテキストを組み立てるのに必要なトークンが大きく違います。</p>
-<table><thead><tr><th>操作</th><th>Notion MCP</th><th>ContextMixer</th></tr></thead><tbody>
-<tr><td>プロジェクトの概要を知る</td><td>ページ全文取得（数千トークン）</td><td><code>meta</code> 取得（数十トークン）</td></tr>
-<tr><td>設計判断を確認</td><td>ページ全文取得 → AIが抽出</td><td><code>section</code> で該当箇所だけ</td></tr>
-<tr><td>コンテキスト組み立て</td><td>4ページ分を手動で取得</td><td><code>bundle</code> で一発取得（予定）</td></tr>
-</tbody></table>
 <h3 id="2-mcpdui-ying">2. MCP対応</h3>
 <p>Claude DesktopやClaude.aiからMCP経由で直接ドキュメントを検索・取得・書き込みできます。OAuth 2.1認証、ツールは9個。</p>
-<p>MCPを入れてから、プロンプトにコンテキストを手動で貼る作業がほぼなくなりました。「このプロジェクトの設計方針を確認して」と言えば、AIが勝手にContextMixerを検索してドキュメントを持ってきます。</p>
+<p>NotionでもMCP経由でアクセスできていましたが、ContextMixerでは粒度を選べる取得APIのおかげで、AIが効率よく必要な情報だけを持ってこられるようになりました。「このプロジェクトの設計方針を確認して」と言えば、AIがContextMixerを検索して該当セクションだけを取ってきます。</p>
 <h3 id="3-setusiyonwomataguyin-kiji-gi-ai-cortex">3. セッションをまたぐ引き継ぎ（AI Cortex）</h3>
 <p>各プロジェクトに4つのドキュメントを置き、AIがセッションをまたいで文脈を引き継ぐ仕組みを運用しています。</p>
 <ul>
