@@ -5,12 +5,14 @@ default_language = "ja"
 compile_sass = true
 build_search_index = false
 
-taxonomies = [
-    {name = "tags"},
-]
+[[taxonomies]]
+name = "tags"
 
 [extra]
 start_date = "2024.01"
 github = "https://github.com/frogworks404"
 x = "https://x.com/frogworks404"
 booth = "https://frogworks404.booth.pm"
+analytics_provider = "none"
+analytics_google_id = "G-GXV2EYXZYE"
+analytics_plausible_domain = "flog404.work"

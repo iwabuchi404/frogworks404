@@ -207,3 +207,25 @@ site_settings:
         - key: "extra.booth"
           label: "BOOTH URL"
           type: "text"
+
+    - id: "analytics"
+      label: "アナリティクス"
+      fields:
+        - key: "extra.analytics_provider"
+          label: "プロバイダ"
+          type: "select"
+          options: ["none", "google", "plausible"]
+          default: "none"
+          help: "Google Analytics または Plausible を選択"
+
+        - key: "extra.analytics_google_id"
+          label: "Google Analytics 測定ID"
+          type: "text"
+          placeholder: "例: G-XXXXXXXXXX"
+          help: "GA4の測定ID（プロバイダをgoogleに設定時に有効）"
+
+        - key: "extra.analytics_plausible_domain"
+          label: "Plausible ドメイン"
+          type: "text"
+          placeholder: "例: frogworks404.dev"
+          help: "Plausibleに登録したドメイン（プロバイダをplausibleに設定時に有効）"
