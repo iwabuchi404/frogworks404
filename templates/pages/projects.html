@@ -4,6 +4,7 @@
 
 {% block content %}
 {% set pages_section = get_section(path="pages/_index.md") %}
+{% set status_order = ["in-operation", "usable", "prototype", "concept", "paused"] %}
 
 <header class="site-header">
   <div class="cover-box">
@@ -18,12 +19,12 @@
 
 <main class="feed">
 
-  {% set status_order = ["in-operation", "usable", "prototype", "concept", "paused"] %}
-
   {% for current_status in status_order %}
-  {% set has_status = false %}
-  {% for page in pages_section.pages %}{% if page.extra.project and page.extra.status == current_status %}{% set_global has_status = true %}{% endif %}{% endfor %}
-  {% if has_status %}
+  {% for page in pages_section.pages %}
+  {% set et = page.extra.entry_type | default(value='') %}
+  {% set st = page.extra.status | default(value='') %}
+  {% if et == 'project' and st == current_status %}
+  {% if loop.first %}
   <div class="section-divider"><span>
     {% if current_status == "in-operation" %}継続運用中
     {% elif current_status == "usable" %}利用可能
@@ -33,8 +34,7 @@
     {% elif current_status == "paused" %}休止
     {% else %}{{ current_status }}{% endif %}
   </span></div>
-  {% for page in pages_section.pages %}
-  {% if page.extra.project and page.extra.status == current_status %}
+  {% endif %}
   {% set page_tags = page.taxonomies.tags | default(value=[]) %}
   <article class="entry entry--product">
     <div class="entry-meta">
@@ -49,7 +49,6 @@
   </article>
   {% endif %}
   {% endfor %}
-  {% endif %}
   {% endfor %}
 
 </main>
