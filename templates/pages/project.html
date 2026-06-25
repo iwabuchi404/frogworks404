@@ -25,6 +25,11 @@
     </div>
     {% endif %}
   </div>
+  {% if page.extra.cover_image %}
+  <div class="cover-image-wrap">
+    <img src="{{ get_url(path=page.extra.cover_image) }}" alt="{{ page.title }}" class="cover-image">
+  </div>
+  {% endif %}
   <div class="header-table">
     <div class="header-cell">
       <span class="cell-label">公開日</span>

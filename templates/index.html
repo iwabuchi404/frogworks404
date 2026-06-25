@@ -80,6 +80,11 @@
       class="entry{% if page.extra.entry_type == 'project' %} entry--product{% endif %}"
       x-show='activeTag === "all" || {{ page_tags | json_encode | safe }}.includes(activeTag)'
     >
+      {% if page.extra.cover_image %}
+      <div class="entry-cover">
+        <img src="{{ get_url(path=page.extra.cover_image) }}" alt="{{ page.title }}" loading="lazy">
+      </div>
+      {% endif %}
       <div class="entry-meta">
         <span class="entry-date">{% if page.date %}{{ page.date | date(format="%Y.%m.%d") }}{% else %}—{% endif %}</span>
         {% for tag in page_tags %}

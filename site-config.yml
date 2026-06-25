@@ -140,6 +140,11 @@ content_types:
             label: "アップデート（短い進捗）"
         default: "project"
 
+      - key: "extra.cover_image"
+        type: "image"
+        label: "キャッチ画像"
+        help: "プロジェクトのカバー画像（一覧・詳細ページに表示）"
+
       - key: "_content"
         type: "markdown"
         label: "本文"

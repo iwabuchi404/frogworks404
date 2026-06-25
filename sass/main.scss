@@ -548,6 +548,35 @@ body {
   color: var(--ink);
 }
 
+// ── カバー画像 ──────────────────────────────────────────────────────────
+.entry-cover {
+  margin-bottom: 14px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 280px;
+    object-fit: cover;
+  }
+}
+
+.cover-image-wrap {
+  margin: 0;
+  overflow: hidden;
+  border-bottom: 2px solid var(--ink);
+
+  .cover-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 420px;
+    object-fit: cover;
+  }
+}
+
 // ── 記事詳細ページ ──────────────────────────────────────────────────────
 .article-wrap {
   padding: 52px 0 80px;                     // 40px 0 60px → 52px 0 80px
