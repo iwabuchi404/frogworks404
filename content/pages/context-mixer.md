@@ -15,7 +15,8 @@ extra:
   version: '0.9'
   license: Private
   github_url: https://github.com/iwabuchi404/context-mixer
-  demo_url: https://context-mixer.flog404.work
+  demo_url: https://context-mixer.frog404.work
+  cover_image: /uploads/2026/06/7d808d5e-159e-481a-bf11-f4c672373d2c.png
 ---
 
 ## これは何か
