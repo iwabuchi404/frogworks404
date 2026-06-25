@@ -1,5 +1,6 @@
 ---
 title: "About"
+date: "2025-01-01"
 template: pages/page.html
 ---
 
