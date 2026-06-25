@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KamoX — frogworks404</title>
+  <title>About — frogworks404</title>
 
   
-  <meta name="description" content="AIコーディングエージェントがChrome拡張・Electron・VSCode拡張をライブ確認しながら開発できるnpmプラグイン型HTTP APIサーバー。">
+  <meta name="description" content="人と機械の間にある摩擦を、道具として作り直す。AIとの知識共有、制作プロセス、入力デバイス、デジタル表現を題材に、ソフトウェアとハードウェアを試作している。">
   
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -85,89 +85,39 @@
     
     <div class="inner">
       
-
-
 <header class="site-header">
   <div class="cover-box">
     <div class="cover-eyebrow">
-      <a href="https://frog404.work/projects" class="cover-back">← プロジェクト一覧</a>
-      <span class="cover-sep"> ／ </span>
-      <span class="cover-tag">ai-collaboration</span> <span class="cover-tag">developer-tools</span>
+      <a href="https://frog404.work" class="cover-back">← 記録一覧</a>
     </div>
-    <h1 class="cover-title cover-title--sm">KamoX</h1>
-    
-    <hr class="cover-divider">
-    <p class="cover-desc">AIコーディングエージェントがChrome拡張・Electron・VSCode拡張をライブ確認しながら開発できるnpmプラグイン型HTTP APIサーバー。</p>
-    
-    
-    <div class="cover-links">
-      <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;kamox" target="_blank" rel="noopener">GitHub →</a>
-      
-      
-    </div>
-    
-  </div>
-  <div class="header-table">
-    <div class="header-cell">
-      <span class="cell-label">公開日</span>
-      <span class="cell-value">2025.04.05</span>
-    </div>
-    
-    <div class="header-cell">
-      <span class="cell-label">ステータス</span>
-      <span class="cell-value">
-        利用可能
-        
-      </span>
-    </div>
-    
+    <h1 class="cover-title cover-title--sm">About</h1>
   </div>
 </header>
 
 <main class="article-wrap">
-  <div class="article-body article-body--product">
-    <h2 id="korehahe-ka">これは何か</h2>
-<p>KamoXは、AIコーディングエージェントがアプリの見た目を確認しながら開発できるようにするツールです。</p>
-<p>AIに「Chrome拡張を作って」とお願いしても、AIはコードを書くだけで、実際にどう見えるかを確認できません。KamoXを入れると、AIがHTTP経由でビルド→起動→スクリーンショット撮影→ログ取得までできるようになります。AIが自分で結果を確認しながら修正を繰り返せるんです。</p>
-<h2 id="zuo-tutadong-ji">作った動機</h2>
-<p>AIにChrome拡張を作らせていた時に、AIが書いたコードがちゃんと動いているかを人間が毎回確認するのが辛かったんです。ビルドして、ロードして、画面を開いて、エラーが出てないか見て……。これをAI自身にやらせられれば、人間は結果だけ見ればよくなる。</p>
-<p>Playwrightなどのブラウザ自動化ツールは「完成したアプリ」をテストするためのものですが、開発中のアプリの「ビルド→起動→確認」サイクルを回すには物足りない。開発中特有のニーズ（ServiceWorkerのデバッグ、IPCの監視、ダイアログのモックなど）があったので、Playwrightを内包しつつ開発サイクルに特化したハーネスを作りました。</p>
-<h2 id="te-zheng">特徴</h2>
-<h3 id="birudo-que-ren-saikuru">ビルド→確認サイクル</h3>
-<p>AIがHTTP APIを叩いて、ビルドして、アプリを起動して、スクリーンショットを撮って、ログを取得できます。すべてプログラムから実行できるので、AIが自律的に確認→修正のループを回せます。</p>
-<h3 id="dui-ying-puratutohuomu">対応プラットフォーム</h3>
-<ul>
-<li><strong>Chrome拡張</strong> — ServiceWorkerのデバッグ、manifest.jsonの検証、拡張のリロード</li>
-<li><strong>Electron</strong> — メインプロセスとレンダラープロセスの起動、IPCの監視</li>
-<li><strong>VSCode拡張</strong> — Extension Hostの起動、コマンド実行、UI確認</li>
-</ul>
-<h3 id="npmdejian-dan-dao-ru">npmで簡単導入</h3>
-<p><code>npm install</code>するだけで使えます。AIの開発環境に組み込みやすいのがポイントです。</p>
-<h2 id="sutatuku">スタック</h2>
-<table><thead><tr><th>要素</th><th>選択</th></tr></thead><tbody>
-<tr><td>HTTPサーバー</td><td>Express.js</td></tr>
-<tr><td>ブラウザ自動化</td><td>Playwright</td></tr>
-<tr><td>言語</td><td>Node.js / TypeScript</td></tr>
-<tr><td>パッケージ構成</td><td>npm workspaces</td></tr>
+  <div class="article-body">
+    <h2 id="frogworks404-toha">frogworks404 とは</h2>
+<p>人と機械の間にある摩擦を、道具として作り直す活動です。</p>
+<p>AIがコードを書くとき、人間はどう関わるべきか。知識をどう共有するか。スマホのカメラをもっと使いやすくするには、物理的なボタンがどうあればいいか。デジタルならではの色の表現を、どう描く道具にするか。</p>
+<p>こうした問いに、ソフトウェアとハードウェアの両面から試作して記録しています。完成品の陳列ではなく、進行中・試行錯誤・ボツ案も含めて残していきます。</p>
+<h2 id="puroziekutonofang-xiang-xing">プロジェクトの方向性</h2>
+<table><thead><tr><th>テーマ</th><th>プロジェクト</th></tr></thead><tbody>
+<tr><td>AIとの知識共有</td><td>ContextMixer — AIと人間が共同管理するナレッジベース</td></tr>
+<tr><td>AI開発プロセス</td><td>KamoX — AIが見た目を確認しながら開発するツール、duckflow — 弱いLLMでも実用的なコーディング相棒</td></tr>
+<tr><td>制作ツール</td><td>Fubako — 静的サイトをGUI管理するCMS、ASCIIwire — テキストで書くワイヤーフレーム</td></tr>
+<tr><td>入力デバイス</td><td>HalfGrip — スマホ用USB-Cカメラグリップ、触覚ノブ — 渦電流ブレーキの左手ノブ</td></tr>
+<tr><td>デジタル表現</td><td>PhotonMixer — リニアカラーで光を扱うイラストソフト（構想）</td></tr>
+<tr><td>情報整理</td><td>omiLink — Androidホーム画面風のブックマークPWA</td></tr>
 </tbody></table>
-<h2 id="jin-nozhuang-tai">今の状態</h2>
-<p>Chrome拡張、Electron、VSCode拡張の3プラットフォームに対応済みで、実際にAIと一緒に開発する時に使っています。CLIの改善とドキュメント整備を進行中。</p>
+<h2 id="konosaitonituite">このサイトについて</h2>
+<p>このサイトはFubakoで管理し、ZolaでビルドしてGitHub Pagesで公開しています。サイト自体がFubakoの実例でもあります。</p>
+<h2 id="rinku">リンク</h2>
+<ul>
+<li><a href="https://github.com/iwabuchi404">GitHub</a></li>
+<li><a href="https://x.com/frogworks404">X</a></li>
+</ul>
 
   </div>
-
-  
-  
-  
-  
-  
-
-  
-  <section class="project-links-bottom">
-    <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;kamox" target="_blank" rel="noopener">GitHub →</a>
-    
-    
-  </section>
-  
 </main>
 
       <footer class="big-footer">
