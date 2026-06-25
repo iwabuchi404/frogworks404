@@ -1,7 +1,7 @@
 ---
-title: "PhotonMixer"
-date: "2025-04-12"
-description: "float32リニアカラー・WebGPUネイティブ・SAIレベルのペン体験を核とするイラストソフト。アナログ模倣を捨て、デジタルの正確性を表現ツールとして再定義する。"
+title: PhotonMixer
+date: '2025-04-12'
+description: float32リニアカラー・WebGPUネイティブ・SAIレベルのペン体験を核とするイラストソフト。アナログ模倣を捨て、デジタルの正確性を表現ツールとして再定義する。
 template: pages/project.html
 slug: photon-mixer
 taxonomies:
@@ -11,9 +11,10 @@ taxonomies:
 extra:
   entry_type: product
   progress: 15
-  progress_label: "設計仕様確定・プロトタイプ未着手"
+  progress_label: 設計仕様確定・プロトタイプ未着手
   project: true
   status: idea
+  github_url: https://github.com/iwabuchi404/photon-mixer
 ---
 
 ## 概要

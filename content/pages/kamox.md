@@ -1,7 +1,7 @@
 ---
-title: "KamoX"
-date: "2025-04-05"
-description: "AIコーディングエージェントがChrome拡張・Electron・VSCode拡張をライブ確認しながら開発できるnpmプラグイン型HTTP APIサーバー。"
+title: KamoX
+date: '2025-04-05'
+description: AIコーディングエージェントがChrome拡張・Electron・VSCode拡張をライブ確認しながら開発できるnpmプラグイン型HTTP APIサーバー。
 template: pages/project.html
 slug: kamox
 taxonomies:
@@ -10,9 +10,10 @@ taxonomies:
 extra:
   entry_type: product
   progress: 45
-  progress_label: "Phase 1.5進行中"
+  progress_label: Phase 1.5進行中
   project: true
   status: shipped
+  github_url: https://github.com/iwabuchi404?tab=repositories
 ---
 
 ## 概要

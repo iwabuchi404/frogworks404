@@ -10,9 +10,9 @@ name = "tags"
 
 [extra]
 start_date = "2024.01"
-github = "https://github.com/frogworks404"
+github = ""
 x = "https://x.com/frogworks404"
-booth = "https://frogworks404.booth.pm"
+booth = ""
 analytics_provider = "none"
 analytics_google_id = "G-GXV2EYXZYE"
 analytics_plausible_domain = "flog404.work"

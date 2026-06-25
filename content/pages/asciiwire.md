@@ -1,7 +1,7 @@
 ---
-title: "ASCIIwire"
-date: "2025-04-20"
-description: "AI・人間の両方が扱いやすいテキストベースのワイヤーフレームDSL。マークダウン記法からASCIIアートのワイヤーフレームを生成するCLIツール。"
+title: ASCIIwire
+date: '2025-04-20'
+description: AI・人間の両方が扱いやすいテキストベースのワイヤーフレームDSL。マークダウン記法からASCIIアートのワイヤーフレームを生成するCLIツール。
 template: pages/project.html
 slug: asciiwire
 taxonomies:
@@ -10,9 +10,10 @@ taxonomies:
 extra:
   entry_type: product
   progress: 50
-  progress_label: "NPM公開済み・VSCode拡張開発中"
+  progress_label: NPM公開済み・VSCode拡張開発中
   project: true
   status: active
+  github_url: https://github.com/iwabuchi404/ASCIIwire
 ---
 
 ## 概要

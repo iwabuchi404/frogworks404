@@ -1,7 +1,7 @@
 ---
-title: "omiLink"
-date: "2025-05-01"
-description: "URL・メモをAndroidホーム画面風グリッドで管理するブックマークPWA。ドラッグ&リサイズ可能なウィジェット感覚の操作。"
+title: omiLink
+date: '2025-05-01'
+description: URL・メモをAndroidホーム画面風グリッドで管理するブックマークPWA。ドラッグ&リサイズ可能なウィジェット感覚の操作。
 template: pages/project.html
 slug: omilink
 taxonomies:
@@ -10,9 +10,10 @@ taxonomies:
 extra:
   entry_type: product
   progress: 80
-  progress_label: "運用中"
+  progress_label: 運用中
   project: true
   status: shipped
+  github_url: https://github.com/iwabuchi404/omilink
 ---
 
 ## 概要

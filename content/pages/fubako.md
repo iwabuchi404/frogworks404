@@ -1,7 +1,7 @@
 ---
-title: "Fubako"
-date: "2025-02-20"
-description: "Zolaベースの静的サイトをGUIで管理できるデスクトップCMS。Electron + Vue 3で構築。"
+title: Fubako
+date: '2025-02-20'
+description: Zolaベースの静的サイトをGUIで管理できるデスクトップCMS。Electron + Vue 3で構築。
 template: pages/project.html
 slug: fubako
 taxonomies:
@@ -11,9 +11,10 @@ taxonomies:
 extra:
   entry_type: product
   progress: 75
-  progress_label: "Phase 3品質向上中"
+  progress_label: Phase 3品質向上中
   project: true
   status: active
+  github_url: https://github.com/iwabuchi404/Fubako
 ---
 
 ## 概要
