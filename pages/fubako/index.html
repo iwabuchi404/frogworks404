@@ -135,33 +135,33 @@
   
 
   <div class="article-body article-body--product">
-    <h2 id="gai-yao">概要</h2>
-<p>FubakoはZola（Rust製SSG）ベースの静的サイトをGUIで管理できるデスクトップアプリケーション。
-<code>site-config.yml</code>で管理画面UIを定義し、MarkdownのFrontmatterを編集する仕組み。</p>
-<h2 id="sutatuku">スタック</h2>
-<table><thead><tr><th>コンポーネント</th><th>技術</th></tr></thead><tbody>
-<tr><td>App Shell</td><td>Electron 28.x</td></tr>
-<tr><td>Frontend</td><td>Vue 3 + Vite (Rolldown)</td></tr>
-<tr><td>SSG Engine</td><td>Zola (Rust) 0.18.x</td></tr>
-<tr><td>Editor</td><td>TipTap 2.x</td></tr>
-<tr><td>Image</td><td>Sharp 0.34.x</td></tr>
-<tr><td>Git</td><td>Dugite 3.x</td></tr>
-<tr><td>i18n</td><td>vue-i18n 9.14.x</td></tr>
-</tbody></table>
-<h2 id="shi-zhuang-zhuang-kuang">実装状況</h2>
-<ul>
-<li><strong>Phase 1</strong>: 基本機能（コンテンツ編集・画像管理・ライブプレビュー・サイト設定）完了</li>
-<li><strong>Phase 2</strong>: 運用・デプロイ機能（Git統合・GitHub認証・CI/CD自動生成）完了</li>
-<li><strong>Phase 3</strong>: 品質向上中（Taxonomies対応開発中）</li>
-</ul>
+    <h2 id="korehahe-ka">これは何か</h2>
+<p>Fubakoは、静的サイトをGUIで管理できるデスクトップCMSです。このサイトもFubakoで書いています。</p>
+<p>静的サイトジェネレータ（SSG）はビルドが速くて無料で公開できるのですが、記事を書くためにMarkdownファイルを手動で作って、Frontmatterと呼ばれる設定をYAMLで書いて、という作業がけっこう面倒です。Fubakoはその辺りをGUIで扱えるようにしたツールです。</p>
+<h2 id="zuo-tutadong-ji">作った動機</h2>
+<p>もともとZolaというRust製のSSGでサイトを作っていたのですが、記事の管理がどうしてもファイル操作になってしまって、作業の摩擦が大きかったんです。Headless CMSを使う選択肢もありますが、それはそれでサーバー代がかかったり設定が複雑だったりで、個人でやるには重い。デスクトップアプリで完結するものが欲しいなと思って作りました。</p>
+<p>あと、自分が作ったものを自分で使うことで、ユーザー体験の課題を肌で感じながら改善できるのも大きいです。</p>
 <h2 id="te-zheng">特徴</h2>
-<ul>
-<li><code>site-config.yml</code>による柔軟なコンテンツタイプ定義</li>
-<li>YAML Frontmatter + Markdown Bodyの分離管理</li>
-<li>フラット構造 ↔ 階層構造の自動変換</li>
-<li>Zolaビルドエラーのパース・ローカライズ</li>
-<li>多言語対応（ja/en）</li>
-</ul>
+<h3 id="she-ding-huairudeuiwoding-yi">設定ファイルでUIを定義</h3>
+<p><code>site-config.yml</code>という1つのファイルに「どんなコンテンツタイプがあるか」「各コンテンツにどんなフィールドがあるか」を定義すると、Fubakoが自動的に編集画面を生成します。フィールドの型（テキスト、日付、選択肢、トグルなど）も定義できるので、自分のサイトに合わせた管理画面が作れます。</p>
+<h3 id="gittong-he">Git統合</h3>
+<p>記事の保存＝Gitコミットになっているので、変更履歴が自然に残ります。GitHubへの認証からプッシュ、CI/CDの設定ファイル生成までアプリ内で完結します。</p>
+<h3 id="raibupurebiyu">ライブプレビュー</h3>
+<p>Zolaのローカルサーバーを内蔵しているので、編集中の記事がどう見えるかをリアルタイムで確認できます。</p>
+<h3 id="duo-yan-yu-dui-ying">多言語対応</h3>
+<p>日本語と英語に対応しています。<code>site-config.yml</code>のラベルもi18n対応なので、自分のサイトに合わせて表示言語を切り替えられます。</p>
+<h2 id="sutatuku">スタック</h2>
+<table><thead><tr><th>要素</th><th>選択</th></tr></thead><tbody>
+<tr><td>App Shell</td><td>Electron</td></tr>
+<tr><td>Frontend</td><td>Vue 3 + Vite</td></tr>
+<tr><td>SSG Engine</td><td>Zola (Rust)</td></tr>
+<tr><td>Editor</td><td>TipTap</td></tr>
+<tr><td>Image</td><td>Sharp</td></tr>
+<tr><td>Git</td><td>Dugite</td></tr>
+<tr><td>i18n</td><td>vue-i18n</td></tr>
+</tbody></table>
+<h2 id="jin-nozhuang-tai">今の状態</h2>
+<p>Phase 3（品質向上）の途中です。基本機能、Git統合・デプロイ機能は完成していて、今はタクソノミー（タグ）対応やビルドエラーの表示改善などを進めています。このサイト自体もFubakoで管理・公開しているので、使っていて気づいたことをすぐ直せるのが良いです。</p>
 
   </div>
 

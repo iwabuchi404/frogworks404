@@ -135,35 +135,29 @@
   
 
   <div class="article-body article-body--product">
-    <h2 id="gai-yao">概要</h2>
-<p>duckflowは、開発者のローカル環境で動作する対話型AIコーディングエージェント。
-単なるツールではなく、開発を共にする「相棒（Companion）」を目指す。</p>
-<p><strong>中核コンセプト: 協業ループ（Cooperation Loop）</strong> — 弱いLLMでも、ユーザーとの協業を通じて実用的な成果をコスト良く出しつつ、ユーザー自身も成長させる、継続的に賢くなる相棒。</p>
-<h2 id="akitekutiya">アーキテクチャ</h2>
-<p>Think-Decide-Execute ループを中心に、3モード制（planning / investigation / task）で動作。</p>
-<ul>
-<li><strong>Think &amp; Decide</strong>: PromptBuilderがプロンプトを構築し、LLMがSym-Opsテキストを返す</li>
-<li><strong>Execute</strong>: アクションを順次実行。ユーザー承認を挟むガードレール付き</li>
-<li><strong>Pacemaker</strong>: タスク量とバイタルから最大ループ数を動的計算（3〜35）</li>
-</ul>
-<h2 id="duo-ceng-fang-yu-gadoreru">多層防御（ガードレール）</h2>
-<ul>
-<li>未知ツールのフィルタ＋近似候補の提示</li>
-<li>1ターンあたりアクション数上限（6件）</li>
-<li>ファイル編集・コマンド実行は人間の承認必須</li>
-<li>連続2回エラーでfail-fast</li>
-<li>エラー情報を次ターンのCorrection Guideとして注入</li>
-</ul>
+    <h2 id="korehahe-ka">これは何か</h2>
+<p>duckflowは、ローカル環境で動くAIコーディングエージェントです。ターミナルで対話しながら、AIと一緒にコードを書くツールです。</p>
+<p>Claude CodeやCursorのようなツールと似たジャンルですが、duckflowの特徴は「弱いLLMでも実用的に動く」ことを目指している点です。高価な最新モデルじゃなくても、ユーザーと協業することで十分使える相棒を作りたいというコンセプトです。</p>
+<h2 id="zuo-tutadong-ji">作った動機</h2>
+<p>AIコーディングエージェントは強いLLMを使えば強いのですが、強いLLMはお金がかかります。個人で毎日使うにはコストが厳しい。</p>
+<p>でも、よく考えてみると「AIが全部一人でやる」必要はないんです。人間が方針を決めて、AIが実装して、人間が確認して、のサイクルを回せば、弱いLLMでも実用的な成果が出せるはず。その「協業のサイクル」をうまく回すための仕組みを作りたくなって作りました。</p>
+<h2 id="te-zheng">特徴</h2>
+<h3 id="xie-ye-rupu">協業ループ</h3>
+<p>AIが勝手に全部やるのではなく、ユーザーとの対話を挟みながら進めます。AIが提案を出して、ユーザーが承認して、実行して、結果を見て次へ。このループを回すことで、弱いLLMでも間違えた方向に進まないようにしています。</p>
+<h3 id="gadoreru">ガードレール</h3>
+<p>AIは間違える前提で作っています。知らないツールを呼ぼうとしたら止める、1回の実行でやりすぎないように上限を設ける、ファイル編集は人間の承認必須、連続エラーで停止など、複数の安全装置を重ねています。</p>
+<h3 id="kosutoxiao-lu">コスト効率</h3>
+<p>強いLLMとの品質競争ではなく、コスト効率の軸で勝負しています。安いモデルでも協業ループとガードレールでカバーするので、日常使いのコストを抑えられます。</p>
 <h2 id="sutatuku">スタック</h2>
-<table><thead><tr><th>カテゴリ</th><th>技術</th></tr></thead><tbody>
-<tr><td>言語</td><td>Python 3.10+（UV + <code>-X utf8</code>）</td></tr>
+<table><thead><tr><th>要素</th><th>選択</th></tr></thead><tbody>
+<tr><td>言語</td><td>Python 3.10+</td></tr>
 <tr><td>TUI</td><td>Rich</td></tr>
 <tr><td>状態管理</td><td>Pydantic</td></tr>
-<tr><td>LLM連携</td><td>OpenAI SDK互換（openai / anthropic / google / groq / openrouter）</td></tr>
-<tr><td>設定</td><td><code>duckflow.yaml</code> + <code>.env</code></td></tr>
+<tr><td>LLM連携</td><td>OpenAI SDK互換（複数プロバイダ対応）</td></tr>
+<tr><td>設定</td><td>duckflow.yaml + .env</td></tr>
 </tbody></table>
-<h2 id="chai-bie-hua">差別化</h2>
-<p>強いLLMとの品質競争ではなく、<strong>コスト効率・ユーザー学習効果・継続向上</strong>の独自軸で価値を出す。「LLMは間違える」前提で、ガードレール（受動的保護）と協業ループ（能動的補正）の両層で担保する。</p>
+<h2 id="jin-nozhuang-tai">今の状態</h2>
+<p>Phase 1.6（協業ループの中核化）を進めています。基本的なThink-Decide-Executeのループとガードレールは動いていて、今はループの質を上げる改善を続けています。まだ実験段階ですが、日常開発で使いながら磨いていく予定です。</p>
 
   </div>
 

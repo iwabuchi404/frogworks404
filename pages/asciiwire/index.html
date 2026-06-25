@@ -135,34 +135,27 @@
   
 
   <div class="article-body article-body--product">
-    <h2 id="gai-yao">概要</h2>
-<p>ASCIIwireは、AI・人間の両方が扱いやすいテキストベースのワイヤーフレームDSL。
-マークダウン記法で入力し、ASCIIアートのワイヤーフレームを出力する。</p>
-<h2 id="she-ji-fang-zhen">設計方針</h2>
-<ul>
-<li><strong>マークダウン構文採用</strong> — LLMの出力安定性が最高</li>
-<li><strong>厳格なインデント不要</strong> — AI出力の不安定さを防止</li>
-<li><strong>人間が手で編集しやすい記法</strong></li>
-</ul>
-<h2 id="konponentogou-cheng">コンポーネント構成</h2>
-<pre><code>@asciiwire&#x2F;cli        ← 公開済み
-vscode-extension      ← 開発中
-mcp-server            ← 計画中
-</code></pre>
+    <h2 id="korehahe-ka">これは何か</h2>
+<p>ASCIIwireは、テキストでUIのワイヤーフレーム（画面設計）を書けるツールです。</p>
+<p>マークダウン風の記法で「ここにボタン」「ここにリスト」と書くと、ASCIIアートのワイヤーフレームが出力されます。FigmaみたいなGUIツールを開かなくても、エディタだけで画面設計ができます。</p>
+<h2 id="zuo-tutadong-ji">作った動機</h2>
+<p>AIと一緒にUIを設計している時に、課題がありました。FigmaのスクリーンショットをAIに見せるとトークンを大量に消費するし、AIからの修正提案も「左のボタンを少し下に」みたいな文章での説明になってしまう。お互いに何を指しているのかが伝わりにくいんです。</p>
+<p>テキストベースのワイヤーフレームなら、AIが直接編集できるし、少ないトークンで画面構成を伝えられる。AIと人間が同じフォーマットを共有してUIを設計できるツールが欲しくて作りました。</p>
+<h2 id="te-zheng">特徴</h2>
+<h3 id="makudaunji-fa">マークダウン記法</h3>
+<p>HTMLではなくマークダウン風の記法なので、人間が手で書いても読みやすいです。AI（LLM）にとってもマークダウンは最も出力しやすいフォーマットで、生成の安定性が高いです。</p>
+<h3 id="indentobu-yao">インデント不要</h3>
+<p>厳格なインデントルールがないので、AIが出力しても崩れにくいです。人間が適当に書いても動きます。</p>
+<h3 id="clideshou-qing-ni">CLIで手軽に</h3>
+<p>npmでインストールしてコマンドラインから使えます。パイプで入出力もできるので、他のツールとの組み合わせも簡単です。</p>
 <h2 id="sutatuku">スタック</h2>
-<table><thead><tr><th>コンポーネント</th><th>技術</th></tr></thead><tbody>
+<table><thead><tr><th>要素</th><th>選択</th></tr></thead><tbody>
 <tr><td>CLI</td><td>TypeScript + NPM</td></tr>
-<tr><td>VSCode拡張</td><td>TypeScript</td></tr>
-<tr><td>MCPサーバー（予定）</td><td>TypeScript</td></tr>
+<tr><td>VSCode拡張（開発中）</td><td>TypeScript</td></tr>
+<tr><td>MCPサーバー（計画中）</td><td>TypeScript</td></tr>
 </tbody></table>
-<h2 id="vscodekuo-zhang-shi-yang-yu-ding">VSCode拡張 仕様（予定）</h2>
-<ul>
-<li>デュアルペイン: DSLテキストエディタ + ASCIIプレビュー</li>
-<li>コピーモード複数対応（用途別）</li>
-<li>マウスベース編集（将来版）</li>
-</ul>
-<h2 id="kitukake">きっかけ</h2>
-<p>LLMとUIを共同設計する際、Figmaやスクリーンショットを共有するのはトークン消費が大きく、修正提案も「文章で説明」になってしまう。ASCIIワイヤーフレームなら同じ情報を少ないトークンで伝えられ、LLMがテキストとして直接編集できる。</p>
+<h2 id="jin-nozhuang-tai">今の状態</h2>
+<p>CLIはnpmに公開済みで、日常的に使っています。今はVSCode拡張を開発中で、エディタ内でワイヤーフレームのプレビューが見られるようにする予定です。将来的にはMCPサーバー化して、AIアシスタントから直接呼べるようにしたいです。</p>
 
   </div>
 

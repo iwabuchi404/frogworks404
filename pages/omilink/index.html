@@ -135,33 +135,33 @@
   
 
   <div class="article-body article-body--product">
-    <h2 id="gai-yao">概要</h2>
-<p>omiLinkは、URL・メモをAndroidホーム画面風グリッドで管理するブックマークPWA。
-ウィジェット感覚でドラッグ&amp;リサイズ可能な操作感を実現する。</p>
+    <h2 id="korehahe-ka">これは何か</h2>
+<p>omiLinkは、ブックマークをAndroidのホーム画面みたいに並べられるPWAです。</p>
+<p>普通のブックマーク機能ってリストかフォルダ階層なんですが、omiLinkはグリッド上にドラッグ&amp;リサイズして配置できます。よく見るサイトを大きく、たまに見るサイトを小さく、みたいなレイアウトが自分で作れます。スマホのホーム画面にアプリを並べる感覚で、URLやメモを整理できます。</p>
+<h2 id="zuo-tutadong-ji">作った動機</h2>
+<p>ブラウザのブックマークって、数が増えると整理が辛くなるんです。フォルダで分類しても階層が深くなるし、リストだと全体が見えない。</p>
+<p>スマホのホーム画面って、よく使うアプリを大きく置いたり、グループごとにまとめたりして、自分なりの配置を作りますよね。あの感覚でブックマークも管理できたら便利なのに、と思って作りました。</p>
+<p>あとPWAにしているので、インストールすればブラウザとは独立したアプリとして使えます。スマホでもPCでも同じように使えます。</p>
+<h2 id="te-zheng">特徴</h2>
+<h3 id="uizietutogan-jue-nocao-zuo">ウィジェット感覚の操作</h3>
+<p>各ブックマークをドラッグで移動、リサイズで大きさを変更できます。サイズに応じて表示も変わります——1×1ならアイコンのみ、大きくすればタイトルやOGP画像が表示される、みたいな。</p>
+<h3 id="memomozhi-keru">メモも置ける</h3>
+<p>URLだけでなく、テキストメモも同じグリッドに配置できます。「あとで読む」記事のURLと、その時の思いつきのメモを並べて置けるのが便利です。</p>
+<h3 id="ogphua-xiang-nozi-dong-qu-de">OGP画像の自動取得</h3>
+<p>URLを登録すると、自動的にOGP画像とファビコンを取得して表示します。グリッドを開いた時に何のサイトか視覚的にわかりやすいです。</p>
+<h3 id="pwadeinsutoruke-neng">PWAでインストール可能</h3>
+<p>ブラウザで開くだけで使えますが、インストールすればアプリとして独立して起動できます。オフラインでも直近のデータは見られます。</p>
 <h2 id="sutatuku">スタック</h2>
-<table><thead><tr><th>レイヤー</th><th>技術</th></tr></thead><tbody>
-<tr><td>フロントエンド</td><td>Vue 3 (Composition API) + TypeScript</td></tr>
+<table><thead><tr><th>要素</th><th>選択</th></tr></thead><tbody>
+<tr><td>フロントエンド</td><td>Vue 3 + TypeScript</td></tr>
 <tr><td>バンドラ</td><td>Vite + vite-plugin-pwa</td></tr>
 <tr><td>ドラッグ&amp;リサイズ</td><td>interact.js</td></tr>
 <tr><td>バックエンド</td><td>PocketBase（SQLiteベース）</td></tr>
-<tr><td>スタイル</td><td>Vanilla CSS（FLOCSS風）</td></tr>
-<tr><td>インフラ</td><td>GCE e2-micro（無料枠）+ Cloudflare Tunnel</td></tr>
-<tr><td>CI/CD</td><td>GitHub Actions → GCE 自動デプロイ</td></tr>
+<tr><td>インフラ</td><td>GCE無料枠 + Cloudflare Tunnel</td></tr>
+<tr><td>CI/CD</td><td>GitHub Actions → 自動デプロイ</td></tr>
 </tbody></table>
-<h2 id="detamoderu">データモデル</h2>
-<ul>
-<li><strong>items</strong>: ブックマーク・メモ共通（type, title, url, description, og_image_url, favicon_url）</li>
-<li><strong>views</strong>: グリッドビュー設定（cols, rows, cell_size, sort_order）</li>
-<li><strong>placements</strong>: items × views 中間テーブル（col, row, width, height）</li>
-</ul>
-<h2 id="guritudoshi-yang">グリッド仕様</h2>
-<p>セルサイズ100px・ギャップ10px。サイズに応じて表示が変化:</p>
-<ul>
-<li>1×1: アイコンのみ</li>
-<li>縦長(w=1,h≥2): アイコン+タイトル</li>
-<li>横長(w≥2,h=1): タイトル+コンテンツ</li>
-<li>大(w×h≥4): OGP画像+タイトル</li>
-</ul>
+<h2 id="jin-nozhuang-tai">今の状態</h2>
+<p>日常使いしています。ブックマークの整理が圧倒的にやりやすくなって、自分でも驚いています。細かい改善はちょこちょこやっていて、最近はグリッドの並び替え機能などを追加しました。</p>
 
   </div>
 

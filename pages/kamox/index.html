@@ -135,43 +135,28 @@
   
 
   <div class="article-body article-body--product">
-    <h2 id="gai-yao">概要</h2>
-<p>KamoXは、AIコーディングエージェントがChrome拡張・Electron・VSCode拡張をライブ確認しながら開発できる、npmインストール可能なプラグイン型HTTP APIサーバー。</p>
-<h2 id="akitekutiya">アーキテクチャ</h2>
-<pre><code>Core (共通基盤: 70%)
-  ├─ HTTP API Layer
-  ├─ BaseDevServer (抽象クラス)
-  └─ 共通ユーティリティ
-
-Plugins (環境固有: 30%)
-  ├─ Chrome Extension Adapter
-  ├─ Electron Adapter (将来)
-  └─ VSCode Extension Adapter (将来)
-</code></pre>
+    <h2 id="korehahe-ka">これは何か</h2>
+<p>KamoXは、AIコーディングエージェントがアプリの見た目を確認しながら開発できるようにするツールです。</p>
+<p>AIに「Chrome拡張を作って」とお願いしても、AIはコードを書くだけで、実際にどう見えるかを確認できません。KamoXを入れると、AIがHTTP経由でビルド→起動→スクリーンショット撮影→ログ取得までできるようになります。AIが自分で結果を確認しながら修正を繰り返せるんです。</p>
+<h2 id="zuo-tutadong-ji">作った動機</h2>
+<p>AIにChrome拡張を作らせていた時に、AIが書いたコードがちゃんと動いているかを人間が毎回確認するのが辛かったんです。ビルドして、ロードして、画面を開いて、エラーが出てないか見て……。これをAI自身にやらせられれば、人間は結果だけ見ればよくなる。</p>
+<p>既存のブラウザ自動化ツール（Playwrightなど）は「完成したアプリ」をテストするためのものですが、開発中のアプリの「ビルド→起動→確認」サイクルを回すには物足りない。開発中特有のニーズ（ServiceWorkerのデバッグ、IPCの監視、ダイアログのモックなど）があったので、専用のツールを作りました。</p>
+<h2 id="te-zheng">特徴</h2>
+<h3 id="birudo-que-ren-saikuru">ビルド→確認サイクル</h3>
+<p>AIがHTTP APIを叩いて、ビルドして、アプリを起動して、スクリーンショットを撮って、ログを取得できます。すべてプログラムから実行できるので、AIが自律的に確認→修正のループを回せます。</p>
+<h3 id="chromekuo-zhang-nite-hua">Chrome拡張に特化</h3>
+<p>ServiceWorkerのデバッグ、manifest.jsonの検証、拡張のリロードなど、Chrome拡張開発に特有の作業に対応しています。</p>
+<h3 id="npmdejian-dan-dao-ru">npmで簡単導入</h3>
+<p><code>npm install</code>するだけで使えます。AIの開発環境に組み込みやすいのがポイントです。</p>
 <h2 id="sutatuku">スタック</h2>
-<table><thead><tr><th>コンポーネント</th><th>技術</th></tr></thead><tbody>
+<table><thead><tr><th>要素</th><th>選択</th></tr></thead><tbody>
 <tr><td>HTTPサーバー</td><td>Express.js</td></tr>
-<tr><td>ブラウザオートメーション</td><td>Playwright</td></tr>
+<tr><td>ブラウザ自動化</td><td>Playwright</td></tr>
 <tr><td>言語</td><td>Node.js / TypeScript</td></tr>
-<tr><td>ビルド</td><td>npm workspaces</td></tr>
+<tr><td>パッケージ構成</td><td>npm workspaces</td></tr>
 </tbody></table>
-<h2 id="apishi-yang">API仕様</h2>
-<table><thead><tr><th>メソッド</th><th>パス</th><th>機能</th></tr></thead><tbody>
-<tr><td>GET</td><td>/status</td><td>サーバー・環境状態確認</td></tr>
-<tr><td>POST</td><td>/rebuild</td><td>リビルド・環境リロード</td></tr>
-<tr><td>POST</td><td>/check-ui</td><td>UI表示確認（スクリーンショット・DOM・ログ）</td></tr>
-<tr><td>GET</td><td>/logs</td><td>全ログ取得</td></tr>
-</tbody></table>
-<p><code>/check-ui</code> の <code>screenshot</code> フィールドは絶対パスを返す。AIは直接ファイルアクセス可能。</p>
-<h2 id="shi-zhuang-huezu">実装フェーズ</h2>
-<ul>
-<li><strong>Phase 1</strong>: Chrome拡張サポート + ServiceWorkerデバッグ — ✅ 完了</li>
-<li><strong>Phase 1.5</strong>: npm化対応・CLI改善・設定ファイル — 🔄 進行中</li>
-<li><strong>Phase 2</strong>: Electronサポート — ⏳ 設計済み</li>
-<li><strong>Phase 3</strong>: VSCode拡張サポート — ⏳ 将来</li>
-</ul>
-<h2 id="chai-bie-hua">差別化</h2>
-<p>agent-browser（Vercel Labs）が<strong>完成済み</strong>アプリの自動化を対象とするのに対し、KamoXは<strong>開発中</strong>のアプリへのビルド→起動→検証サイクルを対象とする。IPC監視・モック、マルチウィンドウ管理、ダイアログモックが強み。</p>
+<h2 id="jin-nozhuang-tai">今の状態</h2>
+<p>Phase 1（Chrome拡張サポート）は完成していて、実際にAIとChrome拡張を開発する時に使っています。Phase 1.5としてnpm化とCLI改善を進行中。将来的にはElectronやVSCode拡張の開発にも対応したいです。</p>
 
   </div>
 
