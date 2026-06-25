@@ -6,10 +6,10 @@ template: pages/project.html
 slug: context-mixer
 taxonomies:
   tags:
-    - software
-    - wip
+    - ai-collaboration
+    - knowledge
 extra:
-  entry_type: product
+  entry_type: project
   project: true
   status: in-operation
   version: '0.9'

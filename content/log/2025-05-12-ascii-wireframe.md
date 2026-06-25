@@ -4,9 +4,10 @@ date: "2025-05-12"
 description: "LLMとUIを共同設計するとき、画像よりもASCIIのワイヤーフレームのほうがトークン効率が高く、修正サイクルも速い。この仮説を実装として形にするためのコンセプトメモ。"
 taxonomies:
   tags:
-    - note
+    - developer-tools
+    - interface
 extra:
-  entry_type: article
+  entry_type: essay
   project_slug: asciiwire
 ---
 

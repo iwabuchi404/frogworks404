@@ -4,9 +4,10 @@ date: '2025-06-18'
 description: Notionの限界から始まった、AIファーストなナレッジベース設計の記録
 taxonomies:
   tags:
-    - note
+    - ai-collaboration
+    - knowledge
 extra:
-  entry_type: article
+  entry_type: essay
   project_slug: context-mixer
 ---
 

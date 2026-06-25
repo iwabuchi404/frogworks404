@@ -6,10 +6,9 @@ template: pages/project.html
 slug: photon-mixer
 taxonomies:
   tags:
-    - software
-    - idea
+    - creative-tools
 extra:
-  entry_type: product
+  entry_type: project
   project: true
   status: concept
   github_url: https://github.com/iwabuchi404/photon-mixer

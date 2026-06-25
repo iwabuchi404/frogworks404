@@ -201,10 +201,12 @@ body {
     background: rgba(255, 255, 255, 0.08);
   }
 
-  &-build-log { color: var(--blue-label-bright); }
-  &-software  { color: rgba(255, 255, 255, 0.55); }
-  &-idea      { color: var(--margin-red-bright); }
-  &-note      { color: rgba(255, 255, 255, 0.55); }
+  &-ai-collaboration { color: var(--blue-label-bright); }
+  &-developer-tools  { color: rgba(255, 255, 255, 0.55); }
+  &-interface        { color: var(--margin-red-bright); }
+  &-hardware         { color: rgba(255, 255, 255, 0.55); }
+  &-creative-tools   { color: var(--blue-label-bright); }
+  &-knowledge        { color: rgba(255, 255, 255, 0.55); }
 }
 
 .sidebar-links {
@@ -445,11 +447,12 @@ body {
   border: 1px solid currentColor;
   line-height: 1.4;
 
-  &-build-log { color: var(--blue-label); }
-  &-software  { color: var(--ink-mid); }
-  &-idea      { color: var(--margin-red); }
-  &-note      { color: var(--ink-mid); }
-  &-wip       { color: var(--ink-faint); }
+  &-ai-collaboration { color: var(--blue-label); }
+  &-developer-tools  { color: var(--ink-mid); }
+  &-interface        { color: var(--margin-red); }
+  &-hardware         { color: var(--ink-mid); }
+  &-creative-tools   { color: var(--blue-label); }
+  &-knowledge        { color: var(--ink-mid); }
 }
 
 .entry-title {

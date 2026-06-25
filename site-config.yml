@@ -46,8 +46,16 @@ content_types:
       - key: "extra.entry_type"
         type: "select"
         label: "エントリタイプ"
-        options: ["article", "product"]
-        default: "article"
+        options:
+          - value: "essay"
+            label: "エッセイ（主張・考察）"
+          - value: "experiment"
+            label: "実験記録（試行・結果）"
+          - value: "update"
+            label: "アップデート（短い進捗）"
+          - value: "project"
+            label: "プロジェクト紹介"
+        default: "essay"
 
       - key: "_content"
         type: "markdown"
@@ -78,8 +86,8 @@ content_types:
 
       - key: "taxonomies.tags"
         type: "list"
-        label: "タグ"
-        help: "build-log / software / idea / note / wip 等（Phase 3でタグ型に移行予定）"
+        label: "テーマタグ"
+        help: "ai-collaboration / knowledge / developer-tools / interface / hardware / creative-tools"
 
   pages:
     label: "固定ページ"
@@ -121,8 +129,16 @@ content_types:
       - key: "extra.entry_type"
         type: "select"
         label: "エントリタイプ"
-        options: ["article", "product"]
-        default: "article"
+        options:
+          - value: "project"
+            label: "プロジェクト紹介"
+          - value: "essay"
+            label: "エッセイ（主張・考察）"
+          - value: "experiment"
+            label: "実験記録（試行・結果）"
+          - value: "update"
+            label: "アップデート（短い進捗）"
+        default: "project"
 
       - key: "_content"
         type: "markdown"
@@ -163,8 +179,8 @@ content_types:
 
       - key: "taxonomies.tags"
         type: "list"
-        label: "タグ"
-        help: "build-log / software / idea / note / wip 等"
+        label: "テーマタグ"
+        help: "ai-collaboration / knowledge / developer-tools / interface / hardware / creative-tools"
 
 site_settings:
   target_file: "config.toml"

@@ -17,14 +17,14 @@
 
   {% for page in section.pages %}
   {% set page_tags = page.taxonomies.tags | default(value=[]) %}
-  <article class="entry{% if page.extra.entry_type == 'product' %} entry--product{% endif %}">
+  <article class="entry{% if page.extra.entry_type == 'project' %} entry--product{% endif %}">
     <div class="entry-meta">
       <span class="entry-date">{% if page.date %}{{ page.date | date(format="%Y.%m.%d") }}{% endif %}</span>
       {% for tag in page_tags %}<span class="badge badge-{{ tag }}">{{ tag }}</span>{% endfor %}
     </div>
     <h2 class="entry-title">
       <a href="{{ page.permalink }}">{{ page.title }}</a>
-      {% if page.extra.entry_type == 'product' %}<span class="entry-arrow">→</span>{% endif %}
+      {% if page.extra.entry_type == 'project' %}<span class="entry-arrow">→</span>{% endif %}
     </h2>
     {% if page.description %}<p class="entry-body">{{ page.description }}</p>{% endif %}
   </article>

@@ -6,10 +6,10 @@ template: pages/project.html
 slug: duckflow
 taxonomies:
   tags:
-    - software
-    - wip
+    - ai-collaboration
+    - developer-tools
 extra:
-  entry_type: product
+  entry_type: project
   project: true
   status: prototype
   github_url: https://github.com/iwabuchi404/duckflow

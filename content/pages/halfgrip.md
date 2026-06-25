@@ -6,10 +6,10 @@ template: pages/project.html
 slug: halfgrip
 taxonomies:
   tags:
-    - build-log
-    - wip
+    - hardware
+    - interface
 extra:
-  entry_type: product
+  entry_type: project
   project: true
   status: prototype
 ---

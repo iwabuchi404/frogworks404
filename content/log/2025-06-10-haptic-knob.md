@@ -4,10 +4,9 @@ date: '2025-06-10'
 description: 左手用ノブ入力デバイスの試作。渦電流ブレーキによるフォースフィードバックを目的とした構成で、フリーホイールの逆ダイオード修正を経てエアギャップ詰めの段階へ。
 taxonomies:
   tags:
-    - build-log
-    - wip
+    - hardware
 extra:
-  entry_type: product
+  entry_type: experiment
   project: true
   status: prototype
   project_slug: dial-mixer

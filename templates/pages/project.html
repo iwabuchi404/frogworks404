@@ -31,24 +31,24 @@
       <span class="cell-value">{% if page.date %}{{ page.date | date(format="%Y.%m.%d") }}{% else %}—{% endif %}</span>
     </div>
     {% if page.extra.status is defined %}
-    {% set status_label = {
-      'concept': '構想',
-      'tech-verify': '技術検証',
-      'prototype': '試作',
-      'usable': '利用可能',
-      'in-operation': '継続運用中',
-      'paused': '休止'
-    } %}
     <div class="header-cell">
       <span class="cell-label">ステータス</span>
-      <span class="cell-value">{{ status_label[page.extra.status] | default(value=page.extra.status) }}</span>
+      <span class="cell-value">
+        {% if page.extra.status == "in-operation" %}継続運用中
+        {% elif page.extra.status == "usable" %}利用可能
+        {% elif page.extra.status == "prototype" %}試作
+        {% elif page.extra.status == "tech-verify" %}技術検証
+        {% elif page.extra.status == "concept" %}構想
+        {% elif page.extra.status == "paused" %}休止
+        {% else %}{{ page.extra.status }}{% endif %}
+      </span>
     </div>
     {% endif %}
   </div>
 </header>
 
 <main class="article-wrap">
-  <div class="article-body{% if page.extra.entry_type == 'product' %} article-body--product{% endif %}">
+  <div class="article-body{% if page.extra.entry_type == 'project' %} article-body--product{% endif %}">
     {{ page.content | safe }}
   </div>
 

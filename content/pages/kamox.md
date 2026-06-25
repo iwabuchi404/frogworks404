@@ -6,9 +6,10 @@ template: pages/project.html
 slug: kamox
 taxonomies:
   tags:
-    - software
+    - ai-collaboration
+    - developer-tools
 extra:
-  entry_type: product
+  entry_type: project
   project: true
   status: usable
   github_url: https://github.com/iwabuchi404/kamox

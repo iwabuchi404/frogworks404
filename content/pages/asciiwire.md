@@ -6,9 +6,10 @@ template: pages/project.html
 slug: asciiwire
 taxonomies:
   tags:
-    - software
+    - developer-tools
+    - interface
 extra:
-  entry_type: product
+  entry_type: project
   project: true
   status: usable
   github_url: https://github.com/iwabuchi404/ASCIIwire

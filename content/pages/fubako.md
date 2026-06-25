@@ -6,10 +6,9 @@ template: pages/project.html
 slug: fubako
 taxonomies:
   tags:
-    - software
-    - build-log
+    - developer-tools
 extra:
-  entry_type: product
+  entry_type: project
   project: true
   status: in-operation
   github_url: https://github.com/iwabuchi404/Fubako
