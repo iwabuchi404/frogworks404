@@ -17,11 +17,11 @@
     <hr class="cover-divider">
     <p class="cover-desc">{{ page.description }}</p>
     {% endif %}
-    {% if page.extra.github_url or page.extra.demo_url or page.extra.docs_url %}
+    {% if page.extra.github_url and page.extra.github_url | trim | length > 0 or page.extra.demo_url and page.extra.demo_url | trim | length > 0 or page.extra.docs_url and page.extra.docs_url | trim | length > 0 %}
     <div class="cover-links">
-      {% if page.extra.github_url %}<a href="{{ page.extra.github_url }}" target="_blank" rel="noopener">GitHub →</a>{% endif %}
-      {% if page.extra.demo_url %}<a href="{{ page.extra.demo_url }}" target="_blank" rel="noopener">デモ →</a>{% endif %}
-      {% if page.extra.docs_url %}<a href="{{ page.extra.docs_url }}" target="_blank" rel="noopener">ドキュメント →</a>{% endif %}
+      {% if page.extra.github_url and page.extra.github_url | trim | length > 0 %}<a href="{{ page.extra.github_url }}" target="_blank" rel="noopener">GitHub →</a>{% endif %}
+      {% if page.extra.demo_url and page.extra.demo_url | trim | length > 0 %}<a href="{{ page.extra.demo_url }}" target="_blank" rel="noopener">デモ →</a>{% endif %}
+      {% if page.extra.docs_url and page.extra.docs_url | trim | length > 0 %}<a href="{{ page.extra.docs_url }}" target="_blank" rel="noopener">ドキュメント →</a>{% endif %}
     </div>
     {% endif %}
   </div>
@@ -85,11 +85,11 @@
   </section>
   {% endif %}
 
-  {% if page.extra.github_url or page.extra.demo_url or page.extra.docs_url %}
+  {% if page.extra.github_url and page.extra.github_url | trim | length > 0 or page.extra.demo_url and page.extra.demo_url | trim | length > 0 or page.extra.docs_url and page.extra.docs_url | trim | length > 0 %}
   <section class="project-links-bottom">
-    {% if page.extra.github_url %}<a href="{{ page.extra.github_url }}" target="_blank" rel="noopener">GitHub →</a>{% endif %}
-    {% if page.extra.demo_url %}<a href="{{ page.extra.demo_url }}" target="_blank" rel="noopener">デモ →</a>{% endif %}
-    {% if page.extra.docs_url %}<a href="{{ page.extra.docs_url }}" target="_blank" rel="noopener">ドキュメント →</a>{% endif %}
+    {% if page.extra.github_url and page.extra.github_url | trim | length > 0 %}<a href="{{ page.extra.github_url }}" target="_blank" rel="noopener">GitHub →</a>{% endif %}
+    {% if page.extra.demo_url and page.extra.demo_url | trim | length > 0 %}<a href="{{ page.extra.demo_url }}" target="_blank" rel="noopener">デモ →</a>{% endif %}
+    {% if page.extra.docs_url and page.extra.docs_url | trim | length > 0 %}<a href="{{ page.extra.docs_url }}" target="_blank" rel="noopener">ドキュメント →</a>{% endif %}
   </section>
   {% endif %}
 </main>

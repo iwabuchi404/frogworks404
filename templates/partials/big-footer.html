@@ -14,9 +14,9 @@
         </div>
         <div class="footer-col">
           <div class="footer-col-label">リンク</div>
-          <a href="{{ config.extra.github }}" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="{{ config.extra.x }}" target="_blank" rel="noopener noreferrer">X</a>
-          <a href="{{ config.extra.booth }}" target="_blank" rel="noopener noreferrer">BOOTH</a>
+          {% if config.extra.github %}<a href="{{ config.extra.github }}" target="_blank" rel="noopener noreferrer">GitHub</a>{% endif %}
+          {% if config.extra.x %}<a href="{{ config.extra.x }}" target="_blank" rel="noopener noreferrer">X</a>{% endif %}
+          {% if config.extra.booth %}<a href="{{ config.extra.booth }}" target="_blank" rel="noopener noreferrer">BOOTH</a>{% endif %}
         </div>
       </div>
     </div>

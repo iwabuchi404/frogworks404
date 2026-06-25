@@ -84,12 +84,14 @@
           </div>
         </nav>
 
+        {% if config.extra.github or config.extra.x or config.extra.booth %}
         <div class="sidebar-links">
           <div class="sidebar-nav-label">LINKS</div>
-          <a href="{{ config.extra.github }}" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-          <a href="{{ config.extra.x }}" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">X ↗</a>
-          <a href="{{ config.extra.booth }}" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">BOOTH ↗</a>
+          {% if config.extra.github %}<a href="{{ config.extra.github }}" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">GitHub ↗</a>{% endif %}
+          {% if config.extra.x %}<a href="{{ config.extra.x }}" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">X ↗</a>{% endif %}
+          {% if config.extra.booth %}<a href="{{ config.extra.booth }}" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">BOOTH ↗</a>{% endif %}
         </div>
+        {% endif %}
       </div>
     </aside>
 
