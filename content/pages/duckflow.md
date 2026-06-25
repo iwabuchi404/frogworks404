@@ -13,6 +13,7 @@ extra:
   project: true
   status: prototype
   github_url: https://github.com/iwabuchi404/duckflow
+  cover_image: /uploads/2026/06/49f38102-e110-44f2-9ba1-ef301e5ccca1.png
 ---
 
 ## これは何か
