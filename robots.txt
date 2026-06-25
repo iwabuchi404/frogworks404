@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 Allow: /
-Sitemap: https://iwabuchi404.github.io/frogworks404/sitemap.xml
+Sitemap: www.flog404.work/sitemap.xml
