@@ -14,6 +14,7 @@ extra:
   project: true
   status: shipped
   github_url: https://github.com/iwabuchi404/omilink
+  demo_url: https://omilink.flog404.work/
 ---
 
 ## 概要
