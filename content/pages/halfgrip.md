@@ -1,7 +1,7 @@
 ---
-title: "HalfGrip"
-date: "2025-03-10"
-description: "Androidネイティブカメラアプリ + 自作USB-C HIDグリップデバイス。半押しAFロックを含むミラーレス的な操作感をスマホで実現する。"
+title: HalfGrip
+date: '2025-03-10'
+description: Androidネイティブカメラアプリ + 自作USB-C HIDグリップデバイス。半押しAFロックを含むミラーレス的な操作感をスマホで実現する。
 template: pages/project.html
 slug: halfgrip
 taxonomies:
@@ -12,6 +12,7 @@ extra:
   entry_type: project
   project: true
   status: prototype
+  cover_image: /uploads/2026/06/b803c61a-fb1d-4d59-9bfb-bd5754845c66.png
 ---
 
 ## 概要
@@ -37,9 +38,14 @@ HalfGripは、Androidネイティブカメラアプリと自作USB-C HIDグリ�
 
 ## 開発ステップ
 
-- **Step 1 — MVPコア**: Camera2プレビュー、静止画撮影・JPEG保存、KeyEventでシャッター
-- **Step 2 — 入力拡張**: AFロック制御、MotionEvent対応、MFフォーカス・ズーム制御
-- **Step 3 — 画質系**: RAW(DNG)保存、露出・ISO・SS手動制御、HDR、フォーカスピーキング
+### デバイス
+- **Step 1 — [完了]常用端末専用専用マウントと最低限のボタン
+- **Step 2 — 汎用マウントとファンクションボタンなどの実装
+
+### アプリ
+- **Step 1 — [完了]MVPコア**: Camera2プレビュー、静止画撮影・JPEG保存、KeyEventでシャッター
+- **Step 2 — [完了]入力拡張**: AFロック制御、MotionEvent対応、MFフォーカス・ズーム制御
+- **Step 3 — [完了]画質系**: RAW(DNG)保存、露出・ISO・SS手動制御、HDR、フォーカスピーキング
 - **Step 4 — UX仕上げ**: キーマッピングプロファイル保存、グリッド・水平儀
 
 ## UI設計

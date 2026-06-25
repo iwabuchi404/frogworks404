@@ -13,6 +13,7 @@ extra:
   status: in-operation
   github_url: https://github.com/iwabuchi404/omilink
   demo_url: https://omilink.flog404.work/
+  cover_image: /uploads/2026/06/e3183777-2d4f-4e02-870a-4f82325a9422.png
 ---
 
 ## これは何か
