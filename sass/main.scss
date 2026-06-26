@@ -605,9 +605,20 @@ body {
 }
 
 // ── About導線 ───────────────────────────────────────────────────────────
+.about-lead {
+  margin-top: 20px;
+}
+
+.about-lead-text {
+  font-family: var(--serif);
+  font-size: 14px;
+  color: var(--ink-mid);
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
 .about-link {
   display: inline-block;
-  margin-top: 20px;
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: 0.1em;

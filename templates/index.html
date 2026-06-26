@@ -35,12 +35,15 @@
       {% endif %}
     </div>
   </div>
-  <a href="{{ get_url(path='/pages/about') }}" class="about-link">About →</a>
+  <div class="about-lead">
+    <p class="about-lead-text">人と機械の間にある摩擦を、道具として作り直す活動です。</p>
+    <a href="{{ get_url(path='/pages/about') }}" class="about-link">About →</a>
+  </div>
 </header>
 
 {# ── ピックアッププロジェクト ── #}
 <section class="pickup-section">
-  <div class="section-divider"><span>Pickup Projects</span></div>
+  <div class="section-divider"><span>ピックアッププロジェクト</span></div>
   <div class="pickup-grid">
     {% for page in pages_section.pages %}
     {% if page.extra.featured %}
@@ -51,7 +54,15 @@
       </div>
       {% endif %}
       <div class="pickup-meta">
-        <span class="pickup-status">{{ page.extra.status | default(value='') }}</span>
+        <span class="pickup-status">
+          {% if page.extra.status == "in-operation" %}継続運用中
+          {% elif page.extra.status == "usable" %}利用可能
+          {% elif page.extra.status == "prototype" %}試作
+          {% elif page.extra.status == "tech-verify" %}技術検証
+          {% elif page.extra.status == "concept" %}構想
+          {% elif page.extra.status == "paused" %}休止
+          {% else %}{{ page.extra.status | default(value='') }}{% endif %}
+        </span>
       </div>
       <h2 class="pickup-title">
         <a href="{{ page.permalink }}">{{ page.title }}</a>
