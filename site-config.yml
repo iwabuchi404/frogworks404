@@ -145,6 +145,11 @@ content_types:
         label: "キャッチ画像"
         help: "プロジェクトのカバー画像（一覧・詳細ページに表示）"
 
+      - key: "extra.thumbnail"
+        type: "image"
+        label: "サムネイル画像"
+        help: "一覧ページの右側に表示する縦長画像（未設定ならキャッチ画像を使用）"
+
       - key: "_content"
         type: "markdown"
         label: "本文"

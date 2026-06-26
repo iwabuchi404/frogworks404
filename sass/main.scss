@@ -424,6 +424,33 @@ body {
   position: relative;
 }
 
+// ── 右サムネイル横並び（プロジェクト一覧） ──────────────────────────────
+.entry--row {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.entry-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.entry-thumb-right {
+  flex-shrink: 0;
+  width: 200px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
 .entry-meta {
   display: flex;
   align-items: center;
@@ -574,6 +601,119 @@ body {
     height: auto;
     max-height: 420px;
     object-fit: cover;
+  }
+}
+
+// ── About導線 ───────────────────────────────────────────────────────────
+.about-link {
+  display: inline-block;
+  margin-top: 20px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--ink-mid);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
+
+  &:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+}
+
+// ── ピックアッププロジェクト ────────────────────────────────────────────
+.pickup-section {
+  margin-bottom: 20px;
+}
+
+.pickup-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 16px 0 24px;
+}
+
+.pickup-card {
+  border: 1px solid var(--rule);
+  background: rgba(255, 255, 255, 0.4);
+  padding: 16px;
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: var(--ink-mid);
+  }
+}
+
+.pickup-cover {
+  margin-bottom: 12px;
+  overflow: hidden;
+  background: #111118;
+  aspect-ratio: 16 / 9;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+.pickup-meta {
+  margin-bottom: 8px;
+}
+
+.pickup-status {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.pickup-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+
+  a {
+    color: var(--ink);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.pickup-desc {
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.6;
+}
+
+.pickup-more,
+.feed-more {
+  text-align: right;
+  padding: 12px 0 24px;
+
+  a {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--ink-mid);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+
+    &:hover {
+      color: var(--ink);
+      border-color: var(--ink);
+    }
   }
 }
 
@@ -805,6 +945,11 @@ body {
   .footer-columns { gap: 32px; }
 
   .footer-top { flex-direction: column; gap: 24px; }
+
+  .pickup-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 }
 
 // ── プロジェクト下部リンク ────────────────────────────────────────────

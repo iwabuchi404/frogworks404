@@ -13,6 +13,7 @@ extra:
   status: in-operation
   github_url: https://github.com/iwabuchi404/Fubako
   cover_image: /uploads/2026/06/0122fcdd-377d-4c00-9ab9-210ddf8a6e65.png
+  featured: true
 ---
 
 ## これは何か

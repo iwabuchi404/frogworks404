@@ -13,6 +13,7 @@ extra:
   project: true
   status: prototype
   cover_image: /uploads/2026/06/b803c61a-fb1d-4d59-9bfb-bd5754845c66.png
+  featured: true
 ---
 
 ## 概要

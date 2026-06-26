@@ -17,7 +17,19 @@
   </div>
 </header>
 
-<main class="feed">
+<div x-data="{ activeTag: 'all' }">
+  <nav class="filter-bar" aria-label="タグフィルター">
+    <span class="filter-label">FILTER —</span>
+    <button class="chip" :class="{ on: activeTag === 'all' }" @click="activeTag = 'all'">すべて</button>
+    <button class="chip" :class="{ on: activeTag === 'ai-collaboration' }" @click="activeTag = 'ai-collaboration'">ai-collaboration</button>
+    <button class="chip" :class="{ on: activeTag === 'developer-tools' }" @click="activeTag = 'developer-tools'">developer-tools</button>
+    <button class="chip" :class="{ on: activeTag === 'interface' }" @click="activeTag = 'interface'">interface</button>
+    <button class="chip" :class="{ on: activeTag === 'hardware' }" @click="activeTag = 'hardware'">hardware</button>
+    <button class="chip" :class="{ on: activeTag === 'creative-tools' }" @click="activeTag = 'creative-tools'">creative-tools</button>
+    <button class="chip" :class="{ on: activeTag === 'knowledge' }" @click="activeTag = 'knowledge'">knowledge</button>
+  </nav>
+
+  <main class="feed">
 
   {% for current_status in status_order %}
   {% for page in pages_section.pages %}
@@ -36,25 +48,31 @@
   </span></div>
   {% endif %}
   {% set page_tags = page.taxonomies.tags | default(value=[]) %}
-  <article class="entry entry--product">
-    {% if page.extra.cover_image %}
-    <div class="entry-cover">
-      <img src="{{ get_url(path=page.extra.cover_image) }}" alt="{{ page.title }}" loading="lazy">
+  <article
+    class="entry entry--product entry--row"
+    x-show='activeTag === "all" || {{ page_tags | json_encode | safe }}.includes(activeTag)'
+  >
+    <div class="entry-text">
+      <div class="entry-meta">
+        <span class="entry-date">{{ page.date | date(format="%Y.%m.%d") }}</span>
+        {% for tag in page_tags %}<span class="badge badge-{{ tag }}">{{ tag }}</span>{% endfor %}
+      </div>
+      <h2 class="entry-title">
+        <a href="{{ page.permalink }}">{{ page.title }}</a>
+        <span class="entry-arrow">→</span>
+      </h2>
+      {% if page.description %}<p class="entry-body">{{ page.description }}</p>{% endif %}
+    </div>
+    {% if page.extra.thumbnail %}
+    <div class="entry-thumb-right">
+      <img src="{{ get_url(path=page.extra.thumbnail) }}" alt="{{ page.title }}" loading="lazy">
     </div>
     {% endif %}
-    <div class="entry-meta">
-      <span class="entry-date">{{ page.date | date(format="%Y.%m.%d") }}</span>
-      {% for tag in page_tags %}<span class="badge badge-{{ tag }}">{{ tag }}</span>{% endfor %}
-    </div>
-    <h2 class="entry-title">
-      <a href="{{ page.permalink }}">{{ page.title }}</a>
-      <span class="entry-arrow">→</span>
-    </h2>
-    {% if page.description %}<p class="entry-body">{{ page.description }}</p>{% endif %}
   </article>
   {% endif %}
   {% endfor %}
   {% endfor %}
 
-</main>
+  </main>
+</div>
 {% endblock content %}

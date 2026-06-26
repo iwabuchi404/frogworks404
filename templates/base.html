@@ -57,11 +57,14 @@
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">最終更新</span>
-            {% if log.pages | length > 0 %}
-            {% set latest = log.pages | first %}
-            <span class="sidebar-meta-value">{% if latest.date %}{{ latest.date | date(format="%Y.%m") }}{% else %}—{% endif %}</span>
+            {% set log_latest = log.pages | first %}
+            {% set pages_latest = pages_section.pages | first %}
+            {% set log_ym = log_latest.date | date(format="%Y%m") | int %}
+            {% set pages_ym = pages_latest.date | date(format="%Y%m") | int %}
+            {% if log_ym >= pages_ym %}
+            <span class="sidebar-meta-value">{{ log_latest.date | date(format="%Y.%m") }}</span>
             {% else %}
-            <span class="sidebar-meta-value">—</span>
+            <span class="sidebar-meta-value">{{ pages_latest.date | date(format="%Y.%m") }}</span>
             {% endif %}
           </div>
         </div>
