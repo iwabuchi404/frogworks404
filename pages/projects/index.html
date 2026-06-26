@@ -45,6 +45,9 @@
             <span class="sidebar-meta-label">最終更新</span>
             
             
+            
+            
+            
             <span class="sidebar-meta-value">2025.06</span>
             
           </div>
@@ -99,7 +102,19 @@
   </div>
 </header>
 
-<main class="feed">
+<div x-data="{ activeTag: 'all' }">
+  <nav class="filter-bar" aria-label="タグフィルター">
+    <span class="filter-label">FILTER —</span>
+    <button class="chip" :class="{ on: activeTag === 'all' }" @click="activeTag = 'all'">すべて</button>
+    <button class="chip" :class="{ on: activeTag === 'ai-collaboration' }" @click="activeTag = 'ai-collaboration'">ai-collaboration</button>
+    <button class="chip" :class="{ on: activeTag === 'developer-tools' }" @click="activeTag = 'developer-tools'">developer-tools</button>
+    <button class="chip" :class="{ on: activeTag === 'interface' }" @click="activeTag = 'interface'">interface</button>
+    <button class="chip" :class="{ on: activeTag === 'hardware' }" @click="activeTag = 'hardware'">hardware</button>
+    <button class="chip" :class="{ on: activeTag === 'creative-tools' }" @click="activeTag = 'creative-tools'">creative-tools</button>
+    <button class="chip" :class="{ on: activeTag === 'knowledge' }" @click="activeTag = 'knowledge'">knowledge</button>
+  </nav>
+
+  <main class="feed">
 
   
   
@@ -113,21 +128,22 @@
   </span></div>
   
   
-  <article class="entry entry--product">
-    
-    <div class="entry-cover">
-      <img src="https://frog404.work/uploads/2026/06/7d808d5e-159e-481a-bf11-f4c672373d2c.png" alt="ContextMixer" loading="lazy">
+  <article
+    class="entry entry--product entry--row"
+    x-show='activeTag === "all" || ["ai-collaboration","knowledge"].includes(activeTag)'
+  >
+    <div class="entry-text">
+      <div class="entry-meta">
+        <span class="entry-date">2025.06.20</span>
+        <span class="badge badge-ai-collaboration">ai-collaboration</span><span class="badge badge-knowledge">knowledge</span>
+      </div>
+      <h2 class="entry-title">
+        <a href="https:&#x2F;&#x2F;frog404.work&#x2F;pages&#x2F;context-mixer&#x2F;">ContextMixer</a>
+        <span class="entry-arrow">→</span>
+      </h2>
+      <p class="entry-body">AIと人間が共同管理するナレッジベース</p>
     </div>
     
-    <div class="entry-meta">
-      <span class="entry-date">2025.06.20</span>
-      <span class="badge badge-ai-collaboration">ai-collaboration</span><span class="badge badge-knowledge">knowledge</span>
-    </div>
-    <h2 class="entry-title">
-      <a href="https:&#x2F;&#x2F;frog404.work&#x2F;pages&#x2F;context-mixer&#x2F;">ContextMixer</a>
-      <span class="entry-arrow">→</span>
-    </h2>
-    <p class="entry-body">AIと人間が共同管理するナレッジベース</p>
   </article>
   
   
@@ -136,124 +152,22 @@
   
   
   
-  <article class="entry entry--product">
-    
-    <div class="entry-cover">
-      <img src="https://frog404.work/uploads/2026/06/e3183777-2d4f-4e02-870a-4f82325a9422.png" alt="omiLink" loading="lazy">
+  <article
+    class="entry entry--product entry--row"
+    x-show='activeTag === "all" || ["interface"].includes(activeTag)'
+  >
+    <div class="entry-text">
+      <div class="entry-meta">
+        <span class="entry-date">2025.05.01</span>
+        <span class="badge badge-interface">interface</span>
+      </div>
+      <h2 class="entry-title">
+        <a href="https:&#x2F;&#x2F;frog404.work&#x2F;pages&#x2F;omilink&#x2F;">omiLink</a>
+        <span class="entry-arrow">→</span>
+      </h2>
+      <p class="entry-body">URL・メモをAndroidホーム画面風グリッドで管理するブックマークPWA。ドラッグ&amp;リサイズ可能なウィジェット感覚の操作。</p>
     </div>
     
-    <div class="entry-meta">
-      <span class="entry-date">2025.05.01</span>
-      <span class="badge badge-interface">interface</span>
-    </div>
-    <h2 class="entry-title">
-      <a href="https:&#x2F;&#x2F;frog404.work&#x2F;pages&#x2F;omilink&#x2F;">omiLink</a>
-      <span class="entry-arrow">→</span>
-    </h2>
-    <p class="entry-body">URL・メモをAndroidホーム画面風グリッドで管理するブックマークPWA。ドラッグ&amp;リサイズ可能なウィジェット感覚の操作。</p>
-  </article>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <article class="entry entry--product">
-    
-    <div class="entry-cover">
-      <img src="https://frog404.work/uploads/2026/06/0122fcdd-377d-4c00-9ab9-210ddf8a6e65.png" alt="Fubako" loading="lazy">
-    </div>
-    
-    <div class="entry-meta">
-      <span class="entry-date">2025.02.20</span>
-      <span class="badge badge-developer-tools">developer-tools</span>
-    </div>
-    <h2 class="entry-title">
-      <a href="https:&#x2F;&#x2F;frog404.work&#x2F;pages&#x2F;fubako&#x2F;">Fubako</a>
-      <span class="entry-arrow">→</span>
-    </h2>
-    <p class="entry-body">Zolaベースの静的サイトをGUIで管理できるデスクトップCMS。Electron + Vue 3で構築。</p>
-  </article>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <article class="entry entry--product">
-    
-    <div class="entry-meta">
-      <span class="entry-date">2025.04.20</span>
-      <span class="badge badge-developer-tools">developer-tools</span><span class="badge badge-interface">interface</span>
-    </div>
-    <h2 class="entry-title">
-      <a href="https:&#x2F;&#x2F;frog404.work&#x2F;pages&#x2F;asciiwire&#x2F;">ASCIIwire</a>
-      <span class="entry-arrow">→</span>
-    </h2>
-    <p class="entry-body">AI・人間の両方が扱いやすいテキストベースのワイヤーフレームDSL。マークダウン記法からASCIIアートのワイヤーフレームを生成するCLIツール。</p>
-  </article>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <article class="entry entry--product">
-    
-    <div class="entry-meta">
-      <span class="entry-date">2025.04.05</span>
-      <span class="badge badge-ai-collaboration">ai-collaboration</span><span class="badge badge-developer-tools">developer-tools</span>
-    </div>
-    <h2 class="entry-title">
-      <a href="https:&#x2F;&#x2F;frog404.work&#x2F;pages&#x2F;kamox&#x2F;">KamoX</a>
-      <span class="entry-arrow">→</span>
-    </h2>
-    <p class="entry-body">AIコーディングエージェントがChrome拡張・Electron・VSCode拡張をライブ確認しながら開発できるnpmプラグイン型HTTP APIサーバー。</p>
   </article>
   
   
@@ -282,43 +196,22 @@
   
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <article class="entry entry--product">
-    
-    <div class="entry-cover">
-      <img src="https://frog404.work/uploads/2026/06/49f38102-e110-44f2-9ba1-ef301e5ccca1.png" alt="duckflow " loading="lazy">
+  <article
+    class="entry entry--product entry--row"
+    x-show='activeTag === "all" || ["developer-tools"].includes(activeTag)'
+  >
+    <div class="entry-text">
+      <div class="entry-meta">
+        <span class="entry-date">2025.02.20</span>
+        <span class="badge badge-developer-tools">developer-tools</span>
+      </div>
+      <h2 class="entry-title">
+        <a href="https:&#x2F;&#x2F;frog404.work&#x2F;pages&#x2F;fubako&#x2F;">Fubako</a>
+        <span class="entry-arrow">→</span>
+      </h2>
+      <p class="entry-body">Zolaベースの静的サイトをGUIで管理できるデスクトップCMS。Electron + Vue 3で構築。</p>
     </div>
     
-    <div class="entry-meta">
-      <span class="entry-date">2025.03.25</span>
-      <span class="badge badge-ai-collaboration">ai-collaboration</span><span class="badge badge-developer-tools">developer-tools</span>
-    </div>
-    <h2 class="entry-title">
-      <a href="https:&#x2F;&#x2F;frog404.work&#x2F;pages&#x2F;duckflow&#x2F;">duckflow </a>
-      <span class="entry-arrow">→</span>
-    </h2>
-    <p class="entry-body">開発者のローカル環境で動作する対話型AIコーディングエージェント。弱いLLMでもユーザーとの協業を通じて実用的な成果を出す「相棒」を目指す。</p>
   </article>
   
   
@@ -327,21 +220,68 @@
   
   
   
-  <article class="entry entry--product">
-    
-    <div class="entry-cover">
-      <img src="https://frog404.work/uploads/2026/06/b803c61a-fb1d-4d59-9bfb-bd5754845c66.png" alt="HalfGrip" loading="lazy">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <article
+    class="entry entry--product entry--row"
+    x-show='activeTag === "all" || ["developer-tools","interface"].includes(activeTag)'
+  >
+    <div class="entry-text">
+      <div class="entry-meta">
+        <span class="entry-date">2025.04.20</span>
+        <span class="badge badge-developer-tools">developer-tools</span><span class="badge badge-interface">interface</span>
+      </div>
+      <h2 class="entry-title">
+        <a href="https:&#x2F;&#x2F;frog404.work&#x2F;pages&#x2F;asciiwire&#x2F;">ASCIIwire</a>
+        <span class="entry-arrow">→</span>
+      </h2>
+      <p class="entry-body">AI・人間の両方が扱いやすいテキストベースのワイヤーフレームDSL。マークダウン記法からASCIIアートのワイヤーフレームを生成するCLIツール。</p>
     </div>
     
-    <div class="entry-meta">
-      <span class="entry-date">2025.03.10</span>
-      <span class="badge badge-hardware">hardware</span><span class="badge badge-interface">interface</span>
+  </article>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <article
+    class="entry entry--product entry--row"
+    x-show='activeTag === "all" || ["ai-collaboration","developer-tools"].includes(activeTag)'
+  >
+    <div class="entry-text">
+      <div class="entry-meta">
+        <span class="entry-date">2025.04.05</span>
+        <span class="badge badge-ai-collaboration">ai-collaboration</span><span class="badge badge-developer-tools">developer-tools</span>
+      </div>
+      <h2 class="entry-title">
+        <a href="https:&#x2F;&#x2F;frog404.work&#x2F;pages&#x2F;kamox&#x2F;">KamoX</a>
+        <span class="entry-arrow">→</span>
+      </h2>
+      <p class="entry-body">AIコーディングエージェントがChrome拡張・Electron・VSCode拡張をライブ確認しながら開発できるnpmプラグイン型HTTP APIサーバー。</p>
     </div>
-    <h2 class="entry-title">
-      <a href="https:&#x2F;&#x2F;frog404.work&#x2F;pages&#x2F;halfgrip&#x2F;">HalfGrip</a>
-      <span class="entry-arrow">→</span>
-    </h2>
-    <p class="entry-body">Androidネイティブカメラアプリ + 自作USB-C HIDグリップデバイス。半押しAFロックを含むミラーレス的な操作感をスマホで実現する。</p>
+    
   </article>
   
   
@@ -376,17 +316,112 @@
   
   
   
-  <article class="entry entry--product">
-    
-    <div class="entry-meta">
-      <span class="entry-date">2025.04.12</span>
-      <span class="badge badge-creative-tools">creative-tools</span>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <article
+    class="entry entry--product entry--row"
+    x-show='activeTag === "all" || ["ai-collaboration","developer-tools"].includes(activeTag)'
+  >
+    <div class="entry-text">
+      <div class="entry-meta">
+        <span class="entry-date">2025.03.25</span>
+        <span class="badge badge-ai-collaboration">ai-collaboration</span><span class="badge badge-developer-tools">developer-tools</span>
+      </div>
+      <h2 class="entry-title">
+        <a href="https:&#x2F;&#x2F;frog404.work&#x2F;pages&#x2F;duckflow&#x2F;">duckflow </a>
+        <span class="entry-arrow">→</span>
+      </h2>
+      <p class="entry-body">開発者のローカル環境で動作する対話型AIコーディングエージェント。弱いLLMでもユーザーとの協業を通じて実用的な成果を出す「相棒」を目指す。</p>
     </div>
-    <h2 class="entry-title">
-      <a href="https:&#x2F;&#x2F;frog404.work&#x2F;pages&#x2F;photon-mixer&#x2F;">PhotonMixer</a>
-      <span class="entry-arrow">→</span>
-    </h2>
-    <p class="entry-body">float32リニアカラー・WebGPUネイティブ・SAIレベルのペン体験を核とするイラストソフト。アナログ模倣を捨て、デジタルの正確性を表現ツールとして再定義する。</p>
+    
+  </article>
+  
+  
+  
+  
+  
+  
+  
+  <article
+    class="entry entry--product entry--row"
+    x-show='activeTag === "all" || ["hardware","interface"].includes(activeTag)'
+  >
+    <div class="entry-text">
+      <div class="entry-meta">
+        <span class="entry-date">2025.03.10</span>
+        <span class="badge badge-hardware">hardware</span><span class="badge badge-interface">interface</span>
+      </div>
+      <h2 class="entry-title">
+        <a href="https:&#x2F;&#x2F;frog404.work&#x2F;pages&#x2F;halfgrip&#x2F;">HalfGrip</a>
+        <span class="entry-arrow">→</span>
+      </h2>
+      <p class="entry-body">Androidネイティブカメラアプリ + 自作USB-C HIDグリップデバイス。半押しAFロックを含むミラーレス的な操作感をスマホで実現する。</p>
+    </div>
+    
+  </article>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <article
+    class="entry entry--product entry--row"
+    x-show='activeTag === "all" || ["creative-tools"].includes(activeTag)'
+  >
+    <div class="entry-text">
+      <div class="entry-meta">
+        <span class="entry-date">2025.04.12</span>
+        <span class="badge badge-creative-tools">creative-tools</span>
+      </div>
+      <h2 class="entry-title">
+        <a href="https:&#x2F;&#x2F;frog404.work&#x2F;pages&#x2F;photon-mixer&#x2F;">PhotonMixer</a>
+        <span class="entry-arrow">→</span>
+      </h2>
+      <p class="entry-body">float32リニアカラー・WebGPUネイティブ・SAIレベルのペン体験を核とするイラストソフト。アナログ模倣を捨て、デジタルの正確性を表現ツールとして再定義する。</p>
+    </div>
+    
   </article>
   
   
@@ -458,7 +493,8 @@
   
   
 
-</main>
+  </main>
+</div>
 
       <footer class="big-footer">
   <div class="footer-cover">
@@ -484,7 +520,7 @@
     </div>
     <hr class="footer-bottom-divider">
     <div class="footer-meta">
-      <span class="footer-meta-text">最終更新 2026.06.25</span>
+      <span class="footer-meta-text">最終更新 2026.06.26</span>
       <span class="footer-meta-text">© frogworks404 2024–</span>
     </div>
   </div>

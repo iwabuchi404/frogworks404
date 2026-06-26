@@ -45,6 +45,9 @@
             <span class="sidebar-meta-label">最終更新</span>
             
             
+            
+            
+            
             <span class="sidebar-meta-value">2025.06</span>
             
           </div>
@@ -94,63 +97,88 @@
   </div>
 </header>
 
-<main class="feed">
-  <div class="section-divider"><span>4 エントリ</span></div>
+<div x-data="{ activeTag: 'all' }">
+  <nav class="filter-bar" aria-label="タグフィルター">
+    <span class="filter-label">FILTER —</span>
+    <button class="chip" :class="{ on: activeTag === 'all' }" @click="activeTag = 'all'">すべて</button>
+    <button class="chip" :class="{ on: activeTag === 'ai-collaboration' }" @click="activeTag = 'ai-collaboration'">ai-collaboration</button>
+    <button class="chip" :class="{ on: activeTag === 'developer-tools' }" @click="activeTag = 'developer-tools'">developer-tools</button>
+    <button class="chip" :class="{ on: activeTag === 'interface' }" @click="activeTag = 'interface'">interface</button>
+    <button class="chip" :class="{ on: activeTag === 'hardware' }" @click="activeTag = 'hardware'">hardware</button>
+    <button class="chip" :class="{ on: activeTag === 'creative-tools' }" @click="activeTag = 'creative-tools'">creative-tools</button>
+    <button class="chip" :class="{ on: activeTag === 'knowledge' }" @click="activeTag = 'knowledge'">knowledge</button>
+  </nav>
 
-  
-  
-  <article class="entry">
-    <div class="entry-meta">
-      <span class="entry-date">2025.06.20</span>
-      <span class="badge badge-note">note</span>
-    </div>
-    <h2 class="entry-title">
-      <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;2025-06-20-ai-cortex&#x2F;">AI Cortex --  ContextMixerの運用ルールとナレッジ構造</a>
-      
-    </h2>
-    <p class="entry-body">ContextMixerを実際に運用するために作った、プロジェクト単位のナレッジ構造とエージェント行動ルールの設計記録</p>
-  </article>
-  
-  
-  <article class="entry">
-    <div class="entry-meta">
-      <span class="entry-date">2025.06.18</span>
-      <span class="badge badge-ai-collaboration">ai-collaboration</span><span class="badge badge-knowledge">knowledge</span>
-    </div>
-    <h2 class="entry-title">
-      <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;context-mixer-design&#x2F;">ContextMixerの設計思想 — AIが探索しやすいナレッジベースとは何か</a>
-      
-    </h2>
-    <p class="entry-body">Notionの限界から始まった、AIファーストなナレッジベース設計の記録</p>
-  </article>
-  
-  
-  <article class="entry">
-    <div class="entry-meta">
-      <span class="entry-date">2025.06.10</span>
-      <span class="badge badge-hardware">hardware</span>
-    </div>
-    <h2 class="entry-title">
-      <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;haptic-knob&#x2F;">触覚ノブデバイス —  試作記録</a>
-      
-    </h2>
-    <p class="entry-body">左手用ノブ入力デバイスの試作。渦電流ブレーキによるフォースフィードバックを目的とした構成で、フリーホイールの逆ダイオード修正を経てエアギャップ詰めの段階へ。</p>
-  </article>
-  
-  
-  <article class="entry">
-    <div class="entry-meta">
-      <span class="entry-date">2025.05.12</span>
-      <span class="badge badge-developer-tools">developer-tools</span><span class="badge badge-interface">interface</span>
-    </div>
-    <h2 class="entry-title">
-      <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;ascii-wireframe&#x2F;">AIとの設計作業にASCIIワイヤーフレームが有効な理由</a>
-      
-    </h2>
-    <p class="entry-body">LLMとUIを共同設計するとき、画像よりもASCIIのワイヤーフレームのほうがトークン効率が高く、修正サイクルも速い。この仮説を実装として形にするためのコンセプトメモ。</p>
-  </article>
-  
-</main>
+  <main class="feed">
+    <div class="section-divider"><span>4 エントリ</span></div>
+
+    
+    
+    <article
+      class="entry"
+      x-show='activeTag === "all" || ["note"].includes(activeTag)'
+    >
+      <div class="entry-meta">
+        <span class="entry-date">2025.06.20</span>
+        <span class="badge badge-note">note</span>
+      </div>
+      <h2 class="entry-title">
+        <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;2025-06-20-ai-cortex&#x2F;">AI Cortex --  ContextMixerの運用ルールとナレッジ構造</a>
+        
+      </h2>
+      <p class="entry-body">ContextMixerを実際に運用するために作った、プロジェクト単位のナレッジ構造とエージェント行動ルールの設計記録</p>
+    </article>
+    
+    
+    <article
+      class="entry"
+      x-show='activeTag === "all" || ["ai-collaboration","knowledge"].includes(activeTag)'
+    >
+      <div class="entry-meta">
+        <span class="entry-date">2025.06.18</span>
+        <span class="badge badge-ai-collaboration">ai-collaboration</span><span class="badge badge-knowledge">knowledge</span>
+      </div>
+      <h2 class="entry-title">
+        <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;context-mixer-design&#x2F;">ContextMixerの設計思想 — AIが探索しやすいナレッジベースとは何か</a>
+        
+      </h2>
+      <p class="entry-body">Notionの限界から始まった、AIファーストなナレッジベース設計の記録</p>
+    </article>
+    
+    
+    <article
+      class="entry"
+      x-show='activeTag === "all" || ["hardware"].includes(activeTag)'
+    >
+      <div class="entry-meta">
+        <span class="entry-date">2025.06.10</span>
+        <span class="badge badge-hardware">hardware</span>
+      </div>
+      <h2 class="entry-title">
+        <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;haptic-knob&#x2F;">触覚ノブデバイス —  試作記録</a>
+        
+      </h2>
+      <p class="entry-body">左手用ノブ入力デバイスの試作。渦電流ブレーキによるフォースフィードバックを目的とした構成で、フリーホイールの逆ダイオード修正を経てエアギャップ詰めの段階へ。</p>
+    </article>
+    
+    
+    <article
+      class="entry"
+      x-show='activeTag === "all" || ["developer-tools","interface"].includes(activeTag)'
+    >
+      <div class="entry-meta">
+        <span class="entry-date">2025.05.12</span>
+        <span class="badge badge-developer-tools">developer-tools</span><span class="badge badge-interface">interface</span>
+      </div>
+      <h2 class="entry-title">
+        <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;ascii-wireframe&#x2F;">AIとの設計作業にASCIIワイヤーフレームが有効な理由</a>
+        
+      </h2>
+      <p class="entry-body">LLMとUIを共同設計するとき、画像よりもASCIIのワイヤーフレームのほうがトークン効率が高く、修正サイクルも速い。この仮説を実装として形にするためのコンセプトメモ。</p>
+    </article>
+    
+  </main>
+</div>
 
       <footer class="big-footer">
   <div class="footer-cover">
@@ -176,7 +204,7 @@
     </div>
     <hr class="footer-bottom-divider">
     <div class="footer-meta">
-      <span class="footer-meta-text">最終更新 2026.06.25</span>
+      <span class="footer-meta-text">最終更新 2026.06.26</span>
       <span class="footer-meta-text">© frogworks404 2024–</span>
     </div>
   </div>
