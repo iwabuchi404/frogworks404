@@ -107,15 +107,17 @@
         <span class="badge badge-{{ tag }}">{{ tag }}</span>
         {% endfor %}
       </div>
-      <h2 class="entry-title">
-        <a href="{{ page.permalink }}">{{ page.title }}</a>
-        {% if page.extra.entry_type == 'project' %}
-        <span class="entry-arrow">→</span>
+      <div class="entry-clickable">
+        <h2 class="entry-title">
+          <a href="{{ page.permalink }}">{{ page.title }}</a>
+          {% if page.extra.entry_type == 'project' %}
+          <span class="entry-arrow">→</span>
+          {% endif %}
+        </h2>
+        {% if page.description %}
+        <p class="entry-body">{{ page.description }}</p>
         {% endif %}
-      </h2>
-      {% if page.description %}
-      <p class="entry-body">{{ page.description }}</p>
-      {% endif %}
+      </div>
     </article>
     {% endfor %}
   </main>
