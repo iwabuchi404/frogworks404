@@ -3,7 +3,7 @@
 {% block title %}プロジェクト一覧 — {{ config.title }}{% endblock title %}
 
 {% block content %}
-{% set pages_section = get_section(path="pages/_index.md") %}
+{% set projects_section = get_section(path="projects/_index.md") %}
 {% set status_order = ["in-operation", "usable", "prototype", "concept", "paused"] %}
 
 <header class="site-header">
@@ -32,7 +32,7 @@
   <main class="feed">
 
   {% for current_status in status_order %}
-  {% for page in pages_section.pages %}
+  {% for page in projects_section.pages %}
   {% set et = page.extra.entry_type | default(value='') %}
   {% set st = page.extra.status | default(value='') %}
   {% if et == 'project' and st == current_status %}

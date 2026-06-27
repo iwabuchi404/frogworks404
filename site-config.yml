@@ -89,6 +89,119 @@ content_types:
         label: "テーマタグ"
         help: "ai-collaboration / knowledge / developer-tools / interface / hardware / creative-tools"
 
+  projects:
+    label: "プロジェクト"
+    folder: "content/projects"
+    sort: "date_desc"
+
+    list_columns:
+      - key: "title"
+        label: "タイトル"
+      - key: "extra.status"
+        label: "ステータス"
+
+    fields:
+      - key: "title"
+        type: "text"
+        label: "プロジェクト名"
+        required: true
+
+      - key: "date"
+        type: "date"
+        label: "公開日"
+        default: "today"
+
+      - key: "draft"
+        type: "toggle"
+        label: "下書き"
+        default: false
+
+      - key: "description"
+        type: "textarea"
+        label: "概要"
+        rows: 3
+        placeholder: "プロジェクトの概要（一覧・詳細ページに表示）"
+
+      - key: "template"
+        type: "text"
+        label: "テンプレート"
+        default: "pages/project.html"
+        readonly: true
+
+      - key: "slug"
+        type: "text"
+        label: "カスタムURL"
+        placeholder: "halfgrip"
+        help: "未入力の場合はタイトルから自動生成されます"
+
+      - key: "extra.entry_type"
+        type: "hidden"
+        label: "エントリタイプ"
+        default: "project"
+
+      - key: "extra.project"
+        type: "hidden"
+        label: "プロジェクトフラグ"
+        default: true
+
+      - key: "extra.status"
+        type: "select"
+        label: "プロジェクトステータス"
+        options:
+          - value: "in-operation"
+            label: "継続運用中"
+          - value: "usable"
+            label: "利用可能"
+          - value: "prototype"
+            label: "試作"
+          - value: "concept"
+            label: "構想"
+          - value: "tech-verify"
+            label: "技術検証"
+          - value: "paused"
+            label: "休止"
+        default: "concept"
+
+      - key: "extra.featured"
+        type: "toggle"
+        label: "ピックアップ表示"
+        default: false
+        help: "TOPのピックアッププロジェクトに表示します"
+
+      - key: "extra.cover_image"
+        type: "image"
+        label: "キャッチ画像"
+        help: "プロジェクトのカバー画像（一覧・詳細ページに表示）"
+
+      - key: "extra.thumbnail"
+        type: "image"
+        label: "サムネイル画像"
+        help: "一覧ページの右側に表示する縦長画像"
+
+      - key: "extra.github_url"
+        type: "text"
+        label: "GitHub URL"
+        placeholder: "https://github.com/..."
+
+      - key: "extra.demo_url"
+        type: "text"
+        label: "デモ／サイトURL"
+        placeholder: "https://..."
+
+      - key: "extra.docs_url"
+        type: "text"
+        label: "ドキュメントURL"
+        placeholder: "https://..."
+
+      - key: "taxonomies.tags"
+        type: "list"
+        label: "テーマタグ"
+        help: "ai-collaboration / knowledge / developer-tools / interface / hardware / creative-tools"
+
+      - key: "_content"
+        type: "markdown"
+        label: "本文"
+
   pages:
     label: "固定ページ"
     folder: "content/pages"
@@ -126,71 +239,9 @@ content_types:
         label: "下書き"
         default: false
 
-      - key: "extra.entry_type"
-        type: "select"
-        label: "エントリタイプ"
-        options:
-          - value: "project"
-            label: "プロジェクト紹介"
-          - value: "essay"
-            label: "エッセイ（主張・考察）"
-          - value: "experiment"
-            label: "実験記録（試行・結果）"
-          - value: "update"
-            label: "アップデート（短い進捗）"
-        default: "project"
-
-      - key: "extra.cover_image"
-        type: "image"
-        label: "キャッチ画像"
-        help: "プロジェクトのカバー画像（一覧・詳細ページに表示）"
-
-      - key: "extra.thumbnail"
-        type: "image"
-        label: "サムネイル画像"
-        help: "一覧ページの右側に表示する縦長画像（未設定ならキャッチ画像を使用）"
-
       - key: "_content"
         type: "markdown"
         label: "本文"
-
-      - key: "extra.status"
-        type: "select"
-        label: "プロジェクトステータス"
-        options:
-          - value: "in-operation"
-            label: "継続運用中"
-          - value: "usable"
-            label: "利用可能"
-          - value: "prototype"
-            label: "試作"
-          - value: "concept"
-            label: "構想"
-          - value: "tech-verify"
-            label: "技術検証"
-          - value: "paused"
-            label: "休止"
-        default: "concept"
-
-      - key: "extra.github_url"
-        type: "text"
-        label: "GitHub URL"
-        placeholder: "https://github.com/..."
-
-      - key: "extra.demo_url"
-        type: "text"
-        label: "デモ／サイトURL"
-        placeholder: "https://..."
-
-      - key: "extra.docs_url"
-        type: "text"
-        label: "ドキュメントURL"
-        placeholder: "https://..."
-
-      - key: "taxonomies.tags"
-        type: "list"
-        label: "テーマタグ"
-        help: "ai-collaboration / knowledge / developer-tools / interface / hardware / creative-tools"
 
 site_settings:
   target_file: "config.toml"

@@ -4,7 +4,7 @@
 
 {% block content %}
 {% set log = get_section(path="log/_index.md") %}
-{% set pages_section = get_section(path="pages/_index.md") %}
+{% set projects_section = get_section(path="projects/_index.md") %}
 
 <header class="site-header">
   <div class="cover-box">
@@ -20,12 +20,12 @@
     </div>
     <div class="header-cell">
       <span class="cell-label">エントリ数</span>
-      <span class="cell-value">{{ log.pages | length + pages_section.pages | length }}</span>
+      <span class="cell-value">{{ log.pages | length + projects_section.pages | length }}</span>
     </div>
     <div class="header-cell">
       <span class="cell-label">最終更新</span>
       {% set log_latest = log.pages | first %}
-      {% set pages_latest = pages_section.pages | first %}
+      {% set pages_latest = projects_section.pages | first %}
       {% set log_ym = log_latest.date | date(format="%Y%m") | int %}
       {% set pages_ym = pages_latest.date | date(format="%Y%m") | int %}
       {% if log_ym >= pages_ym %}
@@ -45,7 +45,7 @@
 <section class="pickup-section">
   <div class="section-divider"><span>ピックアッププロジェクト</span></div>
   <div class="pickup-grid">
-    {% for page in pages_section.pages %}
+    {% for page in projects_section.pages %}
     {% if page.extra.featured %}
     <article class="pickup-card">
       {% if page.extra.cover_image %}
@@ -75,7 +75,7 @@
     {% endfor %}
   </div>
   <div class="pickup-more">
-    <a href="{{ get_url(path='/pages/projects') }}">すべてのプロジェクト →</a>
+    <a href="{{ get_url(path='/projects/') }}">すべてのプロジェクト →</a>
   </div>
 </section>
 

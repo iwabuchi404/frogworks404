@@ -8,7 +8,7 @@
 <header class="site-header">
   <div class="cover-box">
     <div class="cover-eyebrow">
-      <a href="{{ get_url(path='/pages/projects/') }}" class="cover-back">← プロジェクト一覧</a>
+      <a href="{{ get_url(path='/projects/') }}" class="cover-back">← プロジェクト一覧</a>
       <span class="cover-sep"> ／ </span>
       {% for tag in page_tags %}<span class="cover-tag">{{ tag }}</span>{% if not loop.last %} {% endif %}{% endfor %}
     </div>

@@ -37,7 +37,7 @@
 
     {# ── 背表紙サイドバー（大画面のみ表示） ── #}
     {% set log = get_section(path="log/_index.md") %}
-    {% set pages_section = get_section(path="pages/_index.md") %}
+    {% set projects_section = get_section(path="projects/_index.md") %}
     <aside class="page-sidebar" aria-label="サイトナビゲーション">
       <div class="sidebar-inner">
         <a href="{{ get_url(path='/') }}" class="sidebar-brand">
@@ -53,12 +53,12 @@
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">エントリ数</span>
-            <span class="sidebar-meta-value">{{ log.pages | length + pages_section.pages | length }}</span>
+            <span class="sidebar-meta-value">{{ log.pages | length + projects_section.pages | length }}</span>
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">最終更新</span>
             {% set log_latest = log.pages | first %}
-            {% set pages_latest = pages_section.pages | first %}
+            {% set pages_latest = projects_section.pages | first %}
             {% set log_ym = log_latest.date | date(format="%Y%m") | int %}
             {% set pages_ym = pages_latest.date | date(format="%Y%m") | int %}
             {% if log_ym >= pages_ym %}
@@ -74,7 +74,7 @@
         <nav class="sidebar-nav">
           <div class="sidebar-nav-label">PAGES</div>
           <a href="{{ get_url(path='/') }}" class="sidebar-nav-link">記録一覧</a>
-          <a href="{{ get_url(path='/pages/projects') }}" class="sidebar-nav-link">プロジェクト</a>
+          <a href="{{ get_url(path='/projects/') }}" class="sidebar-nav-link">プロジェクト</a>
           <a href="{{ get_url(path='/pages/about') }}" class="sidebar-nav-link">About</a>
         </nav>
 
