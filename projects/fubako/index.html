@@ -39,7 +39,7 @@
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">エントリ数</span>
-            <span class="sidebar-meta-value">15</span>
+            <span class="sidebar-meta-value">14</span>
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">最終更新</span>
@@ -135,32 +135,61 @@
 <main class="article-wrap">
   <div class="article-body article-body--product">
     <h2 id="korehahe-ka">これは何か</h2>
-<p>Fubakoは、静的サイトをGUIで管理できるデスクトップCMSです。このサイトもFubakoで書いています。</p>
-<p>静的サイトジェネレータ（SSG）はビルドが速くて無料で公開できるのですが、記事を書くためにMarkdownファイルを手動で作って、Frontmatterと呼ばれる設定をYAMLで書いて、という作業がけっこう面倒です。Fubakoはその辺りをGUIで扱えるようにしたツールです。</p>
+<p>Fubakoは、Zolaで作った静的サイトをGUIで管理するデスクトップアプリ。このサイトもFubakoで書いている。</p>
+<p>記事の作成・編集・画像管理・プレビュー・Git操作・デプロイまでアプリ内で完結する。ターミナルを開く必要がない。</p>
 <h2 id="zuo-tutadong-ji">作った動機</h2>
-<p>もともとZolaというRust製のSSGでサイトを作っていたのですが、記事の管理がどうしてもファイル操作になってしまって、作業の摩擦が大きかったんです。Headless CMSを使う選択肢もありますが、それはそれでサーバー代がかかったり設定が複雑だったりで、個人でやるには重い。デスクトップアプリで完結するものが欲しいなと思って作りました。</p>
-<p>あと、自分が作ったものを自分で使うことで、ユーザー体験の課題を肌で感じながら改善できるのも大きいです。</p>
-<h2 id="te-zheng">特徴</h2>
-<h3 id="she-ding-huairudeuiwoding-yi">設定ファイルでUIを定義</h3>
-<p><code>site-config.yml</code>という1つのファイルに「どんなコンテンツタイプがあるか」「各コンテンツにどんなフィールドがあるか」を定義すると、Fubakoが自動的に編集画面を生成します。フィールドの型（テキスト、日付、選択肢、トグルなど）も定義できるので、自分のサイトに合わせた管理画面が作れます。</p>
+<p>Webサイトの管理は面倒すぎるか、大げさすぎるかのどちらかだった。</p>
+<p>WordPressはサーバーが要る。セキュリティアップデートが要る。プラグインの互換性を気にする必要がある。個人や小規模なサイトにはどう考えても重い。</p>
+<p>静的サイトジェネレーター（SSG）はビルドが速くて、無料でホスティングできて、セキュリティリスクも低い。ただし記事を書くたびにMarkdownファイルを手で作って、YAMLでfrontmatterを書いて、ターミナルでビルドして、Gitで管理する。エンジニアなら普通にできるが、エンジニアじゃない人には無理。</p>
+<p>もともとWebディレクターをやっていたので、エンジニアではない人がサイトを更新するときの苦労は身に染みている。WordPressの管理画面で消耗するクライアントも見てきたし、SSGが技術的には正解なのに運用面で選べない場面も多かった。</p>
+<p>SSGの良さ（速い・安い・安全）を残しつつ、コンテンツ管理の面倒さをGUIで吸収するツールがあればいい。それがFubako。</p>
+<h2 id="nazedesukutotupuapurinanoka">なぜデスクトップアプリなのか</h2>
+<p>Headless CMSという選択肢はある。ContentfulやStrapiやDecap CMS。ただどれも個人で使うには重い。サーバーが要るか、設定が複雑か、あるいはその両方。</p>
+<p>やりたいのはローカルのMarkdownファイルを直接操作すること。ファイルを読み書きして、Zolaのローカルサーバーでプレビューして、Gitでコミットする。全部ローカルで完結する操作なので、サーバーを介在させる理由がない。</p>
+<p>オフラインでも動く。依存サービスがない。サービスの終了に振り回されない。</p>
+<h2 id="shi-zu-mi">仕組み</h2>
+<h3 id="site-config-yml">site-config.yml</h3>
+<p>コンテンツタイプとフィールドの定義ファイル。これ1つでFubakoの管理画面が決まる。</p>
+<pre data-lang="yaml" class="language-yaml "><code class="language-yaml" data-lang="yaml">content_types:
+  log:
+    label: &quot;記録&quot;
+    folder: &quot;content&#x2F;log&quot;
+    sort: &quot;date_desc&quot;
+    fields:
+      - key: &quot;title&quot;
+        type: &quot;text&quot;
+        required: true
+      - key: &quot;date&quot;
+        type: &quot;date&quot;
+      - key: &quot;extra.type&quot;
+        type: &quot;select&quot;
+        options: [&quot;article&quot;, &quot;product&quot;]
+      - key: &quot;_content&quot;
+        type: &quot;markdown&quot;
+</code></pre>
+<p>フィールドの型はtext、date、select、toggle、image、gallery、list、objectなど。サイトに合わせた管理画面が設定ファイル1つで作れる。</p>
+<h3 id="edeita">エディタ</h3>
+<p>本文はTipTapベースのWYSIWYGエディタ。Markdownに不慣れな人でもリッチテキストとして編集できて、保存時にMarkdownとして出力される。</p>
+<h3 id="purebiyu">プレビュー</h3>
+<p>Zolaのローカルサーバーを内蔵していて、編集中の記事がリアルタイムでプレビューできる。ビルドエラーもアプリ内に表示される。</p>
 <h3 id="gittong-he">Git統合</h3>
-<p>記事の保存＝Gitコミットになっているので、変更履歴が自然に残ります。GitHubへの認証からプッシュ、CI/CDの設定ファイル生成までアプリ内で完結します。</p>
-<h3 id="raibupurebiyu">ライブプレビュー</h3>
-<p>Zolaのローカルサーバーを内蔵しているので、編集中の記事がどう見えるかをリアルタイムで確認できます。</p>
-<h3 id="duo-yan-yu-dui-ying">多言語対応</h3>
-<p>日本語と英語に対応しています。<code>site-config.yml</code>のラベルもi18n対応なので、自分のサイトに合わせて表示言語を切り替えられます。</p>
+<p>保存がそのままGitコミットになる。GitHubへのプッシュもアプリ内で完結。CI/CDの設定ファイル生成まで含めて、ターミナルなしでデプロイまで行ける。</p>
 <h2 id="sutatuku">スタック</h2>
-<table><thead><tr><th>要素</th><th>選択</th></tr></thead><tbody>
-<tr><td>App Shell</td><td>Electron</td></tr>
-<tr><td>Frontend</td><td>Vue 3 + Vite</td></tr>
-<tr><td>SSG Engine</td><td>Zola (Rust)</td></tr>
-<tr><td>Editor</td><td>TipTap</td></tr>
-<tr><td>Image</td><td>Sharp</td></tr>
-<tr><td>Git</td><td>Dugite</td></tr>
-<tr><td>i18n</td><td>vue-i18n</td></tr>
+<table><thead><tr><th>要素</th><th>選択</th><th>理由</th></tr></thead><tbody>
+<tr><td>App Shell</td><td>Electron</td><td>ローカルファイル操作・子プロセス管理が必要</td></tr>
+<tr><td>Frontend</td><td>Vue 3 + Vite</td><td>フォーム動的生成・状態管理との相性</td></tr>
+<tr><td>SSG</td><td>Zola</td><td>Rustビルドで高速、テンプレート柔軟</td></tr>
+<tr><td>Editor</td><td>TipTap</td><td>非エンジニアでも使えるWYSIWYG、Markdown保存対応</td></tr>
+<tr><td>Git</td><td>Dugite</td><td>Gitバイナリをアプリに同梱、環境依存なし</td></tr>
+<tr><td>i18n</td><td>vue-i18n</td><td>日本語・英語対応</td></tr>
 </tbody></table>
 <h2 id="jin-nozhuang-tai">今の状態</h2>
-<p>Phase 3（品質向上）の途中です。基本機能、Git統合・デプロイ機能は完成していて、今はタクソノミー（タグ）対応やビルドエラーの表示改善などを進めています。このサイト自体もFubakoで管理・公開しているので、使っていて気づいたことをすぐ直せるのが良いです。</p>
+<p>Phase 3（品質向上）の途中。基本機能、Git統合、デプロイは動いている。今はタクソノミー対応やビルドエラー表示の改善を進めている。</p>
+<p>このサイト（frogworks404）自体がFubakoで管理・公開されていて、使いながら気づいたことをそのまま直せる。</p>
+<h2 id="rinku">リンク</h2>
+<ul>
+<li><a href="https://github.com/iwabuchi404/Fubako">GitHub</a></li>
+</ul>
 
   </div>
 
@@ -168,38 +197,6 @@
   
   
   
-  
-  <section class="related-entries">
-    <div class="section-divider"><span>関連記録</span></div>
-    
-    
-    
-    
-    
-    
-    
-    <article class="entry">
-      <div class="entry-meta">
-        <span class="entry-date">2026.06.20</span>
-        <span class="badge badge-software">software</span><span class="badge badge-wip">wip</span>
-      </div>
-      <h2 class="entry-title">
-        <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;2025-06-20-fubako&#x2F;">Fubako</a>
-        <span class="entry-arrow">→</span>
-      </h2>
-      <p class="entry-body">Zola静的サイト用のデスクトップCMS</p>
-    </article>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-  </section>
   
 
   
