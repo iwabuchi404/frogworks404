@@ -39,7 +39,7 @@
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">エントリ数</span>
-            <span class="sidebar-meta-value">14</span>
+            <span class="sidebar-meta-value">15</span>
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">最終更新</span>
@@ -112,7 +112,7 @@
   <div class="header-table">
     <div class="header-cell">
       <span class="cell-label">公開日</span>
-      <span class="cell-value">2025.03.10</span>
+      <span class="cell-value">2025.06.20</span>
     </div>
     
     <div class="header-cell">
@@ -128,40 +128,56 @@
 
 <main class="article-wrap">
   <div class="article-body article-body--product">
-    <h2 id="gai-yao">概要</h2>
-<p>HalfGripは、Androidネイティブカメラアプリと自作USB-C HIDグリップデバイスの組み合わせ。
-半押しAFロックを含むミラーレス的な操作感をスマホで実現する。</p>
+    <h2 id="korehahe-ka">これは何か</h2>
+<p>スマホにカメラグリップを取り付けて、普通のカメラのような操作感で撮影するためのプロジェクト。
+3Dプリントのグリップ本体と、専用のAndroidカメラアプリのセット。
+グリップはUSB-C有線でHIDデバイスとして認識される。アプリはCamera2 APIで組んでいて、シャッター半押しによるAFロック、ロータリーエンコーダでのズーム・フォーカス操作、RAW撮影、手動露出制御ができる。</p>
+<h2 id="nazezuo-tutaka">なぜ作ったか</h2>
+<p>スマホのカメラ性能は十分すぎるくらい上がった。でも何でかあまり撮ろうという気になれませんでした。
+画面をタッチしてフォーカスを合わせて、別のところをタップしてシャッターを切る。片手で持って、もう片方の手で操作する。あるいは片手持ちで親指をにゅっと伸ばしてシャッターボタンに届かせる。ミラーレスを使ったことがある人なら、グリップを握ってファインダーを覗きながら半押しでピントを確認して切る、あの一連の操作がいかに自分に馴染んでいたかをかんじる。
+既存のスマホ用グリップも市販されているが、大半がBluetooth接続のシャッターボタンだけで、AFロックや細かいパラメータ制御には対応していない。「半押し」ができない。
+だからグリップもアプリも両方自分で作ることにした。</p>
 <h2 id="debaisu">デバイス</h2>
 <ul>
 <li><strong>マイコン</strong>: RP2040 Zero</li>
-<li><strong>接続</strong>: USB-C有線（HIDゲームパッドとして認識）</li>
-<li><strong>筐体</strong>: Nothing Phone 3専用グリップ型（Bambu Lab A1 Miniで出力）</li>
-<li><strong>ボタン構成</strong>: メインシャッター2段階、サブボタン×1、ロータリーエンコーダ、追加タクトスイッチ2〜3個</li>
-<li><strong>ファームウェア</strong>: CircuitPython + <code>usb_hid</code></li>
+<li><strong>接続</strong>: USB-C有線（HIDキーボードとして認識）</li>
+<li><strong>筐体</strong>: 3Dプリント（Bambu Lab A1 Mini、PETG/PLA + TPUライナー）</li>
+<li><strong>入力</strong>: 2段階シャッター、サブボタン、ロータリーエンコーダ、追加タクトスイッチ</li>
+<li><strong>ファームウェア</strong>: CircuitPython + usb_hid</li>
 </ul>
+<p>有線接続にしたのはBluetooth特有の遅延を避けるため。シャッターの半押しでAFを制御する以上、入力遅延は致命的になる。HIDキーボードとして認識させることで、Android側のドライバ不要で動く。
+固定機構はスマホ下部を覆うポケット型。</p>
 <h2 id="apuri">アプリ</h2>
 <ul>
-<li><strong>言語</strong>: Kotlin</li>
+<li><strong>言語</strong>: Kotlin / Jetpack Compose</li>
 <li><strong>カメラAPI</strong>: Camera2 API</li>
 <li><strong>最小Android</strong>: 12以上</li>
-<li><strong>UI</strong>: Jetpack Compose</li>
 <li><strong>アーキテクチャ</strong>: MVVM（ViewModel + StateFlow）</li>
 </ul>
+<h2 id="cuo-ying-ui-lzi-xmb">撮影UI: L字XMB</h2>
+<p>UIにはPS3のXMB（クロスメディアバー）を参考にしたL字型インターフェースを採用した。横軸に値リスト、縦軸にカテゴリ一覧。全パラメータが常時見える状態でライブビューを妨げない。
+タッチでもグリップのロータリーエンコーダでも同じ操作体系で動く。「対象を切り替える」と「値を変更する」が直交する1次元軸になっているので、どの入力デバイスでも自然に対応できる。</p>
+<h2 id="tatuticao-zuo-aftosiyatutanofen-li">タッチ操作: AFとシャッターの分離</h2>
+<p>画面上のシャッターとAFを2つの独立したボタンにした。シャッター単独タップでAF+撮影、AF単独タップでAFロック、AFからシャッターにスワイプでAFロック撮影。スワイプ保持で最大3枚連写。
+スマホの画面で「半押し」を再現するのは3D Touchが廃れた今かなり難しい。「半押し→押し切り」を「タップ vs スワイプ」に置き換えるのがこのUIの核。</p>
 <h2 id="kai-fa-sutetupu">開発ステップ</h2>
 <h3 id="debaisu-1">デバイス</h3>
 <ul>
-<li>**Step 1 — [完了]常用端末専用専用マウントと最低限のボタン</li>
-<li>**Step 2 — 汎用マウントとファンクションボタンなどの実装</li>
+<li><strong>Step 1 [完了]</strong> — 常用端末専用マウント、最低限のボタン</li>
+<li><strong>Step 2</strong> — 汎用マウント、ファンクションボタン実装</li>
 </ul>
 <h3 id="apuri-1">アプリ</h3>
 <ul>
-<li><strong>Step 1 — [完了]MVPコア</strong>: Camera2プレビュー、静止画撮影・JPEG保存、KeyEventでシャッター</li>
-<li><strong>Step 2 — [完了]入力拡張</strong>: AFロック制御、MotionEvent対応、MFフォーカス・ズーム制御</li>
-<li><strong>Step 3 — [完了]画質系</strong>: RAW(DNG)保存、露出・ISO・SS手動制御、HDR、フォーカスピーキング</li>
-<li><strong>Step 4 — UX仕上げ</strong>: キーマッピングプロファイル保存、グリッド・水平儀</li>
+<li><strong>Step 1 [完了]</strong> — Camera2プレビュー、静止画撮影、KeyEventでシャッター</li>
+<li><strong>Step 2 [完了]</strong> — AFロック制御、MotionEvent対応、MFフォーカス・ズーム制御</li>
+<li><strong>Step 3 [完了]</strong> — RAW(DNG)保存、露出・ISO・SS手動制御、HDR</li>
+<li><strong>Step 4</strong> — キーマッピングプロファイル保存、グリッド・水平儀、フォーカスピーキング</li>
 </ul>
-<h2 id="uishe-ji">UI設計</h2>
-<p>撮影画面はL字XMB（クロスメディアバー）を採用。横軸に選択中カテゴリの値リスト、縦軸にカテゴリ一覧を配置。全操作がタッチで可能で、グリップ無しでも使える設計。</p>
+<h2 id="rinku">リンク</h2>
+<ul>
+<li>アプリ: ストア登録予定</li>
+<li>CADデータ: 公開予定</li>
+</ul>
 
   </div>
 
@@ -169,6 +185,34 @@
   
   
   
+  
+  <section class="related-entries">
+    <div class="section-divider"><span>関連記録</span></div>
+    
+    
+    
+    
+    
+    
+    
+    <article class="entry">
+      <div class="entry-meta">
+        <span class="entry-date">2025.06.18</span>
+        <span class="badge badge-hardware">hardware</span><span class="badge badge-interface">interface</span>
+      </div>
+      <h2 class="entry-title">
+        <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;halfgrip-dev&#x2F;">HalfGrip開発記録 — スマホカメラの操作を物理的に作り直す</a>
+        <span class="entry-arrow">→</span>
+      </h2>
+      <p class="entry-body">3Dプリントのカメラグリップとカメラアプリを両方自作した記録</p>
+    </article>
+    
+    
+    
+    
+    
+    
+  </section>
   
 
   
@@ -198,7 +242,7 @@
     </div>
     <hr class="footer-bottom-divider">
     <div class="footer-meta">
-      <span class="footer-meta-text">最終更新 2026.06.26</span>
+      <span class="footer-meta-text">最終更新 2026.06.27</span>
       <span class="footer-meta-text">© frogworks404 2024–</span>
     </div>
   </div>
