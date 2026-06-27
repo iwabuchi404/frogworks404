@@ -1,6 +1,6 @@
 ---
 title: ハードウェアをOSSにするとはどういうことか
-date: '2025-06-27'
+date: '2026-06-27'
 description: 自分用に動くものと、他人が再現できるものは別物だった
 taxonomies:
   tags:

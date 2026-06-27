@@ -1,6 +1,6 @@
 ---
 title: HalfGrip
-date: '2025-06-20'
+date: '2026-06-20'
 description: Androidネイティブカメラアプリ + 自作USB-C HIDグリップデバイス。半押しAFロックを含むミラーレス的な操作感をスマホで実現する。
 template: pages/project.html
 slug: halfgrip

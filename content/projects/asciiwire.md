@@ -1,6 +1,6 @@
 ---
 title: ASCIIwire
-date: '2025-04-20'
+date: '2026-04-20'
 description: AI・人間の両方が扱いやすいテキストベースのワイヤーフレームDSL。マークダウン記法からASCIIアートのワイヤーフレームを生成するCLIツール。
 template: pages/project.html
 slug: asciiwire

@@ -1,6 +1,6 @@
 ---
 title: HalfGrip開発記録 — スマホカメラの操作を物理的に作り直す
-date: '2025-06-18'
+date: '2026-06-18'
 description: 3Dプリントのカメラグリップとカメラアプリを両方自作した記録
 taxonomies:
   tags:

@@ -1,6 +1,6 @@
 ---
 title: ContextMixer
-date: '2025-06-20'
+date: '2026-06-20'
 description: AIと人間が共同管理するナレッジベース
 template: pages/project.html
 slug: context-mixer

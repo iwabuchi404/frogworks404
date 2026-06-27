@@ -1,6 +1,6 @@
 ---
 title: omiLink
-date: '2025-05-01'
+date: '2026-05-01'
 description: URL・メモをAndroidホーム画面風グリッドで管理するブックマークPWA。ドラッグ&リサイズ可能なウィジェット感覚の操作。
 template: pages/project.html
 slug: omilink

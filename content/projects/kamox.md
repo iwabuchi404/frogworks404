@@ -1,6 +1,6 @@
 ---
 title: KamoX
-date: '2025-04-05'
+date: '2026-04-05'
 description: AIコーディングエージェントがChrome拡張・Electron・VSCode拡張をライブ確認しながら開発できるnpmプラグイン型HTTP APIサーバー。
 template: pages/project.html
 slug: kamox

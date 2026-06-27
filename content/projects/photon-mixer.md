@@ -1,6 +1,6 @@
 ---
 title: PhotonMixer
-date: '2025-04-12'
+date: '2026-04-12'
 description: float32リニアカラー・WebGPUネイティブ・SAIレベルのペン体験を核とするイラストソフト。アナログ模倣を捨て、デジタルの正確性を表現ツールとして再定義する。
 template: pages/project.html
 slug: photon-mixer

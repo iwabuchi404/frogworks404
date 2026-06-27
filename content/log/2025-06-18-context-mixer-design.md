@@ -1,6 +1,6 @@
 ---
 title: ContextMixerの設計思想 — AIが探索しやすいナレッジベースとは何か
-date: '2025-06-18'
+date: '2026-06-18'
 description: Notionの限界から始まった、AIファーストなナレッジベース設計の記録
 taxonomies:
   tags:

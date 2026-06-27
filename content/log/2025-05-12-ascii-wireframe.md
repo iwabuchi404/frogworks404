@@ -1,7 +1,7 @@
 ---
-title: "AIとの設計作業にASCIIワイヤーフレームが有効な理由"
-date: "2025-05-12"
-description: "LLMとUIを共同設計するとき、画像よりもASCIIのワイヤーフレームのほうがトークン効率が高く、修正サイクルも速い。この仮説を実装として形にするためのコンセプトメモ。"
+title: AIとの設計作業にASCIIワイヤーフレームが有効な理由
+date: '2026-05-12'
+description: LLMとUIを共同設計するとき、画像よりもASCIIのワイヤーフレームのほうがトークン効率が高く、修正サイクルも速い。この仮説を実装として形にするためのコンセプトメモ。
 taxonomies:
   tags:
     - developer-tools
@@ -9,6 +9,7 @@ taxonomies:
 extra:
   entry_type: essay
   project_slug: asciiwire
+slug: 2025-05-12-ascii-wireframe
 ---
 
 ## 前提
