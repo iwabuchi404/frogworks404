@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ハードウェアをOSSにするとはどういうことか — frogworks404</title>
+
+  
+  <meta name="description" content="自分用に動くものと、他人が再現できるものは別物だった">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDMincho:wght@400;700&family=BIZ+UDPGothic:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://frog404.work/main.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
+  
+  
+</head>
+<body>
+  <div class="page-layout">
+
+    
+    
+    
+    <aside class="page-sidebar" aria-label="サイトナビゲーション">
+      <div class="sidebar-inner">
+        <a href="https://frog404.work" class="sidebar-brand">
+          <span class="sidebar-brand-text">frogworks404</span>
+        </a>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-meta">
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">記録開始</span>
+            <span class="sidebar-meta-value">2024.01</span>
+          </div>
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">エントリ数</span>
+            <span class="sidebar-meta-value">14</span>
+          </div>
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">最終更新</span>
+            
+            
+            
+            
+            
+            <span class="sidebar-meta-value">2025.06</span>
+            
+          </div>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <nav class="sidebar-nav">
+          <div class="sidebar-nav-label">PAGES</div>
+          <a href="https://frog404.work" class="sidebar-nav-link">記録一覧</a>
+          <a href="https://frog404.work/projects" class="sidebar-nav-link">プロジェクト</a>
+          <a href="https://frog404.work/pages/about" class="sidebar-nav-link">About</a>
+        </nav>
+
+        <nav class="sidebar-nav">
+          <div class="sidebar-nav-label">TAGS</div>
+          <div class="sidebar-tag-list">
+            <a href="https://frog404.work/tags/ai-collaboration" class="sidebar-tag-badge sidebar-tag-badge-ai-collaboration">ai-collaboration</a>
+            <a href="https://frog404.work/tags/developer-tools" class="sidebar-tag-badge sidebar-tag-badge-developer-tools">developer-tools</a>
+            <a href="https://frog404.work/tags/interface" class="sidebar-tag-badge sidebar-tag-badge-interface">interface</a>
+            <a href="https://frog404.work/tags/hardware" class="sidebar-tag-badge sidebar-tag-badge-hardware">hardware</a>
+            <a href="https://frog404.work/tags/creative-tools" class="sidebar-tag-badge sidebar-tag-badge-creative-tools">creative-tools</a>
+            <a href="https://frog404.work/tags/knowledge" class="sidebar-tag-badge sidebar-tag-badge-knowledge">knowledge</a>
+          </div>
+        </nav>
+
+        
+        <div class="sidebar-links">
+          <div class="sidebar-nav-label">LINKS</div>
+          
+          <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">X ↗</a>
+          
+        </div>
+        
+      </div>
+    </aside>
+
+    
+    <div class="inner">
+      
+<header class="site-header">
+  <div class="cover-box">
+    <div class="cover-eyebrow">
+      <a href="https://frog404.work" class="cover-back">← 記録一覧</a>
+    </div>
+    <h1 class="cover-title cover-title--sm">ハードウェアをOSSにするとはどういうことか</h1>
+  </div>
+</header>
+
+<main class="article-wrap">
+  <div class="article-body">
+    <h2 id="caddetawogong-kai-surebaoss-dehanai">「CADデータを公開すればOSS」ではない</h2>
+<p>HalfGrip（スマホ用カメラグリップ）を自作して、自分用には動くものができた。次のステップとしてCADデータを公開してオープンソースにしようとして、これは思ったより大変だと気づいた。
+ソフトウェアのOSSはリポジトリをpublicにして、ライセンスを付けて、READMEにビルド手順を書けばとりあえず成立する。ハードウェアはそう簡単ではない。</p>
+<h2 id="zi-fen-yong-noguritupuhazai-xian-dekinai">自分用のグリップは再現できない</h2>
+<p>最初に作ったHalfGripのグリップは、普段使っているNothing Phone 3専用。ケース込みの寸法でぴったり合わせた筐体を3Dプリントして、PCBは使わず、マイコンやスイッチを接着剤で直接固定している。配線もはんだ付けで最短距離を取った。
+これで動く。自分にとっては完成品。
+でもこのCADデータを公開しても、他の人は使えない。まず機種が違う。ケースが違う。部品も選ぶ。しかも内部の部品固定が接着剤前提なので、寸法が0.5mmずれると収まらない。組み立て手順は自分の頭にしかない。
+「自分が使えるもの」と「他人がデータから再現できるもの」は全く別のものだ、作ったデータをそのまま公開しても誰も使えない。</p>
+<h2 id="he-woshe-ji-sizhi-subi-yao-gaaruka">何を設計し直す必要があるか</h2>
+<p>マウント部分の設計だ、今は専用なので汎用的な固定方法に改める必要がある。
+構想としては筐体をグリップ本体とマウントアダプターに分割し、マウントアダプターを可変できる方式に変更して汎用性を持たせるつもり。
+また、内部実装も接着剤前提の設計からスナップフィットとネジ止めの併用に変えて、組み立て・分解ができる構造にする必要ある。
+使用したパーツもリスト化して入手先も整理する必要がある。
+すべてちゃんとする必要はないかもしれないが、最低限で考えても結構やることがある。</p>
+<h2 id="dokiyumentonowen-ti">ドキュメントの問題</h2>
+<p>ソフトウェアのREADMEに相当するものを書くのも、ハードウェアは手間がかかる。
+必要な部品のリスト（BOM）、調達先、3Dプリントの推奨設定（素材、積層ピッチ、インフィル率）、組み立て手順、配線図。これらを全部書かないと「再現可能」にならない。ソフトウェアなら<code>npm install</code>で依存関係が解決するが、ハードウェアの依存関係は自分で調達して手で組み立てるしかない。
+特に配線図は、回路がシンプルでもKiCadあたりで描き起こす必要がある。手描きのメモでは他人に伝わらない。HalfGripの回路はRP2040 Zeroにスイッチとエンコーダを直結しているだけで、回路設計と呼べるほどのものではないが、それでも図面がないと「どのGPIOに何が繋がっているか」がわからない。</p>
+<h2 id="sohutoueanoosstonowei-i">ソフトウェアのOSSとの違い</h2>
+<p>ここまでやってみて感じた、ソフトウェアとの違いを整理しておく。
+フォークの意味が違う。 ソフトウェアのフォークはコピー＆修正だが、ハードウェアのフォークは「パラメータを変えて別機種用のマウントを生成する」。パラメータ化されていない設計はフォーク不可能。
+CIがない。 ソフトウェアならテストを回せばデグレに気づける。ハードウェアは出力して組み立てて確認するしかない。設計変更のたびに実機検証が必要。
+バージョン管理が不完全。 OnShapeにはバージョン機能があるが、Gitほど柔軟ではない。ブランチに相当する概念はあるが、マージは手作業。組み立て手順とかになると記録しておくこと自体が難しい。</p>
+<h2 id="soredemoyaruli-you">それでもやる理由</h2>
+<p>面倒なのは事実だが、
+ソフトウェアのOSSは山ほどある。ハードウェアのOSSで、3Dプリントで作れて、ファームウェアもアプリも込みで公開されているプロジェクトはまだ少ないと思う。
+しかも自分の作ったハードウェアで半押しAFロックが使えたときの嬉しさは想像以上だった。
+それを少しでも他の人にも体験してほしい、ソフトウェアとは違う感覚がある。</p>
+
+  </div>
+</main>
+
+      <footer class="big-footer">
+  <div class="footer-cover">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-brand-title">frogworks404</div>
+        <div class="footer-brand-desc">人と機械の間にある摩擦を、道具として作り直す。AIとの知識共有、制作プロセス、入力デバイス、デジタル表現を題材に、ソフトウェアとハードウェアを試作している。</div>
+      </div>
+      <div class="footer-columns footer-columns--nav">
+        <div class="footer-col">
+          <div class="footer-col-label">ページ</div>
+          <a href="https://frog404.work">記録一覧</a>
+          <a href="https://frog404.work/pages/projects">プロジェクト一覧</a>
+          <a href="https://frog404.work/pages/about">About</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label">リンク</div>
+          
+          <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" target="_blank" rel="noopener noreferrer">X</a>
+          
+        </div>
+      </div>
+    </div>
+    <hr class="footer-bottom-divider">
+    <div class="footer-meta">
+      <span class="footer-meta-text">最終更新 2026.06.27</span>
+      <span class="footer-meta-text">© frogworks404 2024–</span>
+    </div>
+  </div>
+</footer>
+
+    </div>
+
+  </div>
+</body>
+</html>
