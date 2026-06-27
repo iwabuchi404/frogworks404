@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KamoX — frogworks404</title>
+  <title>ASCIIwire — frogworks404</title>
 
   
-  <meta name="description" content="AIコーディングエージェントがChrome拡張・Electron・VSCode拡張をライブ確認しながら開発できるnpmプラグイン型HTTP APIサーバー。">
+  <meta name="description" content="AI・人間の両方が扱いやすいテキストベースのワイヤーフレームDSL。マークダウン記法からASCIIアートのワイヤーフレームを生成するCLIツール。">
   
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +39,7 @@
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">エントリ数</span>
-            <span class="sidebar-meta-value">15</span>
+            <span class="sidebar-meta-value">13</span>
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">最終更新</span>
@@ -58,7 +58,7 @@
         <nav class="sidebar-nav">
           <div class="sidebar-nav-label">PAGES</div>
           <a href="https://frog404.work" class="sidebar-nav-link">記録一覧</a>
-          <a href="https://frog404.work/pages/projects" class="sidebar-nav-link">プロジェクト</a>
+          <a href="https://frog404.work/projects" class="sidebar-nav-link">プロジェクト</a>
           <a href="https://frog404.work/pages/about" class="sidebar-nav-link">About</a>
         </nav>
 
@@ -93,18 +93,18 @@
 <header class="site-header">
   <div class="cover-box">
     <div class="cover-eyebrow">
-      <a href="https://frog404.work/pages/projects" class="cover-back">← プロジェクト一覧</a>
+      <a href="https://frog404.work/projects" class="cover-back">← プロジェクト一覧</a>
       <span class="cover-sep"> ／ </span>
-      <span class="cover-tag">ai-collaboration</span> <span class="cover-tag">developer-tools</span>
+      <span class="cover-tag">developer-tools</span> <span class="cover-tag">interface</span>
     </div>
-    <h1 class="cover-title cover-title--sm">KamoX</h1>
+    <h1 class="cover-title cover-title--sm">ASCIIwire</h1>
     
     <hr class="cover-divider">
-    <p class="cover-desc">AIコーディングエージェントがChrome拡張・Electron・VSCode拡張をライブ確認しながら開発できるnpmプラグイン型HTTP APIサーバー。</p>
+    <p class="cover-desc">AI・人間の両方が扱いやすいテキストベースのワイヤーフレームDSL。マークダウン記法からASCIIアートのワイヤーフレームを生成するCLIツール。</p>
     
     
     <div class="cover-links">
-      <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;kamox" target="_blank" rel="noopener">GitHub →</a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;ASCIIwire" target="_blank" rel="noopener">GitHub →</a>
       
       
     </div>
@@ -114,7 +114,7 @@
   <div class="header-table">
     <div class="header-cell">
       <span class="cell-label">公開日</span>
-      <span class="cell-value">2025.04.05</span>
+      <span class="cell-value">2025.04.20</span>
     </div>
     
     <div class="header-cell">
@@ -131,31 +131,26 @@
 <main class="article-wrap">
   <div class="article-body article-body--product">
     <h2 id="korehahe-ka">これは何か</h2>
-<p>KamoXは、AIコーディングエージェントがアプリの見た目を確認しながら開発できるようにするツールです。</p>
-<p>AIに「Chrome拡張を作って」とお願いしても、AIはコードを書くだけで、実際にどう見えるかを確認できません。KamoXを入れると、AIがHTTP経由でビルド→起動→スクリーンショット撮影→ログ取得までできるようになります。AIが自分で結果を確認しながら修正を繰り返せるんです。</p>
+<p>ASCIIwireは、テキストでUIのワイヤーフレーム（画面設計）を書けるツールです。</p>
+<p>マークダウン風の記法で「ここにボタン」「ここにリスト」と書くと、ASCIIアートのワイヤーフレームが出力されます。FigmaみたいなGUIツールを開かなくても、エディタだけで画面設計ができます。</p>
 <h2 id="zuo-tutadong-ji">作った動機</h2>
-<p>AIにChrome拡張を作らせていた時に、AIが書いたコードがちゃんと動いているかを人間が毎回確認するのが辛かったんです。ビルドして、ロードして、画面を開いて、エラーが出てないか見て……。これをAI自身にやらせられれば、人間は結果だけ見ればよくなる。</p>
-<p>Playwrightなどのブラウザ自動化ツールは「完成したアプリ」をテストするためのものですが、開発中のアプリの「ビルド→起動→確認」サイクルを回すには物足りない。開発中特有のニーズ（ServiceWorkerのデバッグ、IPCの監視、ダイアログのモックなど）があったので、Playwrightを内包しつつ開発サイクルに特化したハーネスを作りました。</p>
+<p>AIと一緒にUIを設計している時に、課題がありました。FigmaのスクリーンショットをAIに見せるとトークンを大量に消費するし、AIからの修正提案も「左のボタンを少し下に」みたいな文章での説明になってしまう。お互いに何を指しているのかが伝わりにくいんです。</p>
+<p>テキストベースのワイヤーフレームなら、AIが直接編集できるし、少ないトークンで画面構成を伝えられる。AIと人間が同じフォーマットを共有してUIを設計できるツールが欲しくて作りました。</p>
 <h2 id="te-zheng">特徴</h2>
-<h3 id="birudo-que-ren-saikuru">ビルド→確認サイクル</h3>
-<p>AIがHTTP APIを叩いて、ビルドして、アプリを起動して、スクリーンショットを撮って、ログを取得できます。すべてプログラムから実行できるので、AIが自律的に確認→修正のループを回せます。</p>
-<h3 id="dui-ying-puratutohuomu">対応プラットフォーム</h3>
-<ul>
-<li><strong>Chrome拡張</strong> — ServiceWorkerのデバッグ、manifest.jsonの検証、拡張のリロード</li>
-<li><strong>Electron</strong> — メインプロセスとレンダラープロセスの起動、IPCの監視</li>
-<li><strong>VSCode拡張</strong> — Extension Hostの起動、コマンド実行、UI確認</li>
-</ul>
-<h3 id="npmdejian-dan-dao-ru">npmで簡単導入</h3>
-<p><code>npm install</code>するだけで使えます。AIの開発環境に組み込みやすいのがポイントです。</p>
+<h3 id="makudaunji-fa">マークダウン記法</h3>
+<p>HTMLではなくマークダウン風の記法なので、人間が手で書いても読みやすいです。AI（LLM）にとってもマークダウンは最も出力しやすいフォーマットで、生成の安定性が高いです。</p>
+<h3 id="indentobu-yao">インデント不要</h3>
+<p>厳格なインデントルールがないので、AIが出力しても崩れにくいです。人間が適当に書いても動きます。</p>
+<h3 id="clideshou-qing-ni">CLIで手軽に</h3>
+<p>npmでインストールしてコマンドラインから使えます。パイプで入出力もできるので、他のツールとの組み合わせも簡単です。</p>
 <h2 id="sutatuku">スタック</h2>
 <table><thead><tr><th>要素</th><th>選択</th></tr></thead><tbody>
-<tr><td>HTTPサーバー</td><td>Express.js</td></tr>
-<tr><td>ブラウザ自動化</td><td>Playwright</td></tr>
-<tr><td>言語</td><td>Node.js / TypeScript</td></tr>
-<tr><td>パッケージ構成</td><td>npm workspaces</td></tr>
+<tr><td>CLI</td><td>TypeScript + NPM</td></tr>
+<tr><td>VSCode拡張（開発中）</td><td>TypeScript</td></tr>
+<tr><td>MCPサーバー（計画中）</td><td>TypeScript</td></tr>
 </tbody></table>
 <h2 id="jin-nozhuang-tai">今の状態</h2>
-<p>Chrome拡張、Electron、VSCode拡張の3プラットフォームに対応済みで、実際にAIと一緒に開発する時に使っています。CLIの改善とドキュメント整備を進行中。</p>
+<p>CLIはnpmに公開済みで、日常的に使っています。今はVSCode拡張を開発中で、エディタ内でワイヤーフレームのプレビューが見られるようにする予定です。将来的にはMCPサーバー化して、AIアシスタントから直接呼べるようにしたいです。</p>
 
   </div>
 
@@ -164,10 +159,38 @@
   
   
   
+  <section class="related-entries">
+    <div class="section-divider"><span>関連記録</span></div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <article class="entry">
+      <div class="entry-meta">
+        <span class="entry-date">2025.05.12</span>
+        <span class="badge badge-developer-tools">developer-tools</span><span class="badge badge-interface">interface</span>
+      </div>
+      <h2 class="entry-title">
+        <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;ascii-wireframe&#x2F;">AIとの設計作業にASCIIワイヤーフレームが有効な理由</a>
+        <span class="entry-arrow">→</span>
+      </h2>
+      <p class="entry-body">LLMとUIを共同設計するとき、画像よりもASCIIのワイヤーフレームのほうがトークン効率が高く、修正サイクルも速い。この仮説を実装として形にするためのコンセプトメモ。</p>
+    </article>
+    
+    
+  </section>
+  
 
   
   <section class="project-links-bottom">
-    <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;kamox" target="_blank" rel="noopener">GitHub →</a>
+    <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;ASCIIwire" target="_blank" rel="noopener">GitHub →</a>
     
     
   </section>

@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fubako — frogworks404</title>
+  <title>PhotonMixer — frogworks404</title>
 
   
-  <meta name="description" content="Zolaベースの静的サイトをGUIで管理できるデスクトップCMS。Electron + Vue 3で構築。">
+  <meta name="description" content="float32リニアカラー・WebGPUネイティブ・SAIレベルのペン体験を核とするイラストソフト。アナログ模倣を捨て、デジタルの正確性を表現ツールとして再定義する。">
   
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +39,7 @@
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">エントリ数</span>
-            <span class="sidebar-meta-value">15</span>
+            <span class="sidebar-meta-value">13</span>
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">最終更新</span>
@@ -58,7 +58,7 @@
         <nav class="sidebar-nav">
           <div class="sidebar-nav-label">PAGES</div>
           <a href="https://frog404.work" class="sidebar-nav-link">記録一覧</a>
-          <a href="https://frog404.work/pages/projects" class="sidebar-nav-link">プロジェクト</a>
+          <a href="https://frog404.work/projects" class="sidebar-nav-link">プロジェクト</a>
           <a href="https://frog404.work/pages/about" class="sidebar-nav-link">About</a>
         </nav>
 
@@ -93,38 +93,34 @@
 <header class="site-header">
   <div class="cover-box">
     <div class="cover-eyebrow">
-      <a href="https://frog404.work/pages/projects" class="cover-back">← プロジェクト一覧</a>
+      <a href="https://frog404.work/projects" class="cover-back">← プロジェクト一覧</a>
       <span class="cover-sep"> ／ </span>
-      <span class="cover-tag">developer-tools</span>
+      <span class="cover-tag">creative-tools</span>
     </div>
-    <h1 class="cover-title cover-title--sm">Fubako</h1>
+    <h1 class="cover-title cover-title--sm">PhotonMixer</h1>
     
     <hr class="cover-divider">
-    <p class="cover-desc">Zolaベースの静的サイトをGUIで管理できるデスクトップCMS。Electron + Vue 3で構築。</p>
+    <p class="cover-desc">float32リニアカラー・WebGPUネイティブ・SAIレベルのペン体験を核とするイラストソフト。アナログ模倣を捨て、デジタルの正確性を表現ツールとして再定義する。</p>
     
     
     <div class="cover-links">
-      <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;Fubako" target="_blank" rel="noopener">GitHub →</a>
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;photon-mixer" target="_blank" rel="noopener">GitHub →</a>
       
       
     </div>
     
-  </div>
-  
-  <div class="cover-image-wrap">
-    <img src="https://frog404.work/uploads/2026/06/0122fcdd-377d-4c00-9ab9-210ddf8a6e65.png" alt="Fubako" class="cover-image">
   </div>
   
   <div class="header-table">
     <div class="header-cell">
       <span class="cell-label">公開日</span>
-      <span class="cell-value">2025.02.20</span>
+      <span class="cell-value">2025.04.12</span>
     </div>
     
     <div class="header-cell">
       <span class="cell-label">ステータス</span>
       <span class="cell-value">
-        継続運用中
+        構想
         
       </span>
     </div>
@@ -135,32 +131,32 @@
 <main class="article-wrap">
   <div class="article-body article-body--product">
     <h2 id="korehahe-ka">これは何か</h2>
-<p>Fubakoは、静的サイトをGUIで管理できるデスクトップCMSです。このサイトもFubakoで書いています。</p>
-<p>静的サイトジェネレータ（SSG）はビルドが速くて無料で公開できるのですが、記事を書くためにMarkdownファイルを手動で作って、Frontmatterと呼ばれる設定をYAMLで書いて、という作業がけっこう面倒です。Fubakoはその辺りをGUIで扱えるようにしたツールです。</p>
+<p>PhotonMixerは、デジタルならではの表現を追求するイラストソフトの構想です。</p>
+<p>既存のイラストソフトの多くは「アナログ画材をデジタルで再現する」ことを主眼に置いています。もちろんKritaやPhotoshopなどは16bit浮動小数やHDR対応を進めていますが、まだデフォルトのワークフローとしてはsRGB空間での8bit描画が主流です。PhotonMixerは、最初からリニアカラーとHDRを前提にした描画パイプラインを目指します。</p>
+<p>まだ初期設計の段階で、プロトタイプは作っていません。</p>
 <h2 id="zuo-tutadong-ji">作った動機</h2>
-<p>もともとZolaというRust製のSSGでサイトを作っていたのですが、記事の管理がどうしてもファイル操作になってしまって、作業の摩擦が大きかったんです。Headless CMSを使う選択肢もありますが、それはそれでサーバー代がかかったり設定が複雑だったりで、個人でやるには重い。デスクトップアプリで完結するものが欲しいなと思って作りました。</p>
-<p>あと、自分が作ったものを自分で使うことで、ユーザー体験の課題を肌で感じながら改善できるのも大きいです。</p>
-<h2 id="te-zheng">特徴</h2>
-<h3 id="she-ding-huairudeuiwoding-yi">設定ファイルでUIを定義</h3>
-<p><code>site-config.yml</code>という1つのファイルに「どんなコンテンツタイプがあるか」「各コンテンツにどんなフィールドがあるか」を定義すると、Fubakoが自動的に編集画面を生成します。フィールドの型（テキスト、日付、選択肢、トグルなど）も定義できるので、自分のサイトに合わせた管理画面が作れます。</p>
-<h3 id="gittong-he">Git統合</h3>
-<p>記事の保存＝Gitコミットになっているので、変更履歴が自然に残ります。GitHubへの認証からプッシュ、CI/CDの設定ファイル生成までアプリ内で完結します。</p>
-<h3 id="raibupurebiyu">ライブプレビュー</h3>
-<p>Zolaのローカルサーバーを内蔵しているので、編集中の記事がどう見えるかをリアルタイムで確認できます。</p>
-<h3 id="duo-yan-yu-dui-ying">多言語対応</h3>
-<p>日本語と英語に対応しています。<code>site-config.yml</code>のラベルもi18n対応なので、自分のサイトに合わせて表示言語を切り替えられます。</p>
-<h2 id="sutatuku">スタック</h2>
+<p>イラストソフトの色の扱いって、アナログの制約を引きずっていると思います。sRGBという狭い色空間で、0〜1の範囲で、アナログ絵の具みたいな混色を再現しようとしている。</p>
+<p>でもデジタルなら、光そのものを足し合わせることができる。1.0より明るい色も保持できる。HDRディスプレイなら、それをそのまま表示できる。アナログの模倣をやめれば、デジタル独自の表現が見えてくるはずで、それを実現するソフトを作りたくなりました。</p>
+<h2 id="te-zheng-gou-xiang">特徴（構想）</h2>
+<h3 id="riniakaradeguang-woxi-u">リニアカラーで光を扱う</h3>
+<p>内部の色計算をすべてfloat32のリニア空間で行います。リニア空間で計算すると「光を足す」ことが文字通り正確にできるようになります。</p>
+<h3 id="hdrdui-ying">HDR対応</h3>
+<p>1.0を超える明るさの色を保持できるので、発光部分や太陽などの表現が「白飛び」せずにデータとして残ります。HDRディスプレイで見れば、本当に明るい部分が明るく表示されます。</p>
+<h3 id="penti-yan">ペン体験</h3>
+<p>SAIレベルのペンの追従性と精度を目指しています。4xサブピクセルバッファで高精度描画、速度に連動する手ブレ補正など、描き心地にこだわる設計です。</p>
+<h3 id="fei-po-huai-noguang-xiao-guo">非破壊の光効果</h3>
+<p>GlowやBloomを効果レイヤーとして非破壊で適用できます。HDR情報が残っているので、発光表現が自然にできます。</p>
+<h2 id="xiang-ding-sutatuku">想定スタック</h2>
 <table><thead><tr><th>要素</th><th>選択</th></tr></thead><tbody>
-<tr><td>App Shell</td><td>Electron</td></tr>
-<tr><td>Frontend</td><td>Vue 3 + Vite</td></tr>
-<tr><td>SSG Engine</td><td>Zola (Rust)</td></tr>
-<tr><td>Editor</td><td>TipTap</td></tr>
-<tr><td>Image</td><td>Sharp</td></tr>
-<tr><td>Git</td><td>Dugite</td></tr>
-<tr><td>i18n</td><td>vue-i18n</td></tr>
+<tr><td>ランタイム</td><td>Electron</td></tr>
+<tr><td>言語</td><td>TypeScript</td></tr>
+<tr><td>GPU API</td><td>WebGPU</td></tr>
+<tr><td>シェーダー</td><td>WGSL</td></tr>
+<tr><td>UI</td><td>React</td></tr>
+<tr><td>ビルド</td><td>Vite</td></tr>
 </tbody></table>
 <h2 id="jin-nozhuang-tai">今の状態</h2>
-<p>Phase 3（品質向上）の途中です。基本機能、Git統合・デプロイ機能は完成していて、今はタクソノミー（タグ）対応やビルドエラーの表示改善などを進めています。このサイト自体もFubakoで管理・公開しているので、使っていて気づいたことをすぐ直せるのが良いです。</p>
+<p>初期設計は完了していて、ペンエンジン、カラーパイプライン、ファイルフォーマット（.pmx）まで設計済みです。ただしプロトタイプはまだ着手していません。WebGPUのエコシステムが成熟してきたら本格的に開発を始める予定です。</p>
 
   </div>
 
@@ -172,7 +168,7 @@
 
   
   <section class="project-links-bottom">
-    <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;Fubako" target="_blank" rel="noopener">GitHub →</a>
+    <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;photon-mixer" target="_blank" rel="noopener">GitHub →</a>
     
     
   </section>

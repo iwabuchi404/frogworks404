@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PhotonMixer — frogworks404</title>
+  <title>omiLink — frogworks404</title>
 
   
-  <meta name="description" content="float32リニアカラー・WebGPUネイティブ・SAIレベルのペン体験を核とするイラストソフト。アナログ模倣を捨て、デジタルの正確性を表現ツールとして再定義する。">
+  <meta name="description" content="URL・メモをAndroidホーム画面風グリッドで管理するブックマークPWA。ドラッグ&amp;リサイズ可能なウィジェット感覚の操作。">
   
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +39,7 @@
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">エントリ数</span>
-            <span class="sidebar-meta-value">15</span>
+            <span class="sidebar-meta-value">13</span>
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">最終更新</span>
@@ -58,7 +58,7 @@
         <nav class="sidebar-nav">
           <div class="sidebar-nav-label">PAGES</div>
           <a href="https://frog404.work" class="sidebar-nav-link">記録一覧</a>
-          <a href="https://frog404.work/pages/projects" class="sidebar-nav-link">プロジェクト</a>
+          <a href="https://frog404.work/projects" class="sidebar-nav-link">プロジェクト</a>
           <a href="https://frog404.work/pages/about" class="sidebar-nav-link">About</a>
         </nav>
 
@@ -93,34 +93,38 @@
 <header class="site-header">
   <div class="cover-box">
     <div class="cover-eyebrow">
-      <a href="https://frog404.work/pages/projects" class="cover-back">← プロジェクト一覧</a>
+      <a href="https://frog404.work/projects" class="cover-back">← プロジェクト一覧</a>
       <span class="cover-sep"> ／ </span>
-      <span class="cover-tag">creative-tools</span>
+      <span class="cover-tag">interface</span>
     </div>
-    <h1 class="cover-title cover-title--sm">PhotonMixer</h1>
+    <h1 class="cover-title cover-title--sm">omiLink</h1>
     
     <hr class="cover-divider">
-    <p class="cover-desc">float32リニアカラー・WebGPUネイティブ・SAIレベルのペン体験を核とするイラストソフト。アナログ模倣を捨て、デジタルの正確性を表現ツールとして再定義する。</p>
+    <p class="cover-desc">URL・メモをAndroidホーム画面風グリッドで管理するブックマークPWA。ドラッグ&amp;リサイズ可能なウィジェット感覚の操作。</p>
     
     
     <div class="cover-links">
-      <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;photon-mixer" target="_blank" rel="noopener">GitHub →</a>
-      
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;omilink" target="_blank" rel="noopener">GitHub →</a>
+      <a href="https:&#x2F;&#x2F;omilink.flog404.work&#x2F;" target="_blank" rel="noopener">デモ →</a>
       
     </div>
     
   </div>
   
+  <div class="cover-image-wrap">
+    <img src="https://frog404.work/uploads/2026/06/e3183777-2d4f-4e02-870a-4f82325a9422.png" alt="omiLink" class="cover-image">
+  </div>
+  
   <div class="header-table">
     <div class="header-cell">
       <span class="cell-label">公開日</span>
-      <span class="cell-value">2025.04.12</span>
+      <span class="cell-value">2025.05.01</span>
     </div>
     
     <div class="header-cell">
       <span class="cell-label">ステータス</span>
       <span class="cell-value">
-        構想
+        継続運用中
         
       </span>
     </div>
@@ -131,32 +135,32 @@
 <main class="article-wrap">
   <div class="article-body article-body--product">
     <h2 id="korehahe-ka">これは何か</h2>
-<p>PhotonMixerは、デジタルならではの表現を追求するイラストソフトの構想です。</p>
-<p>既存のイラストソフトの多くは「アナログ画材をデジタルで再現する」ことを主眼に置いています。もちろんKritaやPhotoshopなどは16bit浮動小数やHDR対応を進めていますが、まだデフォルトのワークフローとしてはsRGB空間での8bit描画が主流です。PhotonMixerは、最初からリニアカラーとHDRを前提にした描画パイプラインを目指します。</p>
-<p>まだ初期設計の段階で、プロトタイプは作っていません。</p>
+<p>omiLinkは、ブックマークをAndroidのホーム画面みたいに並べられるPWAです。</p>
+<p>普通のブックマーク機能ってリストかフォルダ階層なんですが、omiLinkはグリッド上にドラッグ&amp;リサイズして配置できます。よく見るサイトを大きく、たまに見るサイトを小さく、みたいなレイアウトが自分で作れます。スマホのホーム画面にアプリを並べる感覚で、URLやメモを整理できます。</p>
 <h2 id="zuo-tutadong-ji">作った動機</h2>
-<p>イラストソフトの色の扱いって、アナログの制約を引きずっていると思います。sRGBという狭い色空間で、0〜1の範囲で、アナログ絵の具みたいな混色を再現しようとしている。</p>
-<p>でもデジタルなら、光そのものを足し合わせることができる。1.0より明るい色も保持できる。HDRディスプレイなら、それをそのまま表示できる。アナログの模倣をやめれば、デジタル独自の表現が見えてくるはずで、それを実現するソフトを作りたくなりました。</p>
-<h2 id="te-zheng-gou-xiang">特徴（構想）</h2>
-<h3 id="riniakaradeguang-woxi-u">リニアカラーで光を扱う</h3>
-<p>内部の色計算をすべてfloat32のリニア空間で行います。リニア空間で計算すると「光を足す」ことが文字通り正確にできるようになります。</p>
-<h3 id="hdrdui-ying">HDR対応</h3>
-<p>1.0を超える明るさの色を保持できるので、発光部分や太陽などの表現が「白飛び」せずにデータとして残ります。HDRディスプレイで見れば、本当に明るい部分が明るく表示されます。</p>
-<h3 id="penti-yan">ペン体験</h3>
-<p>SAIレベルのペンの追従性と精度を目指しています。4xサブピクセルバッファで高精度描画、速度に連動する手ブレ補正など、描き心地にこだわる設計です。</p>
-<h3 id="fei-po-huai-noguang-xiao-guo">非破壊の光効果</h3>
-<p>GlowやBloomを効果レイヤーとして非破壊で適用できます。HDR情報が残っているので、発光表現が自然にできます。</p>
-<h2 id="xiang-ding-sutatuku">想定スタック</h2>
+<p>ブラウザのブックマークって、数が増えると整理が辛くなるんです。フォルダで分類しても階層が深くなるし、リストだと全体が見えない。</p>
+<p>スマホのホーム画面って、よく使うアプリを大きく置いたり、グループごとにまとめたりして、自分なりの配置を作りますよね。あの感覚でブックマークも管理できたら便利なのに、と思って作りました。</p>
+<p>あとPWAにしているので、インストールすればブラウザとは独立したアプリとして使えます。スマホでもPCでも同じように使えます。</p>
+<h2 id="te-zheng">特徴</h2>
+<h3 id="uizietutogan-jue-nocao-zuo">ウィジェット感覚の操作</h3>
+<p>各ブックマークをドラッグで移動、リサイズで大きさを変更できます。サイズに応じて表示も変わります——1×1ならアイコンのみ、大きくすればタイトルやOGP画像が表示される、みたいな。</p>
+<h3 id="memomozhi-keru">メモも置ける</h3>
+<p>URLだけでなく、テキストメモも同じグリッドに配置できます。「あとで読む」記事のURLと、その時の思いつきのメモを並べて置けるのが便利です。</p>
+<h3 id="ogphua-xiang-nozi-dong-qu-de">OGP画像の自動取得</h3>
+<p>URLを登録すると、自動的にOGP画像とファビコンを取得して表示します。グリッドを開いた時に何のサイトか視覚的にわかりやすいです。</p>
+<h3 id="pwadeinsutoruke-neng">PWAでインストール可能</h3>
+<p>ブラウザで開くだけで使えますが、インストールすればアプリとして独立して起動できます。オフラインでも直近のデータは見られます。</p>
+<h2 id="sutatuku">スタック</h2>
 <table><thead><tr><th>要素</th><th>選択</th></tr></thead><tbody>
-<tr><td>ランタイム</td><td>Electron</td></tr>
-<tr><td>言語</td><td>TypeScript</td></tr>
-<tr><td>GPU API</td><td>WebGPU</td></tr>
-<tr><td>シェーダー</td><td>WGSL</td></tr>
-<tr><td>UI</td><td>React</td></tr>
-<tr><td>ビルド</td><td>Vite</td></tr>
+<tr><td>フロントエンド</td><td>Vue 3 + TypeScript</td></tr>
+<tr><td>バンドラ</td><td>Vite + vite-plugin-pwa</td></tr>
+<tr><td>ドラッグ&amp;リサイズ</td><td>interact.js</td></tr>
+<tr><td>バックエンド</td><td>PocketBase（SQLiteベース）</td></tr>
+<tr><td>インフラ</td><td>GCE無料枠 + Cloudflare Tunnel</td></tr>
+<tr><td>CI/CD</td><td>GitHub Actions → 自動デプロイ</td></tr>
 </tbody></table>
 <h2 id="jin-nozhuang-tai">今の状態</h2>
-<p>初期設計は完了していて、ペンエンジン、カラーパイプライン、ファイルフォーマット（.pmx）まで設計済みです。ただしプロトタイプはまだ着手していません。WebGPUのエコシステムが成熟してきたら本格的に開発を始める予定です。</p>
+<p>日常使いしています。ブックマークの整理が圧倒的にやりやすくなって、自分でも驚いています。細かい改善はちょこちょこやっていて、最近はグリッドの並び替え機能などを追加しました。</p>
 
   </div>
 
@@ -168,8 +172,8 @@
 
   
   <section class="project-links-bottom">
-    <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;photon-mixer" target="_blank" rel="noopener">GitHub →</a>
-    
+    <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;omilink" target="_blank" rel="noopener">GitHub →</a>
+    <a href="https:&#x2F;&#x2F;omilink.flog404.work&#x2F;" target="_blank" rel="noopener">デモ →</a>
     
   </section>
   
