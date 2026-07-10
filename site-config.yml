@@ -46,161 +46,44 @@ content_types:
       - key: "extra.entry_type"
         type: "select"
         label: "エントリタイプ"
-        options:
-          - value: "essay"
-            label: "エッセイ（主張・考察）"
-          - value: "experiment"
-            label: "実験記録（試行・結果）"
-          - value: "update"
-            label: "アップデート（短い進捗）"
-          - value: "project"
-            label: "プロジェクト紹介"
-        default: "essay"
-
-      - key: "_content"
-        type: "markdown"
-        label: "本文"
-
-      - key: "extra.status"
-        type: "select"
-        label: "プロジェクトステータス"
-        options:
-          - value: "in-operation"
-            label: "継続運用中"
-          - value: "usable"
-            label: "利用可能"
-          - value: "prototype"
-            label: "試作"
-          - value: "concept"
-            label: "構想"
-          - value: "tech-verify"
-            label: "技術検証"
-          - value: "paused"
-            label: "休止"
-        default: "concept"
+        options: ["article", "product"]
+        default: "article"
 
       - key: "extra.project_slug"
         type: "text"
-        label: "関連プロジェクトslug"
-        placeholder: "例: context-mixer"
-
-      - key: "taxonomies.tags"
-        type: "list"
-        label: "テーマタグ"
-        help: "ai-collaboration / knowledge / developer-tools / interface / hardware / creative-tools"
-
-  projects:
-    label: "プロジェクト"
-    folder: "content/projects"
-    sort: "date_desc"
-
-    list_columns:
-      - key: "title"
-        label: "タイトル"
-      - key: "extra.status"
-        label: "ステータス"
-
-    fields:
-      - key: "title"
-        type: "text"
-        label: "プロジェクト名"
-        required: true
-
-      - key: "date"
-        type: "date"
-        label: "公開日"
-        default: "today"
-
-      - key: "draft"
-        type: "toggle"
-        label: "下書き"
-        default: false
-
-      - key: "description"
-        type: "textarea"
-        label: "概要"
-        rows: 3
-        placeholder: "プロジェクトの概要（一覧・詳細ページに表示）"
-
-      - key: "template"
-        type: "text"
-        label: "テンプレート"
-        default: "pages/project.html"
-        readonly: true
-
-      - key: "slug"
-        type: "text"
-        label: "カスタムURL"
-        placeholder: "halfgrip"
-        help: "未入力の場合はタイトルから自動生成されます"
-
-      - key: "extra.entry_type"
-        type: "hidden"
-        label: "エントリタイプ"
-        default: "project"
-
-      - key: "extra.project"
-        type: "hidden"
-        label: "プロジェクトフラグ"
-        default: true
-
-      - key: "extra.status"
-        type: "select"
-        label: "プロジェクトステータス"
-        options:
-          - value: "in-operation"
-            label: "継続運用中"
-          - value: "usable"
-            label: "利用可能"
-          - value: "prototype"
-            label: "試作"
-          - value: "concept"
-            label: "構想"
-          - value: "tech-verify"
-            label: "技術検証"
-          - value: "paused"
-            label: "休止"
-        default: "concept"
-
-      - key: "extra.featured"
-        type: "toggle"
-        label: "ピックアップ表示"
-        default: false
-        help: "TOPのピックアッププロジェクトに表示します"
-
-      - key: "extra.cover_image"
-        type: "image"
-        label: "キャッチ画像"
-        help: "プロジェクトのカバー画像（一覧・詳細ページに表示）"
-
-      - key: "extra.thumbnail"
-        type: "image"
-        label: "サムネイル画像"
-        help: "一覧ページの右側に表示する縦長画像"
-
-      - key: "extra.github_url"
-        type: "text"
-        label: "GitHub URL"
-        placeholder: "https://github.com/..."
-
-      - key: "extra.demo_url"
-        type: "text"
-        label: "デモ／サイトURL"
-        placeholder: "https://..."
-
-      - key: "extra.docs_url"
-        type: "text"
-        label: "ドキュメントURL"
-        placeholder: "https://..."
-
-      - key: "taxonomies.tags"
-        type: "list"
-        label: "テーマタグ"
-        help: "ai-collaboration / knowledge / developer-tools / interface / hardware / creative-tools"
+        label: "関連プロジェクト slug"
+        placeholder: "context-mixer"
+        help: "プロジェクトページの slug と一致させると関連記録に表示されます"
 
       - key: "_content"
         type: "markdown"
         label: "本文"
+
+      - key: "extra.progress"
+        type: "text"
+        label: "進捗 (%)"
+        placeholder: "0〜100"
+
+      - key: "extra.progress_label"
+        type: "text"
+        label: "進捗ラベル"
+        placeholder: "例: Phase 1 — 62%"
+
+      - key: "extra.project"
+        type: "toggle"
+        label: "プロジェクト一覧に掲載"
+        default: false
+
+      - key: "extra.status"
+        type: "select"
+        label: "プロジェクトステータス"
+        options: ["active", "shipped", "paused", "idea"]
+        default: "idea"
+
+      - key: "taxonomies.tags"
+        type: "list"
+        label: "タグ"
+        help: "build-log / software / idea / note / wip 等（Phase 3でタグ型に移行予定）"
 
   pages:
     label: "固定ページ"
@@ -239,9 +122,41 @@ content_types:
         label: "下書き"
         default: false
 
+      - key: "extra.entry_type"
+        type: "select"
+        label: "エントリタイプ"
+        options: ["article", "product"]
+        default: "article"
+
       - key: "_content"
         type: "markdown"
         label: "本文"
+
+      - key: "extra.progress"
+        type: "text"
+        label: "進捗 (%)"
+        placeholder: "0〜100"
+
+      - key: "extra.progress_label"
+        type: "text"
+        label: "進捗ラベル"
+        placeholder: "例: Phase 1 — 62%"
+
+      - key: "extra.project"
+        type: "toggle"
+        label: "プロジェクト一覧に掲載"
+        default: false
+
+      - key: "extra.status"
+        type: "select"
+        label: "プロジェクトステータス"
+        options: ["active", "shipped", "paused", "idea"]
+        default: "idea"
+
+      - key: "taxonomies.tags"
+        type: "list"
+        label: "タグ"
+        help: "build-log / software / idea / note / wip 等"
 
 site_settings:
   target_file: "config.toml"
@@ -278,25 +193,3 @@ site_settings:
         - key: "extra.booth"
           label: "BOOTH URL"
           type: "text"
-
-    - id: "analytics"
-      label: "アナリティクス"
-      fields:
-        - key: "extra.analytics_provider"
-          label: "プロバイダ"
-          type: "select"
-          options: ["none", "google", "plausible"]
-          default: "none"
-          help: "Google Analytics または Plausible を選択"
-
-        - key: "extra.analytics_google_id"
-          label: "Google Analytics 測定ID"
-          type: "text"
-          placeholder: "例: G-XXXXXXXXXX"
-          help: "GA4の測定ID（プロバイダをgoogleに設定時に有効）"
-
-        - key: "extra.analytics_plausible_domain"
-          label: "Plausible ドメイン"
-          type: "text"
-          placeholder: "例: frogworks404.dev"
-          help: "Plausibleに登録したドメイン（プロバイダをplausibleに設定時に有効）"

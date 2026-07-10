@@ -22,6 +22,7 @@
     <button class="chip" :class="{ on: activeTag === 'hardware' }" @click="activeTag = 'hardware'">hardware</button>
     <button class="chip" :class="{ on: activeTag === 'creative-tools' }" @click="activeTag = 'creative-tools'">creative-tools</button>
     <button class="chip" :class="{ on: activeTag === 'knowledge' }" @click="activeTag = 'knowledge'">knowledge</button>
+    <button class="chip" :class="{ on: activeTag === 'note' }" @click="activeTag = 'note'">note</button>
   </nav>
 
   <main class="feed">
@@ -30,7 +31,7 @@
     {% for page in section.pages %}
     {% set page_tags = page.taxonomies.tags | default(value=[]) %}
     <article
-      class="entry{% if page.extra.entry_type == 'project' %} entry--product{% endif %}"
+      class="entry{% if page.extra.entry_type | default(value='') == 'project' %} entry--product{% endif %}"
       x-show='activeTag === "all" || {{ page_tags | json_encode | safe }}.includes(activeTag)'
     >
       <div class="entry-meta">
@@ -40,7 +41,7 @@
       <div class="entry-clickable">
         <h2 class="entry-title">
           <a href="{{ page.permalink }}">{{ page.title }}</a>
-          {% if page.extra.entry_type == 'project' %}<span class="entry-arrow">→</span>{% endif %}
+          {% if page.extra.entry_type | default(value='') == 'project' %}<span class="entry-arrow">→</span>{% endif %}
         </h2>
         {% if page.description %}<p class="entry-body">{{ page.description }}</p>{% endif %}
       </div>

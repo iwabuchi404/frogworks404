@@ -4,7 +4,7 @@
 
 {% block content %}
 {% set log = get_section(path="log/_index.md") %}
-{% set projects_section = get_section(path="projects/_index.md") %}
+{% set pages_section = get_section(path="pages/_index.md") %}
 
 <header class="site-header">
   <div class="cover-box">
@@ -20,85 +20,37 @@
     </div>
     <div class="header-cell">
       <span class="cell-label">エントリ数</span>
-      <span class="cell-value">{{ log.pages | length + projects_section.pages | length }}</span>
+      <span class="cell-value">{{ log.pages | length }}</span>
     </div>
     <div class="header-cell">
       <span class="cell-label">最終更新</span>
-      {% set log_latest = log.pages | first %}
-      {% set pages_latest = projects_section.pages | first %}
-      {% set log_ym = log_latest.date | date(format="%Y%m") | int %}
-      {% set pages_ym = pages_latest.date | date(format="%Y%m") | int %}
-      {% if log_ym >= pages_ym %}
-      <span class="cell-value">{{ log_latest.date | date(format="%Y.%m") }}</span>
+      {% if log.pages | length > 0 %}
+      {% set latest = log.pages | first %}
+      <span class="cell-value">{% if latest.date %}{{ latest.date | date(format="%Y.%m") }}{% else %}—{% endif %}</span>
       {% else %}
-      <span class="cell-value">{{ pages_latest.date | date(format="%Y.%m") }}</span>
+      <span class="cell-value">—</span>
       {% endif %}
     </div>
   </div>
-  <a href="{{ get_url(path='/pages/about') }}" class="about-lead">
-    <span class="about-lead-text">frogworks404 は、人と機械の間の摩擦を道具として作り直す活動です。ソフトウェアとハードウェアの試作記録をまとめています。</span>
-    <span class="about-lead-link">About →</span>
-  </a>
 </header>
 
-{# ── ピックアッププロジェクト ── #}
-<section class="pickup-section">
-  <div class="section-divider"><span>ピックアッププロジェクト</span></div>
-  <div class="pickup-grid">
-    {% for page in projects_section.pages %}
-    {% if page.extra.featured %}
-    <article class="pickup-card">
-      {% if page.extra.cover_image %}
-      <div class="pickup-cover">
-        <img src="{{ get_url(path=page.extra.cover_image) }}" alt="{{ page.title }}" loading="lazy">
-      </div>
-      {% endif %}
-      <div class="pickup-meta">
-        <span class="pickup-status">
-          {% if page.extra.status == "in-operation" %}継続運用中
-          {% elif page.extra.status == "usable" %}利用可能
-          {% elif page.extra.status == "prototype" %}試作
-          {% elif page.extra.status == "tech-verify" %}技術検証
-          {% elif page.extra.status == "concept" %}構想
-          {% elif page.extra.status == "paused" %}休止
-          {% else %}{{ page.extra.status | default(value='') }}{% endif %}
-        </span>
-      </div>
-      <h2 class="pickup-title">
-        <a href="{{ page.permalink }}">{{ page.title }}</a>
-      </h2>
-      {% if page.description %}
-      <p class="pickup-desc">{{ page.description }}</p>
-      {% endif %}
-    </article>
-    {% endif %}
-    {% endfor %}
-  </div>
-  <div class="pickup-more">
-    <a href="{{ get_url(path='/projects/') }}">すべてのプロジェクト →</a>
-  </div>
-</section>
-
-{# ── 最新の更新 ── #}
 <div x-data="{ activeTag: 'all' }">
   <nav class="filter-bar" aria-label="タグフィルター">
     <span class="filter-label">FILTER —</span>
     <button class="chip" :class="{ on: activeTag === 'all' }" @click="activeTag = 'all'">すべて</button>
-    <button class="chip" :class="{ on: activeTag === 'ai-collaboration' }" @click="activeTag = 'ai-collaboration'">ai-collaboration</button>
-    <button class="chip" :class="{ on: activeTag === 'developer-tools' }" @click="activeTag = 'developer-tools'">developer-tools</button>
-    <button class="chip" :class="{ on: activeTag === 'interface' }" @click="activeTag = 'interface'">interface</button>
-    <button class="chip" :class="{ on: activeTag === 'hardware' }" @click="activeTag = 'hardware'">hardware</button>
-    <button class="chip" :class="{ on: activeTag === 'creative-tools' }" @click="activeTag = 'creative-tools'">creative-tools</button>
-    <button class="chip" :class="{ on: activeTag === 'knowledge' }" @click="activeTag = 'knowledge'">knowledge</button>
+    <button class="chip" :class="{ on: activeTag === 'build-log' }" @click="activeTag = 'build-log'">build-log</button>
+    <button class="chip" :class="{ on: activeTag === 'software' }" @click="activeTag = 'software'">software</button>
+    <button class="chip" :class="{ on: activeTag === 'idea' }" @click="activeTag = 'idea'">idea</button>
+    <button class="chip" :class="{ on: activeTag === 'note' }" @click="activeTag = 'note'">note</button>
   </nav>
 
   <main class="feed">
     <div class="section-divider"><span>最新の記録</span></div>
 
-    {% for page in log.pages | slice(end=6) %}
+    {% for page in log.pages %}
     {% set page_tags = page.taxonomies.tags | default(value=[]) %}
     <article
-      class="entry{% if page.extra.entry_type == 'project' %} entry--product{% endif %}"
+      class="entry{% if page.extra.entry_type | default(value='') == 'product' %} entry--product{% endif %}"
       x-show='activeTag === "all" || {{ page_tags | json_encode | safe }}.includes(activeTag)'
     >
       <div class="entry-meta">
@@ -107,22 +59,63 @@
         <span class="badge badge-{{ tag }}">{{ tag }}</span>
         {% endfor %}
       </div>
-      <div class="entry-clickable">
-        <h2 class="entry-title">
-          <a href="{{ page.permalink }}">{{ page.title }}</a>
-          {% if page.extra.entry_type == 'project' %}
-          <span class="entry-arrow">→</span>
-          {% endif %}
-        </h2>
-        {% if page.description %}
-        <p class="entry-body">{{ page.description }}</p>
+      <h2 class="entry-title">
+        <a href="{{ page.permalink }}">{{ page.title }}</a>
+        {% if page.extra.entry_type | default(value='') == 'product' %}
+        <span class="entry-arrow">→</span>
         {% endif %}
+      </h2>
+      {% if page.description %}
+      <p class="entry-body">{{ page.description }}</p>
+      {% endif %}
+      {% if page.extra.progress is defined %}
+      <div class="entry-progress">
+        <div class="prog-track"><div class="prog-fill" style="width:{{ page.extra.progress }}%"></div></div>
+        <span class="prog-label">
+          {% if page.extra.progress_label is defined %}{{ page.extra.progress_label }}{% else %}{{ page.extra.progress }}%{% endif %}
+        </span>
       </div>
+      {% endif %}
     </article>
     {% endfor %}
+
+    {# ── プロジェクト ── #}
+    {% set has_projects = false %}
+    {% for page in pages_section.pages %}{% if page.extra.project | default(value=false) %}{% set_global has_projects = true %}{% endif %}{% endfor %}
+    {% if has_projects %}
+    <div class="section-divider"><span>プロジェクト</span></div>
+
+    {% for page in pages_section.pages %}
+    {% if page.extra.project | default(value=false) %}
+    {% set page_tags = page.taxonomies.tags | default(value=[]) %}
+    <article
+      class="entry entry--product"
+      x-show='activeTag === "all" || {{ page_tags | json_encode | safe }}.includes(activeTag)'
+    >
+      <div class="entry-meta">
+        <span class="entry-date">{% if page.date %}{{ page.date | date(format="%Y.%m.%d") }}{% else %}—{% endif %}</span>
+        {% for tag in page_tags %}
+        <span class="badge badge-{{ tag }}">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      <h2 class="entry-title">
+        <a href="{{ page.permalink }}">{{ page.title }}</a>
+        <span class="entry-arrow">→</span>
+      </h2>
+      {% if page.description %}<p class="entry-body">{{ page.description }}</p>{% endif %}
+      {% if page.extra.progress is defined %}
+      <div class="entry-progress">
+        <div class="prog-track"><div class="prog-fill" style="width:{{ page.extra.progress }}%"></div></div>
+        <span class="prog-label">
+          {% if page.extra.progress_label is defined %}{{ page.extra.progress_label }}{% else %}{{ page.extra.progress }}%{% endif %}
+        </span>
+      </div>
+      {% endif %}
+    </article>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
   </main>
-  <div class="feed-more">
-    <a href="{{ get_url(path='/log') }}">すべての記録 →</a>
-  </div>
 </div>
 {% endblock content %}

@@ -4,7 +4,7 @@
 
 {% block content %}
 {% set projects_section = get_section(path="projects/_index.md") %}
-{% set status_order = ["in-operation", "usable", "prototype", "concept", "paused"] %}
+{% set status_order = ["in-operation", "usable", "prototype", "tech-verify", "concept", "paused"] %}
 
 <header class="site-header">
   <div class="cover-box">
@@ -27,16 +27,21 @@
     <button class="chip" :class="{ on: activeTag === 'hardware' }" @click="activeTag = 'hardware'">hardware</button>
     <button class="chip" :class="{ on: activeTag === 'creative-tools' }" @click="activeTag = 'creative-tools'">creative-tools</button>
     <button class="chip" :class="{ on: activeTag === 'knowledge' }" @click="activeTag = 'knowledge'">knowledge</button>
+    <button class="chip" :class="{ on: activeTag === 'note' }" @click="activeTag = 'note'">note</button>
   </nav>
 
   <main class="feed">
 
   {% for current_status in status_order %}
-  {% for page in projects_section.pages %}
-  {% set et = page.extra.entry_type | default(value='') %}
-  {% set st = page.extra.status | default(value='') %}
+  {% set_global status_pages = [] %}
+  {% for candidate in projects_section.pages %}
+  {% set et = candidate.extra.entry_type | default(value='') %}
+  {% set st = candidate.extra.status | default(value='') %}
   {% if et == 'project' and st == current_status %}
-  {% if loop.first %}
+  {% set_global status_pages = status_pages | concat(with=candidate) %}
+  {% endif %}
+  {% endfor %}
+  {% if status_pages | length > 0 %}
   <div class="section-divider"><span>
     {% if current_status == "in-operation" %}継続運用中
     {% elif current_status == "usable" %}利用可能
@@ -46,7 +51,7 @@
     {% elif current_status == "paused" %}休止
     {% else %}{{ current_status }}{% endif %}
   </span></div>
-  {% endif %}
+  {% for page in status_pages %}
   {% set page_tags = page.taxonomies.tags | default(value=[]) %}
   <article
     class="entry entry--product entry--row"
@@ -71,8 +76,8 @@
     </div>
     {% endif %}
   </article>
-  {% endif %}
   {% endfor %}
+  {% endif %}
   {% endfor %}
 
   </main>

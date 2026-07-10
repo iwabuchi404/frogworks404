@@ -41,7 +41,7 @@
 </header>
 
 <main class="article-wrap">
-  <div class="article-body{% if page.extra.entry_type == 'project' %} article-body--product{% endif %}">
+  <div class="article-body{% if page.extra.entry_type | default(value='') == 'project' %} article-body--product{% endif %}">
     {{ page.content | safe }}
   </div>
 </main>
