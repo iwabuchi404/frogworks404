@@ -47,7 +47,7 @@
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">エントリ数</span>
-            <span class="sidebar-meta-value">15</span>
+            <span class="sidebar-meta-value">16</span>
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">最終更新</span>
@@ -79,6 +79,7 @@
             <a href="https://frog404.work/tags/hardware" class="sidebar-tag-badge sidebar-tag-badge-hardware">hardware</a>
             <a href="https://frog404.work/tags/creative-tools" class="sidebar-tag-badge sidebar-tag-badge-creative-tools">creative-tools</a>
             <a href="https://frog404.work/tags/knowledge" class="sidebar-tag-badge sidebar-tag-badge-knowledge">knowledge</a>
+            <a href="https://frog404.work/tags/note" class="sidebar-tag-badge sidebar-tag-badge-note">note</a>
           </div>
         </nav>
 
@@ -112,40 +113,40 @@
     
     
     <div class="cover-links">
+      <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;photon-mixer&#x2F;releases&#x2F;download&#x2F;v0.1.0&#x2F;PhotonMixer-0.1.0-portable.exe" target="_blank" rel="noopener">ダウンロード ↓</a>
       <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;photon-mixer" target="_blank" rel="noopener">GitHub →</a>
       
       
     </div>
     
   </div>
-  
   <div class="header-table">
     <div class="header-cell">
       <span class="cell-label">公開日</span>
       <span class="cell-value">2026.04.12</span>
     </div>
     
+    
     <div class="header-cell">
       <span class="cell-label">ステータス</span>
-      <span class="cell-value">
-        構想
-        
-      </span>
+      <span class="cell-value">active</span>
     </div>
     
   </div>
 </header>
 
 <main class="article-wrap">
-  <div class="article-body article-body--product">
+  
+
+  <div class="article-body">
     <h2 id="korehahe-ka">これは何か</h2>
-<p>PhotonMixerは、デジタルならではの表現を追求するイラストソフトの構想です。</p>
+<p>PhotonMixerは、デジタルならではの表現を追求するイラストソフトです。</p>
 <p>既存のイラストソフトの多くは「アナログ画材をデジタルで再現する」ことを主眼に置いています。もちろんKritaやPhotoshopなどは16bit浮動小数やHDR対応を進めていますが、まだデフォルトのワークフローとしてはsRGB空間での8bit描画が主流です。PhotonMixerは、最初からリニアカラーとHDRを前提にした描画パイプラインを目指します。</p>
-<p>まだ初期設計の段階で、プロトタイプは作っていません。</p>
+<p>v0.1をリリースしました。ポータブル版をダウンロードしてすぐに試せます。</p>
 <h2 id="zuo-tutadong-ji">作った動機</h2>
 <p>イラストソフトの色の扱いって、アナログの制約を引きずっていると思います。sRGBという狭い色空間で、0〜1の範囲で、アナログ絵の具みたいな混色を再現しようとしている。</p>
 <p>でもデジタルなら、光そのものを足し合わせることができる。1.0より明るい色も保持できる。HDRディスプレイなら、それをそのまま表示できる。アナログの模倣をやめれば、デジタル独自の表現が見えてくるはずで、それを実現するソフトを作りたくなりました。</p>
-<h2 id="te-zheng-gou-xiang">特徴（構想）</h2>
+<h2 id="te-zheng">特徴</h2>
 <h3 id="riniakaradeguang-woxi-u">リニアカラーで光を扱う</h3>
 <p>内部の色計算をすべてfloat32のリニア空間で行います。リニア空間で計算すると「光を足す」ことが文字通り正確にできるようになります。</p>
 <h3 id="hdrdui-ying">HDR対応</h3>
@@ -154,7 +155,7 @@
 <p>SAIレベルのペンの追従性と精度を目指しています。4xサブピクセルバッファで高精度描画、速度に連動する手ブレ補正など、描き心地にこだわる設計です。</p>
 <h3 id="fei-po-huai-noguang-xiao-guo">非破壊の光効果</h3>
 <p>GlowやBloomを効果レイヤーとして非破壊で適用できます。HDR情報が残っているので、発光表現が自然にできます。</p>
-<h2 id="xiang-ding-sutatuku">想定スタック</h2>
+<h2 id="sutatuku">スタック</h2>
 <table><thead><tr><th>要素</th><th>選択</th></tr></thead><tbody>
 <tr><td>ランタイム</td><td>Electron</td></tr>
 <tr><td>言語</td><td>TypeScript</td></tr>
@@ -164,7 +165,8 @@
 <tr><td>ビルド</td><td>Vite</td></tr>
 </tbody></table>
 <h2 id="jin-nozhuang-tai">今の状態</h2>
-<p>初期設計は完了していて、ペンエンジン、カラーパイプライン、ファイルフォーマット（.pmx）まで設計済みです。ただしプロトタイプはまだ着手していません。WebGPUのエコシステムが成熟してきたら本格的に開発を始める予定です。</p>
+<p>v0.1をリリースしました。ペンエンジン、カラーパイプライン、ファイルフォーマット（.pmx）の基礎が動いています。ポータブル版の実行ファイルをGitHub Releasesからダウンロードできます。</p>
+<p>まだ初期段階で、ブラシの種類やレイヤー機能などはこれから充実させていく予定です。フィードバックを歓迎します。</p>
 
   </div>
 
@@ -173,14 +175,33 @@
   
   
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
   
-  <section class="project-links-bottom">
-    <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;photon-mixer" target="_blank" rel="noopener">GitHub →</a>
-    
-    
-  </section>
-  
+
 </main>
 
       <footer class="big-footer">
@@ -194,7 +215,7 @@
         <div class="footer-col">
           <div class="footer-col-label">ページ</div>
           <a href="https://frog404.work">記録一覧</a>
-          <a href="https://frog404.work/pages/projects">プロジェクト一覧</a>
+          <a href="https://frog404.work/projects">プロジェクト一覧</a>
           <a href="https://frog404.work/pages/about">About</a>
         </div>
         <div class="footer-col">
@@ -207,7 +228,7 @@
     </div>
     <hr class="footer-bottom-divider">
     <div class="footer-meta">
-      <span class="footer-meta-text">最終更新 2026.06.30</span>
+      <span class="footer-meta-text">最終更新 2026.07.10</span>
       <span class="footer-meta-text">© frogworks404 2024–</span>
     </div>
   </div>

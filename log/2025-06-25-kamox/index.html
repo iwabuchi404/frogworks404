@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIにChrome拡張を作らせる — KamoXを作った理由と仕組み — frogworks404</title>
+
+  
+  <meta name="description" content="AIがコードを書くだけでは足りない。ビルドして確認して直すループをAI自身に回させるために作ったツールの話。">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDMincho:wght@400;700&family=BIZ+UDPGothic:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://frog404.work/main.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
+  
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GXV2EYXZYE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GXV2EYXZYE');
+  </script>
+  
+</head>
+<body>
+  <div class="page-layout">
+
+    
+    
+    
+    <aside class="page-sidebar" aria-label="サイトナビゲーション">
+      <div class="sidebar-inner">
+        <a href="https://frog404.work" class="sidebar-brand">
+          <span class="sidebar-brand-text">frogworks404</span>
+        </a>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-meta">
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">記録開始</span>
+            <span class="sidebar-meta-value">2024.01</span>
+          </div>
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">エントリ数</span>
+            <span class="sidebar-meta-value">16</span>
+          </div>
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">最終更新</span>
+            
+            
+            
+            
+            
+            <span class="sidebar-meta-value">2026.06</span>
+            
+          </div>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <nav class="sidebar-nav">
+          <div class="sidebar-nav-label">PAGES</div>
+          <a href="https://frog404.work" class="sidebar-nav-link">記録一覧</a>
+          <a href="https://frog404.work/projects" class="sidebar-nav-link">プロジェクト</a>
+          <a href="https://frog404.work/pages/about" class="sidebar-nav-link">About</a>
+        </nav>
+
+        <nav class="sidebar-nav">
+          <div class="sidebar-nav-label">TAGS</div>
+          <div class="sidebar-tag-list">
+            <a href="https://frog404.work/tags/ai-collaboration" class="sidebar-tag-badge sidebar-tag-badge-ai-collaboration">ai-collaboration</a>
+            <a href="https://frog404.work/tags/developer-tools" class="sidebar-tag-badge sidebar-tag-badge-developer-tools">developer-tools</a>
+            <a href="https://frog404.work/tags/interface" class="sidebar-tag-badge sidebar-tag-badge-interface">interface</a>
+            <a href="https://frog404.work/tags/hardware" class="sidebar-tag-badge sidebar-tag-badge-hardware">hardware</a>
+            <a href="https://frog404.work/tags/creative-tools" class="sidebar-tag-badge sidebar-tag-badge-creative-tools">creative-tools</a>
+            <a href="https://frog404.work/tags/knowledge" class="sidebar-tag-badge sidebar-tag-badge-knowledge">knowledge</a>
+            <a href="https://frog404.work/tags/note" class="sidebar-tag-badge sidebar-tag-badge-note">note</a>
+          </div>
+        </nav>
+
+        
+        <div class="sidebar-links">
+          <div class="sidebar-nav-label">LINKS</div>
+          
+          <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">X ↗</a>
+          
+        </div>
+        
+      </div>
+    </aside>
+
+    
+    <div class="inner">
+      
+<header class="site-header">
+  <div class="cover-box">
+    <div class="cover-eyebrow">
+      <a href="https://frog404.work" class="cover-back">← 記録一覧</a>
+    </div>
+    <h1 class="cover-title cover-title--sm">AIにChrome拡張を作らせる — KamoXを作った理由と仕組み</h1>
+  </div>
+</header>
+
+<main class="article-wrap">
+  <div class="article-body">
+    <h2 id="aihakodowoshu-kuga-jian-tamu-haque-ren-dekinai">AIはコードを書くが、見た目は確認できない</h2>
+<p>AIにChrome拡張を作らせていた時のこと。「ポップアップにボタンを3つ並べて、クリックしたら背景色が変わる拡張を作って」とお願いすると、コードは正しく返ってくる。manifest.jsonも、popup.htmlも、JavaScriptも。</p>
+<p>でも実際にChromeに読み込ませてみると、ボタンが1つしか表示されていなかったり、ServiceWorkerでエラーが出ていたりする。AIはコードを書くことはできるが、自分でビルドして、ブラウザに読み込んで、画面を確認することはできない。つまり「書いたコードが正しく動いているか」をAI自身が確認する手段がない。</p>
+<p>これの何が辛いかというと、人間が毎回その確認をやらないといけないことだ。ビルドして、Chromeにリロードして、画面を開いて、エラーが出てないかコンソールを見て。AIに書かせておいて、確認は人間が手作業。これではAIの得意な「試行錯誤を高速で回す」メリットが活きない。</p>
+<h2 id="ainozi-ji-que-ren-rupuwozuo-ritai">AIの自己確認ループを作りたい</h2>
+<p>やりたいことはシンプルで、AIに「書いて、確認して、直す」のループを自律的に回してほしい。</p>
+<p>ソフトウェア開発は本質的に「書く→確認する→直す」のサイクルだ。人間のエンジニアも同じことをやっている。コードを書いて、ビルドして、画面を見て、ダメなら直す。このサイクルを高速で回せる人が良いエンジニアだと言われる。</p>
+<p>AIも同じはず。コードを書く能力は十分にある。でも確認する手段がないから、人間がループに介入しないといけない。AIが自分で結果を確認できれば、人間は最終結果だけ見ればよくなる。</p>
+<p>Playwrightを使えばブラウザの自動操作はできる。でもChrome拡張の確認は通常のWebページとは勝手が違う。ServiceWorkerのデバッグ、manifest.jsonの検証、拡張のリロード。Playwright自体は拡張機能にも対応しているが、セットアップ手順が違うし、AIエージェントに毎回その手順を説明して実行させるのは重い。</p>
+<p>そこで、Playwrightを内包しつつAIが叩きやすいHTTP APIとしてラップした。ビルドして、起動して、スクリーンショットを撮って、ログを取得する。全部HTTPエンドポイント1つで実行できる。AIはAPIを叩くだけで自己確認ループを回せる。</p>
+<h2 id="3puratutohuomudui-ying-noshe-ji">3プラットフォーム対応の設計</h2>
+<p>最初はChrome拡張だけだったが、使っているうちにElectronアプリもVSCode拡張も同じ問題があることに気づいた。FubakoをAIと一緒に開発している時に、ElectronアプリのプレビューをAIに確認させたい場面があった。VSCode拡張も、コマンドを実行してUIが正しく出ているかをAIに見せたかった。</p>
+<p>3つのプラットフォームはそれぞれ起動方法も確認方法も違う。Chrome拡張はブラウザにロードして、Electronはプロセスを起動して、VSCode拡張はExtension Hostを立ち上げる。でも「ビルド→起動→スクリーンショット→ログ」というAPIの形は共通化できる。</p>
+<p>プラットフォームごとの違いを内部に閉じ込めて、APIのインターフェースを統一した。AI側からは <code>POST /build</code>、<code>POST /launch</code>、<code>GET /screenshot</code> が同じように叩ける。対象がChrome拡張でもElectronでもVSCode拡張でも、AIの呼び出し方は変わらない。</p>
+<p>設計の判断としては、プラットフォーム固有の処理をアダプタパターンで分離したこと。各プラットフォームの起動・確認ロジックを独立したモジュールに切り出して、共通のHTTP APIで呼べるようにしている。新しいプラットフォームを追加する時もアダプタを書けば済む。</p>
+<h2 id="npmdegong-kai-sitahua">npmで公開した話</h2>
+<p>KamoXはnpmで公開している。<code>npm install -g kamox</code> で入る。</p>
+<p>npm公開自体は技術的に難しくないが、AIエージェントが使うことを前提にすると設計の優先順位が変わる。まず依存関係を最小にしたい。AIの開発環境に何かが足りなくて動かないという状況を避けたい。Playwrightのブラウザバイナリもできるだけ自動で解決するようにした。</p>
+<p>あとパッケージ構成はnpm workspacesにした。Chrome拡張用、Electron用、VSCode拡張用のパッケージを分けて、ルートパッケージがそれらをまとめる形。各プラットフォームのモジュールを独立して開発・テストできるようにしたかった。</p>
+<p>CLIの引数設計も工夫した。AIがコマンドを組み立てやすいように、オプションは少なく、予測しやすくしている。人間向けのCLIなら「使いやすさ」の基準が違うが、AI向けなら「一貫性」と「予測可能性」が重要だ。</p>
+<h2 id="jin-nozhuang-tai-tojin-hou">今の状態と今後</h2>
+<p>Chrome拡張、Electron、VSCode拡張の3プラットフォームに対応済みで、実際にAIと一緒に開発する時に使っている。このサイトのFubakoもKamoXを使ってAIがプレビューを確認しながら開発している。</p>
+<p>まだ改善の余地はある。特にエラーメッセージの設計をもう少し考えたい。AIがログを見て「何が悪いか」を判断できるように、エラーの構造化をもっと整える必要がある。スクリーンショットも、全画面だけでなく特定要素だけ切り抜けるようにするとトークン消費を抑えられるはずだ。</p>
+<h2 id="rinku">リンク</h2>
+<ul>
+<li><a href="https://github.com/iwabuchi404/kamox">GitHub</a></li>
+<li><a href="https://www.npmjs.com/package/kamox">npm</a></li>
+</ul>
+
+  </div>
+</main>
+
+      <footer class="big-footer">
+  <div class="footer-cover">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-brand-title">frogworks404</div>
+        <div class="footer-brand-desc">人と機械の間にある摩擦を、道具として作り直す。AIとの知識共有、制作プロセス、入力デバイス、デジタル表現を題材に、ソフトウェアとハードウェアを試作している。</div>
+      </div>
+      <div class="footer-columns footer-columns--nav">
+        <div class="footer-col">
+          <div class="footer-col-label">ページ</div>
+          <a href="https://frog404.work">記録一覧</a>
+          <a href="https://frog404.work/projects">プロジェクト一覧</a>
+          <a href="https://frog404.work/pages/about">About</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label">リンク</div>
+          
+          <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" target="_blank" rel="noopener noreferrer">X</a>
+          
+        </div>
+      </div>
+    </div>
+    <hr class="footer-bottom-divider">
+    <div class="footer-meta">
+      <span class="footer-meta-text">最終更新 2026.07.10</span>
+      <span class="footer-meta-text">© frogworks404 2024–</span>
+    </div>
+  </div>
+</footer>
+
+    </div>
+
+  </div>
+</body>
+</html>
