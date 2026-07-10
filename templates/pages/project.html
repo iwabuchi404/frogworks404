@@ -26,62 +26,71 @@
     </div>
     {% endif %}
   </div>
+  {% if page.extra.cover_image %}
+  <div class="cover-image-wrap">
+    <img src="{{ get_url(path=page.extra.cover_image) }}" alt="{{ page.title }}" class="cover-image">
+  </div>
+  {% endif %}
   <div class="header-table">
     <div class="header-cell">
       <span class="cell-label">公開日</span>
       <span class="cell-value">{% if page.date %}{{ page.date | date(format="%Y.%m.%d") }}{% else %}—{% endif %}</span>
     </div>
-    {% if page.extra.progress is defined %}
-    <div class="header-cell">
-      <span class="cell-label">進捗</span>
-      <span class="cell-value">{{ page.extra.progress }}%</span>
-    </div>
-    {% endif %}
     {% if page.extra.status is defined %}
     <div class="header-cell">
       <span class="cell-label">ステータス</span>
-      <span class="cell-value">{{ page.extra.status }}</span>
+      <span class="cell-value">
+        {% if page.extra.status == "in-operation" %}継続運用中
+        {% elif page.extra.status == "usable" %}利用可能
+        {% elif page.extra.status == "prototype" %}試作
+        {% elif page.extra.status == "tech-verify" %}技術検証
+        {% elif page.extra.status == "concept" %}構想
+        {% elif page.extra.status == "paused" %}休止
+        {% else %}{{ page.extra.status }}{% endif %}
+      </span>
     </div>
     {% endif %}
   </div>
 </header>
 
 <main class="article-wrap">
-  {% if page.extra.entry_type | default(value='') == 'product' and page.extra.progress is defined %}
-  <div class="entry-progress article-progress">
-    <div class="prog-track"><div class="prog-fill" style="width:{{ page.extra.progress }}%"></div></div>
-    <span class="prog-label">
-      {% if page.extra.progress_label is defined %}{{ page.extra.progress_label }}{% else %}{{ page.extra.progress }}%{% endif %}
-    </span>
-  </div>
-  {% endif %}
-
-  <div class="article-body{% if page.extra.entry_type | default(value='') == 'product' %} article-body--product{% endif %}">
+  <div class="article-body{% if page.extra.entry_type | default(value='') == 'project' %} article-body--product{% endif %}">
     {{ page.content | safe }}
   </div>
 
-  {# ── 関連記録: extra.project_slug で紐付けられた log 記事を表示 ── #}
   {% set log = get_section(path="log/_index.md") %}
   {% set project_slug = page.slug %}
-  {% set related = [] %}
-  {% for entry in log.pages %}
-  {% set entry_slug = entry.extra.project_slug | default(value="") %}
-  {% if entry_slug == project_slug %}
-  {% set_global related = related | concat(with=entry) %}
+  {% set has_related = false %}
+  {% for entry in log.pages %}{% if entry.extra.project_slug | default(value="") == project_slug %}{% set_global has_related = true %}{% endif %}{% endfor %}
+  {% if has_related %}
+  <section class="related-entries">
+    <div class="section-divider"><span>関連記録</span></div>
+    {% for entry in log.pages %}
+    {% if entry.extra.project_slug | default(value="") == project_slug %}
+    {% set entry_tags = entry.taxonomies.tags | default(value=[]) %}
+    <article class="entry">
+      <div class="entry-meta">
+        <span class="entry-date">{% if entry.date %}{{ entry.date | date(format="%Y.%m.%d") }}{% else %}—{% endif %}</span>
+        {% for tag in entry_tags %}<span class="badge badge-{{ tag }}">{{ tag }}</span>{% endfor %}
+      </div>
+      <h2 class="entry-title">
+        <a href="{{ entry.permalink }}">{{ entry.title }}</a>
+        <span class="entry-arrow">→</span>
+      </h2>
+      {% if entry.description %}<p class="entry-body">{{ entry.description }}</p>{% endif %}
+    </article>
+    {% endif %}
+    {% endfor %}
+  </section>
   {% endif %}
-  {% endfor %}
 
-  {% if related | length > 0 %}
-  <div class="section-divider"><span>関連記録</span></div>
-  <ul class="plain">
-  {% for entry in related %}
-    <li>
-      <a href="{{ entry.permalink }}">{{ entry.title }}</a>
-      <span class="muted">{{ entry.date | date(format="%Y.%m.%d") }}</span>
-    </li>
-  {% endfor %}
-  </ul>
+  {% if page.extra.github_url and page.extra.github_url | trim | length > 0 or page.extra.demo_url and page.extra.demo_url | trim | length > 0 or page.extra.docs_url and page.extra.docs_url | trim | length > 0 or page.extra.download_url and page.extra.download_url | trim | length > 0 %}
+  <section class="project-links-bottom">
+    {% if page.extra.download_url and page.extra.download_url | trim | length > 0 %}<a href="{{ page.extra.download_url }}" target="_blank" rel="noopener">ダウンロード ↓</a>{% endif %}
+    {% if page.extra.github_url and page.extra.github_url | trim | length > 0 %}<a href="{{ page.extra.github_url }}" target="_blank" rel="noopener">GitHub →</a>{% endif %}
+    {% if page.extra.demo_url and page.extra.demo_url | trim | length > 0 %}<a href="{{ page.extra.demo_url }}" target="_blank" rel="noopener">デモ →</a>{% endif %}
+    {% if page.extra.docs_url and page.extra.docs_url | trim | length > 0 %}<a href="{{ page.extra.docs_url }}" target="_blank" rel="noopener">ドキュメント →</a>{% endif %}
+  </section>
   {% endif %}
-
 </main>
 {% endblock content %}
