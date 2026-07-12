@@ -47,7 +47,7 @@
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">エントリ数</span>
-            <span class="sidebar-meta-value">16</span>
+            <span class="sidebar-meta-value">17</span>
           </div>
           <div class="sidebar-meta-row">
             <span class="sidebar-meta-label">最終更新</span>
@@ -56,7 +56,7 @@
             
             
             
-            <span class="sidebar-meta-value">2026.06</span>
+            <span class="sidebar-meta-value">2026.07</span>
             
           </div>
         </div>
@@ -107,7 +107,8 @@
 
 <main class="article-wrap">
   <div class="article-body">
-    <h2 id="aihakodowoshu-kuga-jian-tamu-haque-ren-dekinai">AIはコードを書くが、見た目は確認できない</h2>
+    <h1 id="ainichromekuo-zhang-wozuo-raseru-kamoxwozuo-tutali-you-toshi-zu-mi">AIにChrome拡張を作らせる — KamoXを作った理由と仕組み</h1>
+<h2 id="aihakodowoshu-kuga-jian-tamu-haque-ren-dekinai">AIはコードを書くが、見た目は確認できない</h2>
 <p>AIにChrome拡張を作らせていた時のこと。「ポップアップにボタンを3つ並べて、クリックしたら背景色が変わる拡張を作って」とお願いすると、コードは正しく返ってくる。manifest.jsonも、popup.htmlも、JavaScriptも。</p>
 <p>でも実際にChromeに読み込ませてみると、ボタンが1つしか表示されていなかったり、ServiceWorkerでエラーが出ていたりする。AIはコードを書くことはできるが、自分でビルドして、ブラウザに読み込んで、画面を確認することはできない。つまり「書いたコードが正しく動いているか」をAI自身が確認する手段がない。</p>
 <p>これの何が辛いかというと、人間が毎回その確認をやらないといけないことだ。ビルドして、Chromeにリロードして、画面を開いて、エラーが出てないかコンソールを見て。AIに書かせておいて、確認は人間が手作業。これではAIの得意な「試行錯誤を高速で回す」メリットが活きない。</p>
@@ -119,8 +120,8 @@
 <p>そこで、Playwrightを内包しつつAIが叩きやすいHTTP APIとしてラップした。ビルドして、起動して、スクリーンショットを撮って、ログを取得する。全部HTTPエンドポイント1つで実行できる。AIはAPIを叩くだけで自己確認ループを回せる。</p>
 <h2 id="3puratutohuomudui-ying-noshe-ji">3プラットフォーム対応の設計</h2>
 <p>最初はChrome拡張だけだったが、使っているうちにElectronアプリもVSCode拡張も同じ問題があることに気づいた。FubakoをAIと一緒に開発している時に、ElectronアプリのプレビューをAIに確認させたい場面があった。VSCode拡張も、コマンドを実行してUIが正しく出ているかをAIに見せたかった。</p>
-<p>3つのプラットフォームはそれぞれ起動方法も確認方法も違う。Chrome拡張はブラウザにロードして、Electronはプロセスを起動して、VSCode拡張はExtension Hostを立ち上げる。でも「ビルド→起動→スクリーンショット→ログ」というAPIの形は共通化できる。</p>
-<p>プラットフォームごとの違いを内部に閉じ込めて、APIのインターフェースを統一した。AI側からは <code>POST /build</code>、<code>POST /launch</code>、<code>GET /screenshot</code> が同じように叩ける。対象がChrome拡張でもElectronでもVSCode拡張でも、AIの呼び出し方は変わらない。</p>
+<p>3つのプラットフォームはそれぞれ起動方法も確認方法も違う。Chrome拡張はブラウザにロードして、Electronはプロセスを起動して、VSCode拡張はExtension Hostを立ち上げる。でも「ビルド→確認→ログ」というAPIの形は共通化できる。</p>
+<p>プラットフォームごとの違いを内部に閉じ込めて、APIのインターフェースを統一した。AI側からは <code>POST /rebuild</code>、<code>POST /check-ui</code>、<code>GET /logs</code> が同じように叩ける。対象がChrome拡張でもElectronでもVSCode拡張でも、AIの呼び出し方は変わらない。</p>
 <p>設計の判断としては、プラットフォーム固有の処理をアダプタパターンで分離したこと。各プラットフォームの起動・確認ロジックを独立したモジュールに切り出して、共通のHTTP APIで呼べるようにしている。新しいプラットフォームを追加する時もアダプタを書けば済む。</p>
 <h2 id="npmdegong-kai-sitahua">npmで公開した話</h2>
 <p>KamoXはnpmで公開している。<code>npm install -g kamox</code> で入る。</p>
@@ -130,6 +131,7 @@
 <h2 id="jin-nozhuang-tai-tojin-hou">今の状態と今後</h2>
 <p>Chrome拡張、Electron、VSCode拡張の3プラットフォームに対応済みで、実際にAIと一緒に開発する時に使っている。このサイトのFubakoもKamoXを使ってAIがプレビューを確認しながら開発している。</p>
 <p>まだ改善の余地はある。特にエラーメッセージの設計をもう少し考えたい。AIがログを見て「何が悪いか」を判断できるように、エラーの構造化をもっと整える必要がある。スクリーンショットも、全画面だけでなく特定要素だけ切り抜けるようにするとトークン消費を抑えられるはずだ。</p>
+<p><strong>追記(2026.07)</strong>: この記事の後、ElectronとVSCode対応を大きく作り込んだ。IPCの監視、ネイティブダイアログのモック、VSCode専用のエンドポイント群など。詳しくは<a href="https://frog404.work/log/2025-06-25-kamox/%E3%83%AA%E3%83%B3%E3%82%AF">KamoXのElectronとVSCode対応を「使える」ようにした話</a>に書いた。</p>
 <h2 id="rinku">リンク</h2>
 <ul>
 <li><a href="https://github.com/iwabuchi404/kamox">GitHub</a></li>
@@ -163,7 +165,7 @@
     </div>
     <hr class="footer-bottom-divider">
     <div class="footer-meta">
-      <span class="footer-meta-text">最終更新 2026.07.11</span>
+      <span class="footer-meta-text">最終更新 2026.07.12</span>
       <span class="footer-meta-text">© frogworks404 2024–</span>
     </div>
   </div>

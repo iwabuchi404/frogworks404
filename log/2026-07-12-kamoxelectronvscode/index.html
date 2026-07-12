@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KamoXのElectronとVSCode対応を「使える」ようにした話 — frogworks404</title>
+
+  
+  <meta name="description" content="KamoXのElectron対応とVSCode対応の話">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDMincho:wght@400;700&family=BIZ+UDPGothic:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://frog404.work/main.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
+  
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GXV2EYXZYE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GXV2EYXZYE');
+  </script>
+  
+</head>
+<body>
+  <div class="page-layout">
+
+    
+    
+    
+    <aside class="page-sidebar" aria-label="サイトナビゲーション">
+      <div class="sidebar-inner">
+        <a href="https://frog404.work" class="sidebar-brand">
+          <span class="sidebar-brand-text">frogworks404</span>
+        </a>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-meta">
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">記録開始</span>
+            <span class="sidebar-meta-value">2024.01</span>
+          </div>
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">エントリ数</span>
+            <span class="sidebar-meta-value">17</span>
+          </div>
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">最終更新</span>
+            
+            
+            
+            
+            
+            <span class="sidebar-meta-value">2026.07</span>
+            
+          </div>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <nav class="sidebar-nav">
+          <div class="sidebar-nav-label">PAGES</div>
+          <a href="https://frog404.work" class="sidebar-nav-link">記録一覧</a>
+          <a href="https://frog404.work/projects" class="sidebar-nav-link">プロジェクト</a>
+          <a href="https://frog404.work/pages/about" class="sidebar-nav-link">About</a>
+        </nav>
+
+        <nav class="sidebar-nav">
+          <div class="sidebar-nav-label">TAGS</div>
+          <div class="sidebar-tag-list">
+            <a href="https://frog404.work/tags/ai-collaboration" class="sidebar-tag-badge sidebar-tag-badge-ai-collaboration">ai-collaboration</a>
+            <a href="https://frog404.work/tags/developer-tools" class="sidebar-tag-badge sidebar-tag-badge-developer-tools">developer-tools</a>
+            <a href="https://frog404.work/tags/interface" class="sidebar-tag-badge sidebar-tag-badge-interface">interface</a>
+            <a href="https://frog404.work/tags/hardware" class="sidebar-tag-badge sidebar-tag-badge-hardware">hardware</a>
+            <a href="https://frog404.work/tags/creative-tools" class="sidebar-tag-badge sidebar-tag-badge-creative-tools">creative-tools</a>
+            <a href="https://frog404.work/tags/knowledge" class="sidebar-tag-badge sidebar-tag-badge-knowledge">knowledge</a>
+          </div>
+        </nav>
+
+        
+        <div class="sidebar-links">
+          <div class="sidebar-nav-label">LINKS</div>
+          
+          <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">X ↗</a>
+          
+        </div>
+        
+      </div>
+    </aside>
+
+    
+    <div class="inner">
+      
+<header class="site-header">
+  <div class="cover-box">
+    <div class="cover-eyebrow">
+      <a href="https://frog404.work" class="cover-back">← 記録一覧</a>
+    </div>
+    <h1 class="cover-title cover-title--sm">KamoXのElectronとVSCode対応を「使える」ようにした話</h1>
+  </div>
+</header>
+
+<main class="article-wrap">
+  <div class="article-body">
+    <h2 id="dui-ying-siteiru-toshi-eru-hawei-tuta">対応している、と使える、は違った</h2>
+<p>前の記事で、KamoXが3プラットフォームに対応していると書いた。嘘ではなかったが、正確でもなかった。当時のElectron対応とVSCode対応は「起動してスクリーンショットが撮れる」レベルで、Chrome拡張と同じ密度で使えるものではなかった。</p>
+<p>実際にAIと開発する道具として使い込むと、プラットフォームごとに「スクショだけでは足りない部分」が全然違うことが分かってきた。この記事はその作り込みの記録。</p>
+<h2 id="electron-bu-ju-he-hahua-mian-nowai-deqi-kiru">Electron: 不具合は画面の外で起きる</h2>
+<p>FubakoをAIと開発していて気づいたのは、Electronの不具合の多くはレンダラーの画面上ではなく、メインプロセスとの間、IPCの向こう側で起きるということだった。【ここに実際の不具合の例を1つ: 画面は正常に見えるがIPCが失敗していた等】</p>
+<p>スクショを撮っても画面は正常に見える。DOMも問題ない。でも動かない。原因はIPCハンドラの名前の食い違いだったり、メインプロセス側の例外だったりする。AIにスクショとDOMだけ渡しても「画面は問題なさそうです」と返ってくるだけで、ループが前に進まない。</p>
+<p>なのでElectronアダプタにはIPCの監視を入れた。レンダラーとメインプロセスの間で飛んでいるメッセージをKamoXが記録して、<code>/logs</code>で取れる。AIは「ボタンを押した→IPCで<code>save-file</code>が飛んだ→メイン側で例外」という因果を、テキストで追える。</p>
+<p>もう1つがネイティブダイアログ。<code>dialog.showOpenDialog()</code>が開くOSのファイル選択ダイアログはDOMの外側なので、Playwrightからは触れない。人間なら手でファイルを選べばいいが、AIの自己確認ループの中では、ここで毎回止まる。なのでダイアログAPIの戻り値をモックできるようにした。「ファイル選択で<code>/tmp/test.txt</code>が返ってきた体で続きを動かす」ということがHTTP API経由でできる。</p>
+<p>Playwright自体のElectron対応はexperimental扱いだが、<code>electron.launch</code>での起動とウィンドウ操作は実行基盤として十分使えている。KamoXが足しているのは、その外側にあるIPCとネイティブUIの層だ。</p>
+<h2 id="vscodekuo-zhang-somosomowebpezidehanai">VSCode拡張: そもそもWebページではない</h2>
+<p>VSCode拡張はさらに別の世界だった。VSCode自体はElectronアプリだが、拡張の確認はExtension Development Hostを立ち上げてその中でやることになる。公式のテスト手段もPlaywrightではなく<code>@vscode/test-electron</code>系だ。</p>
+<p>それ以上に違うのは、確認したい対象がWebページの部品ではないこと。ボタンやフォームではなく、コマンドパレット、通知トースト、ステータスバー、ツリービュー、Problemsパネル。「コマンドを実行して、Problemsが増えていないか見る」がVSCode拡張開発の基本ループで、これはセレクタでDOMを叩く世界観と噛み合わない。</p>
+<p>なのでVSCodeアダプタには専用のエンドポイント群を持たせた。<code>/vscode/command</code>でコマンドIDを指定して実行、<code>/vscode/problems</code>でProblemsパネルのマーカー取得、<code>/vscode/notifications</code>で通知の確認、<code>/vscode/tree-view</code>でツリービューの中身。AIから見ると「コマンドを打って結果を見る」がcurl2回で済む。</p>
+<p>共通APIに寄せる、という方針からすると専用エンドポイントは敗北に見えるかもしれない。でも「ビルド→確認→ログ」の共通の骨格は保ちつつ、プラットフォーム固有の語彙は隠さず出す、という割り切りの方が実際には使いやすかった。VSCodeのProblemsパネルを無理やり<code>check-ui</code>のDOM情報に押し込んでも、AIにとって読みやすくはならない。</p>
+<h2 id="lian-sok-cao-zuo-kai-itapeziwowei-chi-suru">連続操作: 開いたページを維持する</h2>
+<p>3プラットフォームを使い込む中で、共通側にも直すべき問題が見つかった。<code>/check-ui</code>は確認のたびにページを開いて閉じる設計だったので、「さっき確認したpopupのボタンを押す」ができなかった。確認と操作が別のページに向いてしまう。</p>
+<p>なので<code>check-ui</code>に<code>keepOpen</code>オプションを足して、開いたページをpageIdで管理するようにした。操作系のAPIは<code>pageId</code>、<code>pageType</code>(popup / options / tab)、<code>pageUrl</code>などでページを指定できる。「popupを開いたままにして、そのpopupのボタンを押して、変化を見る」が繋がるようになった。</p>
+<h2 id="fen-katutakoto">分かったこと</h2>
+<p>共通化できるのはループの形で、確認の中身はプラットフォームごとに違う。「ビルドして、見て、操作して、ログを読む」という骨格は3つとも同じだが、「見る」の意味がChrome拡張ではpopupのDOMで、ElectronではIPCを含み、VSCodeではProblemsパネルを含む。最初の設計はこの骨格の共通性だけ見ていて、中身の違いを甘く見ていた。</p>
+<p>道具は対象と一緒に育つ、という当たり前の話でもある。Chrome拡張だけ触っていた頃には、IPCの監視もダイアログのモックも発想として出てこなかった。</p>
+<h2 id="rinku">リンク</h2>
+<ul>
+<li><a href="https://github.com/iwabuchi404/kamox">GitHub</a></li>
+<li><a href="https://www.npmjs.com/package/kamox">npm</a></li>
+<li><a href="https://frog404.work/log/2026-07-12-kamoxelectronvscode/%E3%83%AA%E3%83%B3%E3%82%AF">前の記事: AIにChrome拡張を作らせる — KamoXを作った理由と仕組み</a></li>
+</ul>
+
+  </div>
+</main>
+
+      <footer class="big-footer">
+  <div class="footer-cover">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-brand-title">frogworks404</div>
+        <div class="footer-brand-desc">人と機械の間にある摩擦を、道具として作り直す。AIとの知識共有、制作プロセス、入力デバイス、デジタル表現を題材に、ソフトウェアとハードウェアを試作している。</div>
+      </div>
+      <div class="footer-columns footer-columns--nav">
+        <div class="footer-col">
+          <div class="footer-col-label">ページ</div>
+          <a href="https://frog404.work">記録一覧</a>
+          <a href="https://frog404.work/pages/projects">プロジェクト一覧</a>
+          <a href="https://frog404.work/pages/about">About</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label">リンク</div>
+          
+          <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" target="_blank" rel="noopener noreferrer">X</a>
+          
+        </div>
+      </div>
+    </div>
+    <hr class="footer-bottom-divider">
+    <div class="footer-meta">
+      <span class="footer-meta-text">最終更新 2026.07.12</span>
+      <span class="footer-meta-text">© frogworks404 2024–</span>
+    </div>
+  </div>
+</footer>
+
+    </div>
+
+  </div>
+</body>
+</html>
