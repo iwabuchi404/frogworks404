@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSSに設計論がない気がして、AIと考え直した記録 — frogworks404</title>
+
+  
+  <meta name="description" content="人と機械の間にある摩擦を、道具として作り直す。AIとの知識共有、制作プロセス、入力デバイス、デジタル表現を題材に、ソフトウェアとハードウェアを試作している。">
+  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDMincho:wght@400;700&family=BIZ+UDPGothic:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://frog404.work/main.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
+  
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GXV2EYXZYE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GXV2EYXZYE');
+  </script>
+  
+</head>
+<body>
+  <div class="page-layout">
+
+    
+    
+    
+    <aside class="page-sidebar" aria-label="サイトナビゲーション">
+      <div class="sidebar-inner">
+        <a href="https://frog404.work" class="sidebar-brand">
+          <span class="sidebar-brand-text">frogworks404</span>
+        </a>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-meta">
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">記録開始</span>
+            <span class="sidebar-meta-value">2024.01</span>
+          </div>
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">エントリ数</span>
+            <span class="sidebar-meta-value">18</span>
+          </div>
+          <div class="sidebar-meta-row">
+            <span class="sidebar-meta-label">最終更新</span>
+            
+            
+            
+            
+            
+            <span class="sidebar-meta-value">2026.07</span>
+            
+          </div>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <nav class="sidebar-nav">
+          <div class="sidebar-nav-label">PAGES</div>
+          <a href="https://frog404.work" class="sidebar-nav-link">記録一覧</a>
+          <a href="https://frog404.work/projects" class="sidebar-nav-link">プロジェクト</a>
+          <a href="https://frog404.work/pages/about" class="sidebar-nav-link">About</a>
+        </nav>
+
+        <nav class="sidebar-nav">
+          <div class="sidebar-nav-label">TAGS</div>
+          <div class="sidebar-tag-list">
+            <a href="https://frog404.work/tags/ai-collaboration" class="sidebar-tag-badge sidebar-tag-badge-ai-collaboration">ai-collaboration</a>
+            <a href="https://frog404.work/tags/developer-tools" class="sidebar-tag-badge sidebar-tag-badge-developer-tools">developer-tools</a>
+            <a href="https://frog404.work/tags/interface" class="sidebar-tag-badge sidebar-tag-badge-interface">interface</a>
+            <a href="https://frog404.work/tags/hardware" class="sidebar-tag-badge sidebar-tag-badge-hardware">hardware</a>
+            <a href="https://frog404.work/tags/creative-tools" class="sidebar-tag-badge sidebar-tag-badge-creative-tools">creative-tools</a>
+            <a href="https://frog404.work/tags/knowledge" class="sidebar-tag-badge sidebar-tag-badge-knowledge">knowledge</a>
+          </div>
+        </nav>
+
+        
+        <div class="sidebar-links">
+          <div class="sidebar-nav-label">LINKS</div>
+          
+          <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">X ↗</a>
+          
+        </div>
+        
+      </div>
+    </aside>
+
+    
+    <div class="inner">
+      
+<header class="site-header">
+  <div class="cover-box">
+    <div class="cover-eyebrow">
+      <a href="https://frog404.work" class="cover-back">← 記録一覧</a>
+    </div>
+    <h1 class="cover-title cover-title--sm">CSSに設計論がない気がして、AIと考え直した記録</h1>
+  </div>
+</header>
+
+<main class="article-wrap">
+  <div class="article-body">
+    <p>CSSのネイティブ機能は、この数年で急に増えた。<code>@layer</code>、<code>@scope</code>、コンテナクエリ、<code>:has()</code>、ネスト、アンカーポジショニング。ハックやJSに頼っていたことの多くが、言語機能で書けるようになっている。</p>
+<p>なら、この強くなったCSSを前提にした設計の枠組みが、そろそろ出てきてもいいはずだ。UIライブラリというか、CSSフレームワークというか。それらしいものが見当たらない。おかしくないか——というのが、最初のモヤモヤだった。</p>
+<p>うまく言語化できていなかったので、AIを壁打ち相手にして掘ってみた。掘っているうちに、自分の主張が二度訂正されることになった。その過程ごと書いておく。解決策の話にはならないので、そこはあらかじめ断っておきたい。
+Tailwindは流行った。CSSをコントロール可能な対象として示した意味は大きかったと思う。ただ、あれがやったのは責務をReactやVueのコンポーネント側へ移すことで、何かが解決されたわけではない。移された先のコンポーネント指向フレームワークは、コンポーネントとしての再利用や分割しか考えていない。特にReactはCSSを扱う機能が薄く、スタンダードすらない。二線級の扱いだ。</p>
+<h2 id="gou-zao-notong-zhi-dehafang-genai-toqi-duku">「構造の統治」では防げない、と気づく</h2>
+<p>最初にAIが返してきたのは、いかにも筋の良さそうな答えだった。<code>@layer</code>のレイヤー分類規約。生値を禁止するトークン出所規則。それを機械的に落とすリント。tsconfigのようにプロジェクトの憲法になる設定ファイルを置く、という案まで付いてきた。なるほど、と一瞬思った。</p>
+<p>でも、これでは防げない。</p>
+<p>私の実感では、CSSがぐちゃぐちゃになっていく最大の要因は、命名の乱れでも詳細度の衝突でもない。デザインとCSS設計のズレが、拡大し続けることだ。なぜこの操作を目立たせるのか。なぜこの状態でこの色なのか。そうしたデザイン上の判断は、実装に落ちる過程でどこにも記録されない。あとに残るのは、意味の分からない指定の山だ。</p>
+<p>正確に言えば「意味の分からない<strong>ように見える</strong>」指定だ。書かれた時点では、意味はあった。回収できなくなっただけで。</p>
+<p>たとえば、構造としては何も問題のないこういうCSSがあったとする。</p>
+<pre data-lang="css" class="language-css "><code class="language-css" data-lang="css">.account-card__delete-button--danger {
+  color: var(--color-danger);
+}
+</code></pre>
+<p>命名は規約通り。生値はなく、トークン参照。リントは全部通る。それでも、このコードは何も答えてくれない。なぜこの操作が<code>danger</code>なのか。<code>danger</code>が表しているのは危険性なのか、不可逆性なのか。目立たせるべきなのか、誤操作防止のためにむしろ抑制すべきなのか。構造が正しいことと、意味が正しいことは、別の問題なのだ。</p>
+<p>レイヤー規約やリントは、言うなれば「構造の統治」だ。私が欲しかったのは、その一段上——「意味の統治」の方だった。</p>
+<h2 id="csswoshi-ishe-tenisureba-woque-xia-suru">「CSSを使い捨てにすれば」を却下する</h2>
+<p>対話の途中で、発想の反転が出てきた。デザインモデルだけを真実とし、CSSは再生成可能な派生物として使い捨てる。ズレはCSSを手でパッチし続けるから蓄積するのだから、パッチ自体を禁じればいい、と。</p>
+<p>一瞬、筋が通って見える。でも即座に却下した。</p>
+<p>まず、その発想自体がCSSの地位の低さの表れだと感じる。そして何より、これはプログラミング言語で既に失敗していることだ。モデルからコードを全生成するというMDA/UMLの夢は死んだ。生き残ったのは生成ではなく、DDDやClean Architectureのような、人が内面化する設計論の方だった。プログラミング言語でできなかったことが、CSSでできるとは思えない。</p>
+<p>却下してみて、自分の欲しいものがはっきりした。ツールやフレームワークではない。設計論だ。MVCやDDDには層の名前があり、責務の割り当てがあり、依存方向の規則があり、プロジェクトや人をまたいで通じる。CSSには、それに相当するものがない。BEMやITCSSが扱っていたのは命名とファイル構成の話で、一段下だ。</p>
+<h2 id="domaingabo-i-toya-sifan-su">「Domainが薄い」と押し返す</h2>
+<p>設計論という方向で、AIが層分けを出してきた。判断層、語彙層、構造層、表象層、例外層。一見それらしい。でも、納得がいかなかった。Domainに相当する層が薄すぎる。デザインシステムを再現すれば良い、という話ではないはずなのだ。</p>
+<p>押し返しながら、自分の中で一番はっきりしてきたのは、デザインシステムへの違和感だった。デザインシステムは、ドメインの文脈を表現するために作られる。それなのに、文脈や意味の構造そのものは、デザインシステムの成果物にならない。成果物になるのはButtonやCard、<code>danger</code>バリアント、スペーシングトークン——語彙だ。</p>
+<p>では、「どの操作を<code>danger</code>に分類するのか」はどこにあるのか。削除という名前が付けば常に赤くするのか。復元可能な削除と不可逆な削除は、同じ表現でいいのか。この画面では危険性と主要性のどちらを優先するのか。語彙を適用する判断は、語彙の外にある。判断できたとしても、その意味論的な構造はデザインとコードで少しずつズレていく。さっきの<code>--danger</code>ボタンが答えてくれなかったのは、まさにこの部分だ。</p>
+<h2 id="qian-ti-woyi-u-somosomojie-jue-sareteinainoka">前提を疑う。「そもそも解決されていないのか？」</h2>
+<p>ここまでで、主張が固まりかけていた。CSSにはUI意味構造を成果物化する層が欠けていて、そこは空席だ——。</p>
+<p>固まりかけたところで、怖くなった。本当に空席なのか。既に何かあるんじゃないか。そもそも、誰にも求められていない可能性は。別のAIに、前提の検証をさせた。</p>
+<p>結果、二箇所訂正された。</p>
+<p>一つ目。「空席」は言い過ぎだった。上流にはOOUXが存在する。オブジェクト・関係・行為・属性を整理する、ORCAという枠組みまである。モデルベースUIという研究の系譜も、ドメインモデルやタスクモデルからUIへの写像を昔から扱ってきた。空席ではなく、断片化。空いているのは意味構造そのものではなく、それらを現代のコンポーネント・トークン・CSSネイティブ機能まで、一貫して追跡できる形で接続する層だった。</p>
+<p>二つ目。デザインシステム批判も強すぎた。USWDSやPolarisのような成熟したデザインシステムは、業務パターンや判断理由まで文書化している。「カタログにすぎない」は不当で、正確にはこうだ。判断が散文とデザイナーの暗黙知に留まっていて、オブジェクト・状態・コンポーネント・CSSの間を機械的に追跡できるモデルになっていない。</p>
+<p>主張は弱くなった。でも、輪郭はむしろ明確になった。上流には、意味を考える手法がある。下流には、実装を管理する手法がある。無いのはその間——「このデザイン上の意味を、なぜこの実装構造と表現へ変換するのか」という接続部分が、体系化された成果物になっていない。</p>
+<p>接続と言っても、上流の意味さえ決まれば実装は自動的に決まるのでは、と思われるかもしれない。決まらない。仕様に「主要な操作を明確にする」と書いてあったとしよう。実装には、まだ判断が山ほど残っている。サイズで強調するのか、色か。周囲の要素を弱めるのか、位置で示すのか。モバイルでは順序を変えるのか。無効状態でも主要性は維持するのか。主要な操作が複数競合したら、どうするのか。意味から表現への変換には、解釈と判断が挟まる。ここは作業ではなく、本来は設計の対象なのだ。</p>
+<p>この接続が成果物にならない限り、デザイン意図は実装へ移る過程で暗黙化し、個々の実装者の判断に分散する。見た目は似ているのに意味的には別物の実装や、理由を説明できないCSSは、こうして蓄積する。</p>
+<h2 id="cssshe-ji-wo-guang-kuzhuo-ezhi-sitai">CSS設計を、広く捉え直したい</h2>
+<p>ここまで来て、自分の中でCSS設計の捉え方自体が変わっていることに気づいた。</p>
+<p>現在「CSS設計」と呼ばれているもの——BEM、ITCSS、CSS Modules、<code>@layer</code>——は、決まった表現をどう壊れにくく実装し、管理するかを扱っている。言うなれば詳細設計論だ。それ自体は現実の問題への重要な蓄積で、否定する気はまったくない。</p>
+<p>ただ私は、CSSをデザイン上の決定を受け取るだけの受動的な出力形式ではなく、デザイン上の意味をWebで知覚可能な表現へ翻訳する、最終の実行層として捉え直したい。そう捉えると、CSS設計の射程は「何を、なぜ、そのように表現するのか」まで——意味が最終出力まで保たれることまで——広がることになる。</p>
+<p>あくまで私個人の捉え直しで、呼び名を付けられるほど固まってもいない。ただ、この捉え方に立つと冒頭のモヤモヤの正体は少しはっきりする。無かったのは上位の設計論の方で、詳細設計論なら、ずっと豊富にあったのだ。</p>
+<h2 id="ni-fang-xiang-nixue-gajian-erukamosirenai-toiuyu-gan">逆方向に穴が見えるかもしれない、という予感</h2>
+<p>もう一つ、考えていて面白かったのは、逆方向の効果への予感だ。</p>
+<p>デザイン意図を実装へ変換しようとすると、おそらく変換できない場面に出会う。原因を掘ると、実装力の不足ではなく、上流で意味が定義されていないことに行き当たるケースがかなりあるのではないか。この画面の主目的は何か。危険な操作と不可逆な操作は、同じ扱いでいいのか。権限不足やデータ欠損の状態は、モデル化されているか。こうした問いに、答えが用意されていない形で。</p>
+<p>もしそうなら、接続を成果物にしようとする行為自体が、デザイン設計の解像度を検査する装置になりうる。まだ検証していない仮説だが、これが個人的には、この問題を考え続ける一番の動機になっている。</p>
+<h2 id="aihayuan-yin-dehanaku-lu-cheng-saseta">AIは原因ではなく、露呈させた</h2>
+<p>ところで、考え始めたきっかけの一つは「AIにCSSを書かせるとぐちゃぐちゃになる」という実感だった。崩れ方を見ていると、既存のスタイルを、理由を理解しないまま模倣する。上流で定義されていない判断を、その場でそれらしく補完する。そういう振る舞いが目につく。</p>
+<p>ただ、整理してみるとAIは中心の問題ではなかった。人間同士の開発でも、デザイン意図は昔から同じ経路で失われてきた。人間は過去の経緯やチーム内の会話といった暗黙知で、なんとか接続を維持してきた。AIにはその暗黙知がない。暗黙知だけでは接続を維持できないことをAIが顕在化させた——それだけの話で、AIを抜きにしてもこの問題は残る。</p>
+<p>頭の中の暗黙の違和感を、AIとの対話で外在化する。この記事を書く作業自体が、同じ構図の入れ子になっていた。</p>
+<h2 id="ci-niyarukoto">次にやること</h2>
+<p>なんとなく、仮説めいたものは頭の中にある。ただ、それがちゃんとした形になるものなのかは、正直まだ分からない。ここで整理したことをもう少し詰めて、何かアウトプットにしてみたい。今のところ、その程度の温度感でいる。</p>
+<p>手始めに、小さく試す。自分のプロジェクトを1本選んで、既存のCSSから逆方向に「意味構造」を書き起こしてみる。そもそも書けるのか。書けるとして、どの粒度なら維持できるのか。あの<code>--danger</code>が何を意味していたのかを、自分のコードで説明できるのか——そのあたりから確かめていくつもりでいる。</p>
+
+  </div>
+</main>
+
+      <footer class="big-footer">
+  <div class="footer-cover">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-brand-title">frogworks404</div>
+        <div class="footer-brand-desc">人と機械の間にある摩擦を、道具として作り直す。AIとの知識共有、制作プロセス、入力デバイス、デジタル表現を題材に、ソフトウェアとハードウェアを試作している。</div>
+      </div>
+      <div class="footer-columns footer-columns--nav">
+        <div class="footer-col">
+          <div class="footer-col-label">ページ</div>
+          <a href="https://frog404.work">記録一覧</a>
+          <a href="https://frog404.work/pages/projects">プロジェクト一覧</a>
+          <a href="https://frog404.work/pages/about">About</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-label">リンク</div>
+          
+          <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" target="_blank" rel="noopener noreferrer">X</a>
+          
+        </div>
+      </div>
+    </div>
+    <hr class="footer-bottom-divider">
+    <div class="footer-meta">
+      <span class="footer-meta-text">最終更新 2026.07.16</span>
+      <span class="footer-meta-text">© frogworks404 2024–</span>
+    </div>
+  </div>
+</footer>
+
+    </div>
+
+  </div>
+</body>
+</html>
