@@ -33,11 +33,12 @@
   <main class="feed">
 
   {% for current_status in status_order %}
+  {% set_global status_heading_shown = false %}
   {% for page in projects_section.pages %}
   {% set et = page.extra.entry_type | default(value='') %}
   {% set st = page.extra.status | default(value='') %}
   {% if et == 'project' and st == current_status %}
-  {% if loop.first %}
+  {% if status_heading_shown == false %}
   <div class="section-divider"><span>
     {% if current_status == "in-operation" %}継続運用中
     {% elif current_status == "usable" %}利用可能
@@ -48,6 +49,7 @@
     {% elif current_status == "paused" %}休止
     {% else %}{{ current_status }}{% endif %}
   </span></div>
+  {% set_global status_heading_shown = true %}
   {% endif %}
   {% set page_tags = page.taxonomies.tags | default(value=[]) %}
   <article
