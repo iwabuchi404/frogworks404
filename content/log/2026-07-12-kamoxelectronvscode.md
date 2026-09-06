@@ -6,10 +6,6 @@ description: KamoXのElectron対応とVSCode対応の話
 extra:
   entry_type: article
   project_slug: kamox
-  progress: ''
-  progress_label: ''
-  project: false
-  status: idea
 taxonomies:
   tags:
     - ai-collaboration

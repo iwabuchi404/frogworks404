@@ -4,7 +4,7 @@
 
 {% block content %}
 {% set projects_section = get_section(path="projects/_index.md") %}
-{% set status_order = ["in-operation", "usable", "prototype", "concept", "paused"] %}
+{% set status_order = ["in-operation", "usable", "active", "prototype", "tech-verify", "concept", "paused"] %}
 
 <header class="site-header">
   <div class="cover-box">
@@ -27,6 +27,7 @@
     <button class="chip" :class="{ on: activeTag === 'hardware' }" @click="activeTag = 'hardware'">hardware</button>
     <button class="chip" :class="{ on: activeTag === 'creative-tools' }" @click="activeTag = 'creative-tools'">creative-tools</button>
     <button class="chip" :class="{ on: activeTag === 'knowledge' }" @click="activeTag = 'knowledge'">knowledge</button>
+    <button class="chip" :class="{ on: activeTag === 'note' }" @click="activeTag = 'note'">note</button>
   </nav>
 
   <main class="feed">
@@ -40,6 +41,7 @@
   <div class="section-divider"><span>
     {% if current_status == "in-operation" %}継続運用中
     {% elif current_status == "usable" %}利用可能
+    {% elif current_status == "active" %}公開中
     {% elif current_status == "prototype" %}試作
     {% elif current_status == "tech-verify" %}技術検証
     {% elif current_status == "concept" %}構想
@@ -65,9 +67,9 @@
         {% if page.description %}<p class="entry-body">{{ page.description }}</p>{% endif %}
       </div>
     </div>
-    {% if page.extra.thumbnail %}
+    {% if page.extra.cover_image %}
     <div class="entry-thumb-right">
-      <img src="{{ get_url(path=page.extra.thumbnail) }}" alt="{{ page.title }}" loading="lazy">
+      <img src="{{ get_url(path=page.extra.cover_image) }}" alt="{{ page.title }}" loading="lazy">
     </div>
     {% endif %}
   </article>

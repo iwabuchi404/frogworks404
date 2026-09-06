@@ -13,6 +13,50 @@
   <meta name="description" content="{{ config.description }}">
   {% endif %}
 
+  {# ── Canonical & OGP（各記事の内容から自動生成） ── #}
+  {% if page %}
+  {% set og_title = page.title %}
+  {% set og_desc = page.description | default(value=config.description) %}
+  {% set og_url = page.permalink %}
+  {% set og_type = "article" %}
+  {% set og_img = page.extra.og_image | default(value="") %}
+  {% if og_img == "" %}
+  {% set og_img = page.extra.cover_image | default(value="") %}
+  {% endif %}
+  {% elif section %}
+  {% set og_title = section.title | default(value=config.title) %}
+  {% set og_desc = section.description | default(value=config.description) %}
+  {% set og_url = section.permalink %}
+  {% set og_type = "website" %}
+  {% set og_img = "" %}
+  {% elif term %}
+  {% set og_title = term.name %}
+  {% set og_desc = config.description %}
+  {% set og_url = term.permalink %}
+  {% set og_type = "website" %}
+  {% set og_img = "" %}
+  {% else %}
+  {% set og_title = config.title %}
+  {% set og_desc = config.description %}
+  {% set og_url = config.base_url %}
+  {% set og_type = "website" %}
+  {% set og_img = "" %}
+  {% endif %}
+  <link rel="canonical" href="{{ og_url | safe }}">
+  <meta property="og:site_name" content="{{ config.title }}">
+  <meta property="og:type" content="{{ og_type }}">
+  <meta property="og:title" content="{{ og_title }}">
+  <meta property="og:description" content="{{ og_desc }}">
+  <meta property="og:url" content="{{ og_url | safe }}">
+  {% if og_img != "" %}
+  <meta property="og:image" content="{{ get_url(path=og_img) }}">
+  <meta name="twitter:card" content="summary_large_image">
+  {% else %}
+  <meta name="twitter:card" content="summary">
+  {% endif %}
+  <meta name="twitter:title" content="{{ og_title }}">
+  <meta name="twitter:description" content="{{ og_desc }}">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=BIZ+UDMincho:wght@400;700&family=BIZ+UDPGothic:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -59,8 +103,8 @@
             <span class="sidebar-meta-label">最終更新</span>
             {% set log_latest = log.pages | first %}
             {% set pages_latest = projects_section.pages | first %}
-            {% set log_ym = log_latest.date | date(format="%Y%m") | int %}
-            {% set pages_ym = pages_latest.date | date(format="%Y%m") | int %}
+            {% set log_ym = log_latest.date | date(format="%Y%m%d") | int %}
+            {% set pages_ym = pages_latest.date | date(format="%Y%m%d") | int %}
             {% if log_ym >= pages_ym %}
             <span class="sidebar-meta-value">{{ log_latest.date | date(format="%Y.%m") }}</span>
             {% else %}
@@ -87,6 +131,7 @@
             <a href="{{ get_url(path='/tags/hardware') }}" class="sidebar-tag-badge sidebar-tag-badge-hardware">hardware</a>
             <a href="{{ get_url(path='/tags/creative-tools') }}" class="sidebar-tag-badge sidebar-tag-badge-creative-tools">creative-tools</a>
             <a href="{{ get_url(path='/tags/knowledge') }}" class="sidebar-tag-badge sidebar-tag-badge-knowledge">knowledge</a>
+            <a href="{{ get_url(path='/tags/note') }}" class="sidebar-tag-badge sidebar-tag-badge-note">note</a>
           </div>
         </nav>
 

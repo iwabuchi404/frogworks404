@@ -29,6 +29,7 @@
       <span class="cell-value">
         {% if page.extra.status == "in-operation" %}継続運用中
         {% elif page.extra.status == "usable" %}利用可能
+        {% elif page.extra.status == "active" %}公開中
         {% elif page.extra.status == "prototype" %}試作
         {% elif page.extra.status == "tech-verify" %}技術検証
         {% elif page.extra.status == "concept" %}構想

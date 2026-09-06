@@ -26,8 +26,8 @@
       <span class="cell-label">最終更新</span>
       {% set log_latest = log.pages | first %}
       {% set pages_latest = projects_section.pages | first %}
-      {% set log_ym = log_latest.date | date(format="%Y%m") | int %}
-      {% set pages_ym = pages_latest.date | date(format="%Y%m") | int %}
+      {% set log_ym = log_latest.date | date(format="%Y%m%d") | int %}
+      {% set pages_ym = pages_latest.date | date(format="%Y%m%d") | int %}
       {% if log_ym >= pages_ym %}
       <span class="cell-value">{{ log_latest.date | date(format="%Y.%m") }}</span>
       {% else %}
@@ -57,6 +57,7 @@
         <span class="pickup-status">
           {% if page.extra.status == "in-operation" %}継続運用中
           {% elif page.extra.status == "usable" %}利用可能
+          {% elif page.extra.status == "active" %}公開中
           {% elif page.extra.status == "prototype" %}試作
           {% elif page.extra.status == "tech-verify" %}技術検証
           {% elif page.extra.status == "concept" %}構想
@@ -90,6 +91,7 @@
     <button class="chip" :class="{ on: activeTag === 'hardware' }" @click="activeTag = 'hardware'">hardware</button>
     <button class="chip" :class="{ on: activeTag === 'creative-tools' }" @click="activeTag = 'creative-tools'">creative-tools</button>
     <button class="chip" :class="{ on: activeTag === 'knowledge' }" @click="activeTag = 'knowledge'">knowledge</button>
+    <button class="chip" :class="{ on: activeTag === 'note' }" @click="activeTag = 'note'">note</button>
   </nav>
 
   <main class="feed">
@@ -98,7 +100,7 @@
     {% for page in log.pages | slice(end=6) %}
     {% set page_tags = page.taxonomies.tags | default(value=[]) %}
     <article
-      class="entry{% if page.extra.entry_type | default(value='') == 'product' %} entry--product{% endif %}"
+      class="entry{% if page.extra.entry_type | default(value='') == 'project' %} entry--product{% endif %}"
       x-show='activeTag === "all" || {{ page_tags | json_encode | safe }}.includes(activeTag)'
     >
       <div class="entry-meta">
@@ -110,7 +112,7 @@
       <div class="entry-clickable">
         <h2 class="entry-title">
           <a href="{{ page.permalink }}">{{ page.title }}</a>
-          {% if page.extra.entry_type | default(value='') == 'product' %}
+          {% if page.extra.entry_type | default(value='') == 'project' %}
           <span class="entry-arrow">→</span>
           {% endif %}
         </h2>

@@ -1,6 +1,6 @@
 ---
 title: 触覚ノブデバイス —  試作記録
-date: '2026-06-10'
+date: '2025-06-10'
 description: 左手用ノブ入力デバイスの試作。渦電流ブレーキによるフォースフィードバックを目的とした構成で、フリーホイールの逆ダイオード修正を経てエアギャップ詰めの段階へ。
 taxonomies:
   tags:
@@ -10,7 +10,6 @@ extra:
   project: true
   status: prototype
   project_slug: dial-mixer
-  slug: dial-mixer
 ---
 
 ## 概要

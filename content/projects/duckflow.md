@@ -1,5 +1,5 @@
 ---
-title: 'duckflow '
+title: duckflow
 date: '2025-03-25'
 description: 開発者のローカル環境で動作する対話型AIコーディングエージェント。弱いLLMでもユーザーとの協業を通じて実用的な成果を出す「相棒」を目指す。
 template: pages/project.html

@@ -8,6 +8,7 @@ taxonomies:
 extra:
   entry_type: article
   project_slug: context-mixer
+  og_image: /uploads/2026/06/7d808d5e-159e-481a-bf11-f4c672373d2c.png
 ---
 
 ## 始まりはNotionへの不満

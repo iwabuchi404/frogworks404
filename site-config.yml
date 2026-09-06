@@ -43,10 +43,16 @@ content_types:
         rows: 3
         placeholder: "エントリの概要（フィードカードに表示）"
 
+      - key: "extra.og_image"
+        type: "text"
+        label: "OGP画像"
+        placeholder: "/uploads/xxxx.png"
+        help: "SNSシェア時の画像。未入力の場合はOGP画像なしになります"
+
       - key: "extra.entry_type"
         type: "select"
         label: "エントリタイプ"
-        options: ["article", "product"]
+        options: ["article", "project", "essay", "experiment"]
         default: "article"
 
       - key: "extra.project_slug"
@@ -77,8 +83,8 @@ content_types:
       - key: "extra.status"
         type: "select"
         label: "プロジェクトステータス"
-        options: ["active", "shipped", "paused", "idea"]
-        default: "idea"
+        options: ["in-operation", "usable", "active", "prototype", "tech-verify", "concept", "paused"]
+        default: "concept"
 
       - key: "taxonomies.tags"
         type: "list"
@@ -99,6 +105,12 @@ content_types:
         type: "textarea"
         label: "概要 (SEO)"
         rows: 2
+
+      - key: "extra.og_image"
+        type: "text"
+        label: "OGP画像"
+        placeholder: "/uploads/xxxx.png"
+        help: "SNSシェア時の画像。未入力の場合はカバー画像、どちらも無ければOGP画像なしになります"
 
       - key: "template"
         type: "text"
@@ -125,7 +137,7 @@ content_types:
       - key: "extra.entry_type"
         type: "select"
         label: "エントリタイプ"
-        options: ["article", "product"]
+        options: ["article", "project", "essay", "experiment"]
         default: "article"
 
       - key: "_content"
@@ -150,8 +162,8 @@ content_types:
       - key: "extra.status"
         type: "select"
         label: "プロジェクトステータス"
-        options: ["active", "shipped", "paused", "idea"]
-        default: "idea"
+        options: ["in-operation", "usable", "active", "prototype", "tech-verify", "concept", "paused"]
+        default: "concept"
 
       - key: "taxonomies.tags"
         type: "list"

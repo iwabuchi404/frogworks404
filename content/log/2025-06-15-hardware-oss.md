@@ -1,6 +1,6 @@
 ---
 title: ハードウェアをOSSにするとはどういうことか
-date: '2026-06-27'
+date: '2025-06-15'
 description: 自分用に動くものと、他人が再現できるものは別物だった
 taxonomies:
   tags:
@@ -9,6 +9,7 @@ taxonomies:
 extra:
   entry_type: article
   project_slug: halfgrip
+  og_image: /uploads/2026/06/b803c61a-fb1d-4d59-9bfb-bd5754845c66.png
 slug: 2025-06-15-hardware-oss
 ---
 

@@ -1,4 +1,4 @@
-base_url = "https://frogworks404.dev"
+base_url = "https://frog404.work"
 title = "frogworks404"
 description = "人と機械の間にある摩擦を、道具として作り直す。AIとの知識共有、制作プロセス、入力デバイス、デジタル表現を題材に、ソフトウェアとハードウェアを試作している。"
 default_language = "ja"
@@ -10,9 +10,9 @@ name = "tags"
 
 [extra]
 start_date = "2024.01"
-github = ""
+github = "https://github.com/iwabuchi404"
 x = "https://x.com/frogworks404"
 booth = ""
 analytics_provider = "google"
 analytics_google_id = "G-GXV2EYXZYE"
-analytics_plausible_domain = "flog404.work"
+analytics_plausible_domain = "frog404.work"

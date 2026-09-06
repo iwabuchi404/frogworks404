@@ -8,6 +8,7 @@ taxonomies:
 extra:
   entry_type: article
   project_slug: fubako
+  og_image: /uploads/2026/06/0122fcdd-377d-4c00-9ab9-210ddf8a6e65.png
 slug: 2025-06-16-fubako-dev
 ---
 
