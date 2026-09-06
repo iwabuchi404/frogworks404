@@ -56,4 +56,4 @@ VSCode拡張はさらに別の世界だった。VSCode自体はElectronアプリ
 
 - [GitHub](https://github.com/iwabuchi404/kamox)
 - [npm](https://www.npmjs.com/package/kamox)
-- [前の記事: AIにChrome拡張を作らせる — KamoXを作った理由と仕組み](リンク)
+- [前の記事: AIにChrome拡張を作らせる — KamoXを作った理由と仕組み](/log/2025-06-25-kamox/)

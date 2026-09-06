@@ -50,7 +50,7 @@ GlowやBloomを効果レイヤーとして非破壊で適用できます。HDR�
 | 言語 | TypeScript |
 | GPU API | WebGPU |
 | シェーダー | WGSL |
-| UI | React |
+| UI | Lit (Web Components) |
 | ビルド | Vite |
 
 ## 今の状態

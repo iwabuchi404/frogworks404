@@ -55,9 +55,9 @@ content_types:
         required: true
       - key: "date"
         type: "date"
-      - key: "extra.type"
+      - key: "extra.entry_type"
         type: "select"
-        options: ["article", "product"]
+        options: ["article", "project", "essay", "experiment"]
       - key: "_content"
         type: "markdown"
 ```
@@ -89,7 +89,7 @@ Zolaのローカルサーバーを内蔵していて、編集中の記事がリ�
 
 ## 今の状態
 
-Phase 3（品質向上）の途中。基本機能、Git統合、デプロイは動いている。今はタクソノミー対応やビルドエラー表示の改善を進めている。
+基本機能、Git統合、デプロイ、タクソノミー対応は動いている。このサイトのタグフィルターやOGP設定もsite-config.ymlのフィールド定義で管理している。今はビルドエラー表示の改善などを進めている。
 
 このサイト（frogworks404）自体がFubakoで管理・公開されていて、使いながら気づいたことをそのまま直せる。
 
