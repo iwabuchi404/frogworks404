@@ -9,6 +9,26 @@
   <meta name="description" content="人と機械の間にある摩擦を、道具として作り直す。AIとの知識共有、制作プロセス、入力デバイス、デジタル表現を題材に、ソフトウェアとハードウェアを試作している。">
   
 
+  
+  
+  
+  
+  
+  
+  
+  
+  <link rel="canonical" href="https://frog404.work/projects/">
+  <meta property="og:site_name" content="frogworks404">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="プロジェクト一覧">
+  <meta property="og:description" content="人と機械の間にある摩擦を、道具として作り直す。AIとの知識共有、制作プロセス、入力デバイス、デジタル表現を題材に、ソフトウェアとハードウェアを試作している。">
+  <meta property="og:url" content="https://frog404.work/projects/">
+  
+  <meta name="twitter:card" content="summary">
+  
+  <meta name="twitter:title" content="プロジェクト一覧">
+  <meta name="twitter:description" content="人と機械の間にある摩擦を、道具として作り直す。AIとの知識共有、制作プロセス、入力デバイス、デジタル表現を題材に、ソフトウェアとハードウェアを試作している。">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=BIZ+UDMincho:wght@400;700&family=BIZ+UDPGothic:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -79,13 +99,14 @@
             <a href="https://frog404.work/tags/hardware" class="sidebar-tag-badge sidebar-tag-badge-hardware">hardware</a>
             <a href="https://frog404.work/tags/creative-tools" class="sidebar-tag-badge sidebar-tag-badge-creative-tools">creative-tools</a>
             <a href="https://frog404.work/tags/knowledge" class="sidebar-tag-badge sidebar-tag-badge-knowledge">knowledge</a>
+            <a href="https://frog404.work/tags/note" class="sidebar-tag-badge sidebar-tag-badge-note">note</a>
           </div>
         </nav>
 
         
         <div class="sidebar-links">
           <div class="sidebar-nav-label">LINKS</div>
-          
+          <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
           <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">X ↗</a>
           
         </div>
@@ -120,6 +141,7 @@
     <button class="chip" :class="{ on: activeTag === 'hardware' }" @click="activeTag = 'hardware'">hardware</button>
     <button class="chip" :class="{ on: activeTag === 'creative-tools' }" @click="activeTag = 'creative-tools'">creative-tools</button>
     <button class="chip" :class="{ on: activeTag === 'knowledge' }" @click="activeTag = 'knowledge'">knowledge</button>
+    <button class="chip" :class="{ on: activeTag === 'note' }" @click="activeTag = 'note'">note</button>
   </nav>
 
   <main class="feed">
@@ -154,6 +176,10 @@
       </div>
     </div>
     
+    <div class="entry-thumb-right">
+      <img src="https://frog404.work/uploads/2026/06/7d808d5e-159e-481a-bf11-f4c672373d2c.png" alt="ContextMixer" loading="lazy">
+    </div>
+    
   </article>
   
   
@@ -182,6 +208,10 @@
         </h2>
         <p class="entry-body">URL・メモをAndroidホーム画面風グリッドで管理するブックマークPWA。ドラッグ&amp;リサイズ可能なウィジェット感覚の操作。</p>
       </div>
+    </div>
+    
+    <div class="entry-thumb-right">
+      <img src="https://frog404.work/uploads/2026/06/e3183777-2d4f-4e02-870a-4f82325a9422.png" alt="omiLink" loading="lazy">
     </div>
     
   </article>
@@ -220,6 +250,10 @@
         </h2>
         <p class="entry-body">Zolaベースの静的サイトをGUIで管理できるデスクトップCMS。Electron + Vue 3で構築。</p>
       </div>
+    </div>
+    
+    <div class="entry-thumb-right">
+      <img src="https://frog404.work/uploads/2026/06/0122fcdd-377d-4c00-9ab9-210ddf8a6e65.png" alt="Fubako" loading="lazy">
     </div>
     
   </article>
@@ -318,6 +352,62 @@
   
   
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <article
+    class="entry entry--product entry--row"
+    x-show='activeTag === "all" || ["creative-tools"].includes(activeTag)'
+  >
+    <div class="entry-text">
+      <div class="entry-meta">
+        <span class="entry-date">2026.04.12</span>
+        <span class="badge badge-creative-tools">creative-tools</span>
+      </div>
+      <div class="entry-clickable">
+        <h2 class="entry-title">
+          <a href="https:&#x2F;&#x2F;frog404.work&#x2F;projects&#x2F;photon-mixer&#x2F;">PhotonMixer</a>
+          <span class="entry-arrow">→</span>
+        </h2>
+        <p class="entry-body">float32リニアカラー・WebGPUネイティブ・SAIレベルのペン体験を核とするイラストソフト。アナログ模倣を捨て、デジタルの正確性を表現ツールとして再定義する。</p>
+      </div>
+    </div>
+    
+  </article>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   <article
     class="entry entry--product entry--row"
     x-show='activeTag === "all" || ["hardware","interface"].includes(activeTag)'
@@ -334,6 +424,10 @@
         </h2>
         <p class="entry-body">Androidネイティブカメラアプリ + 自作USB-C HIDグリップデバイス。半押しAFロックを含むミラーレス的な操作感をスマホで実現する。</p>
       </div>
+    </div>
+    
+    <div class="entry-thumb-right">
+      <img src="https://frog404.work/uploads/2026/06/b803c61a-fb1d-4d59-9bfb-bd5754845c66.png" alt="HalfGrip" loading="lazy">
     </div>
     
   </article>
@@ -375,14 +469,52 @@
       </div>
       <div class="entry-clickable">
         <h2 class="entry-title">
-          <a href="https:&#x2F;&#x2F;frog404.work&#x2F;projects&#x2F;duckflow&#x2F;">duckflow </a>
+          <a href="https:&#x2F;&#x2F;frog404.work&#x2F;projects&#x2F;duckflow&#x2F;">duckflow</a>
           <span class="entry-arrow">→</span>
         </h2>
         <p class="entry-body">開発者のローカル環境で動作する対話型AIコーディングエージェント。弱いLLMでもユーザーとの協業を通じて実用的な成果を出す「相棒」を目指す。</p>
       </div>
     </div>
     
+    <div class="entry-thumb-right">
+      <img src="https://frog404.work/uploads/2026/06/49f38102-e110-44f2-9ba1-ef301e5ccca1.png" alt="duckflow" loading="lazy">
+    </div>
+    
   </article>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   
@@ -469,12 +601,12 @@
         <div class="footer-col">
           <div class="footer-col-label">ページ</div>
           <a href="https://frog404.work">記録一覧</a>
-          <a href="https://frog404.work/pages/projects">プロジェクト一覧</a>
+          <a href="https://frog404.work/projects">プロジェクト一覧</a>
           <a href="https://frog404.work/pages/about">About</a>
         </div>
         <div class="footer-col">
           <div class="footer-col-label">リンク</div>
-          
+          <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" target="_blank" rel="noopener noreferrer">X</a>
           
         </div>
@@ -482,7 +614,7 @@
     </div>
     <hr class="footer-bottom-divider">
     <div class="footer-meta">
-      <span class="footer-meta-text">最終更新 2026.07.16</span>
+      <span class="footer-meta-text">最終更新 2026.09.06</span>
       <span class="footer-meta-text">© frogworks404 2024–</span>
     </div>
   </div>
