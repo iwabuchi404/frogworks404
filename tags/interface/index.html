@@ -31,9 +31,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDMincho:wght@400;700&family=BIZ+UDPGothic:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://frog404.work/main.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
 
   
   
@@ -47,206 +46,302 @@
   
 </head>
 <body>
-  <div class="page-layout">
+<script>document.documentElement.classList.add('js');</script>
+<script src="https://frog404.work/js/menu.js" defer></script>
 
-    
-    
-    
-    <aside class="page-sidebar" aria-label="サイトナビゲーション">
-      <div class="sidebar-inner">
-        <a href="https://frog404.work" class="sidebar-brand">
-          <span class="sidebar-brand-text">frogworks404</span>
-        </a>
+<div class="frame">
 
-        <hr class="sidebar-divider">
+  
+  <aside class="binding" aria-label="サイトナビゲーション">
+    <a href="https://frog404.work" class="binding-logo">frogworks404</a>
 
-        <div class="sidebar-meta">
-          <div class="sidebar-meta-row">
-            <span class="sidebar-meta-label">記録開始</span>
-            <span class="sidebar-meta-value">2024.01</span>
-          </div>
-          <div class="sidebar-meta-row">
-            <span class="sidebar-meta-label">エントリ数</span>
-            <span class="sidebar-meta-value">19</span>
-          </div>
-          <div class="sidebar-meta-row">
-            <span class="sidebar-meta-label">最終更新</span>
-            
-            
-            
-            
-            
-            <span class="sidebar-meta-value">2026.08</span>
-            
-          </div>
-        </div>
+    <div class="binding-label">PAGES</div>
+    <nav class="binding-nav">
+      <a href="https://frog404.work/log" class="binding-link">記録一覧</a>
+      <a href="https://frog404.work/projects" class="binding-link">製作物</a>
+      <a href="https://frog404.work/pages/about" class="binding-link">About</a>
+    </nav>
 
-        <hr class="sidebar-divider">
-
-        <nav class="sidebar-nav">
-          <div class="sidebar-nav-label">PAGES</div>
-          <a href="https://frog404.work" class="sidebar-nav-link">記録一覧</a>
-          <a href="https://frog404.work/projects" class="sidebar-nav-link">プロジェクト</a>
-          <a href="https://frog404.work/pages/about" class="sidebar-nav-link">About</a>
-        </nav>
-
-        <nav class="sidebar-nav">
-          <div class="sidebar-nav-label">TAGS</div>
-          <div class="sidebar-tag-list">
-            <a href="https://frog404.work/tags/ai-collaboration" class="sidebar-tag-badge sidebar-tag-badge-ai-collaboration">ai-collaboration</a>
-            <a href="https://frog404.work/tags/developer-tools" class="sidebar-tag-badge sidebar-tag-badge-developer-tools">developer-tools</a>
-            <a href="https://frog404.work/tags/interface" class="sidebar-tag-badge sidebar-tag-badge-interface">interface</a>
-            <a href="https://frog404.work/tags/hardware" class="sidebar-tag-badge sidebar-tag-badge-hardware">hardware</a>
-            <a href="https://frog404.work/tags/creative-tools" class="sidebar-tag-badge sidebar-tag-badge-creative-tools">creative-tools</a>
-            <a href="https://frog404.work/tags/knowledge" class="sidebar-tag-badge sidebar-tag-badge-knowledge">knowledge</a>
-            <a href="https://frog404.work/tags/note" class="sidebar-tag-badge sidebar-tag-badge-note">note</a>
-          </div>
-        </nav>
-
+    <div class="binding-bottom">
+      <div class="binding-label">LINKS</div>
+      <nav class="binding-nav binding-nav--mono">
+        <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404" class="binding-link" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" class="binding-link" target="_blank" rel="noopener noreferrer">X ↗</a>
         
-        <div class="sidebar-links">
-          <div class="sidebar-nav-label">LINKS</div>
-          <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-          <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">X ↗</a>
-          
-        </div>
-        
-      </div>
-    </aside>
-
-    
-    <div class="inner">
-      
-<header class="site-header">
-  <div class="cover-box">
-    <div class="cover-eyebrow">
-      <a href="https://frog404.work" class="cover-back">← 記録一覧</a>
+      </nav>
     </div>
-    <h1 class="cover-title cover-title--sm">interface</h1>
+  </aside>
+
+  
+  <header class="m-head">
+    <a href="https://frog404.work" class="m-head-logo">frogworks404</a>
+
+    
+      
+    
+    
+      <span class="m-head-code">INDEX</span>
+    
+    <button type="button" id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu">
+      <span class="menu-toggle-label">MENU</span><span class="menu-toggle-icon" aria-hidden="true">≡</span>
+    </button>
+  </header>
+
+  
+  
+<nav id="mobile-menu" class="menu-panel" aria-label="メニュー" hidden>
+  <div class="menu-label">INDEX</div>
+  <div class="menu-items">
+    <a href="https://frog404.work" class="menu-item">
+      <span class="menu-no">00</span><span class="menu-name">トップ</span><span class="menu-meta">—</span>
+    </a>
+    <a href="https://frog404.work/log" class="menu-item">
+      <span class="menu-no">01</span><span class="menu-name">記録一覧</span><span class="menu-meta">011</span>
+    </a>
+    <a href="https://frog404.work/projects" class="menu-item">
+      <span class="menu-no">02</span><span class="menu-name">製作物</span><span class="menu-meta">8</span>
+    </a>
+    <a href="https://frog404.work/pages/about" class="menu-item">
+      <span class="menu-no">03</span><span class="menu-name">About</span><span class="menu-meta">—</span>
+    </a>
   </div>
+
+  <div class="menu-label menu-label--links">LINKS</div>
+  <div class="menu-links">
+    <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+    <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" target="_blank" rel="noopener noreferrer">X ↗</a>
+    <a href="https:&#x2F;&#x2F;frog404.work/atom.xml" target="_blank" rel="noopener noreferrer">RSS ↗</a>
+  </div>
+
+  <div class="menu-colophon">
+    <div class="menu-colophon-band">frogworks404</div>
+    <div class="menu-colophon-row"><span>ENTRIES</span><span>011</span></div>
+    <div class="menu-colophon-row"><span>SINCE</span><span>2024.01</span></div>
+    <div class="menu-colophon-row"><span>REV.</span><span>2026.11</span></div>
+  </div>
+</nav>
+
+
+  
+  <main class="sheet">
+    
+
+
+
+
+
+
+
+<header class="page-head">
+  <div class="page-crumb-row">
+    <a href="https://frog404.work" class="page-crumb-link">SHEET 404</a>
+    <span class="page-crumb-sep">/</span>
+    <span class="page-crumb">TAG</span>
+  </div>
+  <div class="page-title-row">
+    <h1 class="page-title">interface</h1>
+    <span class="page-entries page-entries--pc">005 / 005 ENTRIES</span>
+    <span class="page-entries page-entries--m">005 ENTRIES</span>
+  </div>
+  <div class="page-desc-row">このタグの付いた記録だけを並べています。</div>
 </header>
 
-<main class="feed">
-  <div class="section-divider"><span>5 エントリ</span></div>
 
+<div class="chip-row chip-row--list">
   
+  <a href="https:&#x2F;&#x2F;frog404.work&#x2F;tags&#x2F;ai-collaboration&#x2F;" class="chip">
+    <span class="chip-label">ai-collaboration<span class="chip-count">5</span></span>
+  </a>
   
-  <article class="entry entry--product">
-    <div class="entry-meta">
-      <span class="entry-date">2026.06.20</span>
-      
-      <span class="badge badge-hardware">hardware</span>
-      
-      <span class="badge badge-interface">interface</span>
-      
-    </div>
-    <h2 class="entry-title">
-      <a href="https:&#x2F;&#x2F;frog404.work&#x2F;projects&#x2F;halfgrip&#x2F;">HalfGrip</a>
-      <span class="entry-arrow">→</span>
-    </h2>
-    <p class="entry-body">Androidネイティブカメラアプリ + 自作USB-C HIDグリップデバイス。半押しAFロックを含むミラーレス的な操作感をスマホで実現する。</p>
-  </article>
+  <a href="https:&#x2F;&#x2F;frog404.work&#x2F;tags&#x2F;creative-tools&#x2F;" class="chip">
+    <span class="chip-label">creative-tools<span class="chip-count">2</span></span>
+  </a>
   
+  <a href="https:&#x2F;&#x2F;frog404.work&#x2F;tags&#x2F;developer-tools&#x2F;" class="chip">
+    <span class="chip-label">developer-tools<span class="chip-count">5</span></span>
+  </a>
   
-  <article class="entry entry--product">
-    <div class="entry-meta">
-      <span class="entry-date">2026.05.01</span>
-      
-      <span class="badge badge-interface">interface</span>
-      
-    </div>
-    <h2 class="entry-title">
-      <a href="https:&#x2F;&#x2F;frog404.work&#x2F;projects&#x2F;omilink&#x2F;">omiLink</a>
-      <span class="entry-arrow">→</span>
-    </h2>
-    <p class="entry-body">URL・メモをAndroidホーム画面風グリッドで管理するブックマークPWA。ドラッグ&amp;リサイズ可能なウィジェット感覚の操作。</p>
-  </article>
+  <a href="https:&#x2F;&#x2F;frog404.work&#x2F;tags&#x2F;hardware&#x2F;" class="chip">
+    <span class="chip-label">hardware<span class="chip-count">4</span></span>
+  </a>
   
+  <a href="https:&#x2F;&#x2F;frog404.work&#x2F;tags&#x2F;interface&#x2F;" class="chip is-selected">
+    <span class="chip-label">interface<span class="chip-count">5</span></span>
+  </a>
   
-  <article class="entry entry--product">
-    <div class="entry-meta">
-      <span class="entry-date">2026.04.20</span>
-      
-      <span class="badge badge-developer-tools">developer-tools</span>
-      
-      <span class="badge badge-interface">interface</span>
-      
-    </div>
-    <h2 class="entry-title">
-      <a href="https:&#x2F;&#x2F;frog404.work&#x2F;projects&#x2F;asciiwire&#x2F;">ASCIIwire</a>
-      <span class="entry-arrow">→</span>
-    </h2>
-    <p class="entry-body">AI・人間の両方が扱いやすいテキストベースのワイヤーフレームDSL。マークダウン記法からASCIIアートのワイヤーフレームを生成するCLIツール。</p>
-  </article>
+  <a href="https:&#x2F;&#x2F;frog404.work&#x2F;tags&#x2F;knowledge&#x2F;" class="chip">
+    <span class="chip-label">knowledge<span class="chip-count">1</span></span>
+  </a>
   
+  <a href="https:&#x2F;&#x2F;frog404.work&#x2F;tags&#x2F;note&#x2F;" class="chip">
+    <span class="chip-label">note<span class="chip-count">7</span></span>
+  </a>
   
-  <article class="entry">
-    <div class="entry-meta">
-      <span class="entry-date">2025.06.18</span>
-      
-      <span class="badge badge-hardware">hardware</span>
-      
-      <span class="badge badge-interface">interface</span>
-      
-    </div>
-    <h2 class="entry-title">
-      <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;2025-06-18-halfgrip-dev&#x2F;">HalfGrip開発記録 — スマホカメラの操作を物理的に作り直す</a>
-      
-    </h2>
-    <p class="entry-body">3Dプリントのカメラグリップとカメラアプリを両方自作した記録</p>
-  </article>
-  
-  
-  <article class="entry">
-    <div class="entry-meta">
-      <span class="entry-date">2025.05.12</span>
-      
-      <span class="badge badge-developer-tools">developer-tools</span>
-      
-      <span class="badge badge-interface">interface</span>
-      
-    </div>
-    <h2 class="entry-title">
-      <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;2025-05-12-ascii-wireframe&#x2F;">AIとの設計作業にASCIIワイヤーフレームが有効な理由</a>
-      
-    </h2>
-    <p class="entry-body">LLMとUIを共同設計するとき、画像よりもASCIIのワイヤーフレームのほうがトークン効率が高く、修正サイクルも速い。この仮説を実装として形にするためのコンセプトメモ。</p>
-  </article>
-  
-</main>
+</div>
 
-      <footer class="big-footer">
-  <div class="footer-cover">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <div class="footer-brand-title">frogworks404</div>
-        <div class="footer-brand-desc">人と機械の間にある摩擦を、道具として作り直す。AIとの知識共有、制作プロセス、入力デバイス、デジタル表現を題材に、ソフトウェアとハードウェアを試作している。</div>
+<div class="index-list">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <a href="https:&#x2F;&#x2F;frog404.work&#x2F;projects&#x2F;halfgrip&#x2F;" class="row row--year-start">
+    <div class="row-left">
+      <div class="row-year-slot">
+        <span class="year-plate">2026</span>
       </div>
-      <div class="footer-columns footer-columns--nav">
-        <div class="footer-col">
-          <div class="footer-col-label">ページ</div>
-          <a href="https://frog404.work">記録一覧</a>
-          <a href="https://frog404.work/projects">プロジェクト一覧</a>
-          <a href="https://frog404.work/pages/about">About</a>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-label">リンク</div>
-          <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" target="_blank" rel="noopener noreferrer">X</a>
-          
-        </div>
+      <span class="row-md">06.20</span>
+      <span class="row-no"></span>
+      <span class="row-tag">hardware</span>
+    </div>
+    <div class="row-center">
+      <span class="row-title">HalfGrip</span>
+      <p class="row-excerpt">Androidネイティブカメラアプリ + 自作USB-C HIDグリップデバイス。半押しAFロックを含むミラーレス的な操作感をスマホで実現する。</p>
+    </div>
+    <div class="row-fig">
+      
+      <img src="https://frog404.work/uploads/2026/06/b803c61a-fb1d-4d59-9bfb-bd5754845c66.png" alt="" loading="lazy">
+      
+    </div>
+  </a>
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <a href="https:&#x2F;&#x2F;frog404.work&#x2F;projects&#x2F;omilink&#x2F;" class="row">
+    <div class="row-left">
+      <div class="row-year-slot">
+        
       </div>
+      <span class="row-md">05.01</span>
+      <span class="row-no"></span>
+      <span class="row-tag">interface</span>
     </div>
-    <hr class="footer-bottom-divider">
-    <div class="footer-meta">
-      <span class="footer-meta-text">最終更新 2026.09.06</span>
-      <span class="footer-meta-text">© frogworks404 2024–</span>
+    <div class="row-center">
+      <span class="row-title">omiLink</span>
+      <p class="row-excerpt">URL・メモをAndroidホーム画面風グリッドで管理するブックマークPWA。ドラッグ&amp;リサイズ可能なウィジェット感覚の操作。</p>
     </div>
+    <div class="row-fig">
+      
+      <img src="https://frog404.work/uploads/2026/06/e3183777-2d4f-4e02-870a-4f82325a9422.png" alt="" loading="lazy">
+      
+    </div>
+  </a>
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <a href="https:&#x2F;&#x2F;frog404.work&#x2F;projects&#x2F;asciiwire&#x2F;" class="row">
+    <div class="row-left">
+      <div class="row-year-slot">
+        
+      </div>
+      <span class="row-md">04.20</span>
+      <span class="row-no"></span>
+      <span class="row-tag">developer-tools</span>
+    </div>
+    <div class="row-center">
+      <span class="row-title">ASCIIwire</span>
+      <p class="row-excerpt">AI・人間の両方が扱いやすいテキストベースのワイヤーフレームDSL。マークダウン記法からASCIIアートのワイヤーフレームを生成するCLIツール。</p>
+    </div>
+    <div class="row-fig row-fig--hatch">
+      
+      <span class="row-nofig">NO FIG.</span>
+      
+    </div>
+  </a>
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;2025-06-18-halfgrip-dev&#x2F;" class="row row--year-start">
+    <div class="row-left">
+      <div class="row-year-slot">
+        <span class="year-plate">2025</span>
+      </div>
+      <span class="row-md">06.18</span>
+      <span class="row-no">No.006</span>
+      <span class="row-tag">hardware</span>
+    </div>
+    <div class="row-center">
+      <span class="row-title">HalfGrip開発記録 — スマホカメラの操作を物理的に作り直す</span>
+      <p class="row-excerpt">3Dプリントのカメラグリップとカメラアプリを両方自作した記録</p>
+    </div>
+    <div class="row-fig row-fig--hatch">
+      
+      <span class="row-nofig">No.006 · NO FIG.</span>
+      
+    </div>
+  </a>
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;2025-05-12-ascii-wireframe&#x2F;" class="row">
+    <div class="row-left">
+      <div class="row-year-slot">
+        
+      </div>
+      <span class="row-md">05.12</span>
+      <span class="row-no">No.001</span>
+      <span class="row-tag">developer-tools</span>
+    </div>
+    <div class="row-center">
+      <span class="row-title">AIとの設計作業にASCIIワイヤーフレームが有効な理由</span>
+      <p class="row-excerpt">LLMとUIを共同設計するとき、画像よりもASCIIのワイヤーフレームのほうがトークン効率が高く、修正サイクルも速い。この仮説を実装として形にするためのコンセプトメモ。</p>
+    </div>
+    <div class="row-fig row-fig--hatch">
+      
+      <span class="row-nofig">No.001 · NO FIG.</span>
+      
+    </div>
+  </a>
+  
+</div>
+
+<div class="index-end">
+  <span>END OF INDEX — 005 ENTRIES</span>
+  <a href="#top" class="index-end-top">↑ TOP</a>
+</div>
+
+
+    <footer class="colophon">
+  <div class="colophon-band">COLOPHON</div>
+  <div class="colophon-name">frogworks404 — 制作・実験記録</div>
+  <div class="colophon-item colophon-item--built">BUILT WITH Fubako + Zola</div>
+  <div class="colophon-row">
+    <span class="colophon-item">© 2024–2026</span>
+    <a href="https:&#x2F;&#x2F;frog404.work/atom.xml" class="colophon-rss" target="_blank" rel="noopener noreferrer">RSS ↗</a>
   </div>
 </footer>
 
-    </div>
+  </main>
 
-  </div>
+</div>
 </body>
 </html>

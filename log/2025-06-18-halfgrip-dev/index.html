@@ -33,9 +33,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDMincho:wght@400;700&family=BIZ+UDPGothic:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://frog404.work/main.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
 
   
   
@@ -49,87 +48,246 @@
   
 </head>
 <body>
-  <div class="page-layout">
+<script>document.documentElement.classList.add('js');</script>
+<script src="https://frog404.work/js/menu.js" defer></script>
 
-    
-    
-    
-    <aside class="page-sidebar" aria-label="サイトナビゲーション">
-      <div class="sidebar-inner">
-        <a href="https://frog404.work" class="sidebar-brand">
-          <span class="sidebar-brand-text">frogworks404</span>
-        </a>
+<div class="frame">
 
-        <hr class="sidebar-divider">
+  
+  <aside class="binding" aria-label="サイトナビゲーション">
+    <a href="https://frog404.work" class="binding-logo">frogworks404</a>
 
-        <div class="sidebar-meta">
-          <div class="sidebar-meta-row">
-            <span class="sidebar-meta-label">記録開始</span>
-            <span class="sidebar-meta-value">2024.01</span>
-          </div>
-          <div class="sidebar-meta-row">
-            <span class="sidebar-meta-label">エントリ数</span>
-            <span class="sidebar-meta-value">19</span>
-          </div>
-          <div class="sidebar-meta-row">
-            <span class="sidebar-meta-label">最終更新</span>
-            
-            
-            
-            
-            
-            <span class="sidebar-meta-value">2026.08</span>
-            
-          </div>
-        </div>
+    <div class="binding-label">PAGES</div>
+    <nav class="binding-nav">
+      <a href="https://frog404.work/log" class="binding-link is-current" aria-current="page">記録一覧</a>
+      <a href="https://frog404.work/projects" class="binding-link">製作物</a>
+      <a href="https://frog404.work/pages/about" class="binding-link">About</a>
+    </nav>
 
-        <hr class="sidebar-divider">
-
-        <nav class="sidebar-nav">
-          <div class="sidebar-nav-label">PAGES</div>
-          <a href="https://frog404.work" class="sidebar-nav-link">記録一覧</a>
-          <a href="https://frog404.work/projects" class="sidebar-nav-link">プロジェクト</a>
-          <a href="https://frog404.work/pages/about" class="sidebar-nav-link">About</a>
-        </nav>
-
-        <nav class="sidebar-nav">
-          <div class="sidebar-nav-label">TAGS</div>
-          <div class="sidebar-tag-list">
-            <a href="https://frog404.work/tags/ai-collaboration" class="sidebar-tag-badge sidebar-tag-badge-ai-collaboration">ai-collaboration</a>
-            <a href="https://frog404.work/tags/developer-tools" class="sidebar-tag-badge sidebar-tag-badge-developer-tools">developer-tools</a>
-            <a href="https://frog404.work/tags/interface" class="sidebar-tag-badge sidebar-tag-badge-interface">interface</a>
-            <a href="https://frog404.work/tags/hardware" class="sidebar-tag-badge sidebar-tag-badge-hardware">hardware</a>
-            <a href="https://frog404.work/tags/creative-tools" class="sidebar-tag-badge sidebar-tag-badge-creative-tools">creative-tools</a>
-            <a href="https://frog404.work/tags/knowledge" class="sidebar-tag-badge sidebar-tag-badge-knowledge">knowledge</a>
-            <a href="https://frog404.work/tags/note" class="sidebar-tag-badge sidebar-tag-badge-note">note</a>
-          </div>
-        </nav>
-
+    <div class="binding-bottom">
+      <div class="binding-label">LINKS</div>
+      <nav class="binding-nav binding-nav--mono">
+        <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404" class="binding-link" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" class="binding-link" target="_blank" rel="noopener noreferrer">X ↗</a>
         
-        <div class="sidebar-links">
-          <div class="sidebar-nav-label">LINKS</div>
-          <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-          <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">X ↗</a>
-          
-        </div>
-        
-      </div>
-    </aside>
-
-    
-    <div class="inner">
-      
-<header class="site-header">
-  <div class="cover-box">
-    <div class="cover-eyebrow">
-      <a href="https://frog404.work" class="cover-back">← 記録一覧</a>
+      </nav>
     </div>
-    <h1 class="cover-title cover-title--sm">HalfGrip開発記録 — スマホカメラの操作を物理的に作り直す</h1>
+  </aside>
+
+  
+  <header class="m-head">
+    <a href="https://frog404.work" class="m-head-logo">frogworks404</a>
+
+    
+      
+    
+    
+      <span class="m-head-code">No.006</span>
+    
+    <button type="button" id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu">
+      <span class="menu-toggle-label">MENU</span><span class="menu-toggle-icon" aria-hidden="true">≡</span>
+    </button>
+  </header>
+
+  
+  
+<nav id="mobile-menu" class="menu-panel" aria-label="メニュー" hidden>
+  <div class="menu-label">INDEX</div>
+  <div class="menu-items">
+    <a href="https://frog404.work" class="menu-item">
+      <span class="menu-no">00</span><span class="menu-name">トップ</span><span class="menu-meta">—</span>
+    </a>
+    <a href="https://frog404.work/log" class="menu-item is-current">
+      <span class="menu-no">01</span><span class="menu-name">記録一覧</span><span class="menu-meta">011</span>
+    </a>
+    <a href="https://frog404.work/projects" class="menu-item">
+      <span class="menu-no">02</span><span class="menu-name">製作物</span><span class="menu-meta">8</span>
+    </a>
+    <a href="https://frog404.work/pages/about" class="menu-item">
+      <span class="menu-no">03</span><span class="menu-name">About</span><span class="menu-meta">—</span>
+    </a>
+  </div>
+
+  <div class="menu-label menu-label--links">LINKS</div>
+  <div class="menu-links">
+    <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+    <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" target="_blank" rel="noopener noreferrer">X ↗</a>
+    <a href="https:&#x2F;&#x2F;frog404.work/atom.xml" target="_blank" rel="noopener noreferrer">RSS ↗</a>
+  </div>
+
+  <div class="menu-colophon">
+    <div class="menu-colophon-band">frogworks404</div>
+    <div class="menu-colophon-row"><span>ENTRIES</span><span>011</span></div>
+    <div class="menu-colophon-row"><span>SINCE</span><span>2024.01</span></div>
+    <div class="menu-colophon-row"><span>REV.</span><span>2026.11</span></div>
+  </div>
+</nav>
+
+
+  
+  <main class="sheet">
+    
+
+
+
+
+
+
+  
+    
+  
+    
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+
+
+
+
+  
+    
+  
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+      
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+<header class="title-block title-block--entry">
+  <div class="title-left">
+    <div class="title-crumb-row">
+      <a href="https://frog404.work" class="title-crumb-link">SHEET 404</a>
+      <span class="title-crumb-sep">/</span>
+      <a href="https://frog404.work/log" class="title-crumb-link">INDEX</a>
+      <span class="title-crumb-sep">/</span>
+      <span class="title-crumb">No.006</span>
+    </div>
+    <h1 class="entry-title-heading">HalfGrip開発記録 — スマホカメラの操作を物理的に作り直す</h1>
+    <div class="entry-lead-row">3Dプリントのカメラグリップとカメラアプリを両方自作した記録</div>
+  </div>
+  <div class="title-right title-right--entry">
+    <div class="title-band">ENTRY 006</div>
+    <div class="title-row"><span class="title-row-label">DATE</span><span class="title-row-value">2025.06.18</span></div>
+    <div class="title-row"><span class="title-row-label">REV.</span><span class="title-row-value">—</span></div>
+    
+    <div class="title-row"><span class="title-row-label">TAG</span><span class="title-row-value title-row-link"><a href="https://frog404.work/tags/hardware/" class="row-tag-link">hardware</a></span></div>
+    
+    
+    <div class="title-row title-row--full"><span class="title-row-label">PROJECT</span><span class="title-row-value title-row-link"><a href="https:&#x2F;&#x2F;frog404.work&#x2F;projects&#x2F;halfgrip&#x2F;" class="row-tag-link">HalfGrip</a></span></div>
+    
+    <div class="title-row"><span class="title-row-label">READ</span><span class="title-row-value">≈ 10 min</span></div>
   </div>
 </header>
 
-<main class="article-wrap">
-  <div class="article-body">
+
+<div class="article-frame">
+  <article class="prose">
+    
+    <nav class="toc toc--aside" aria-label="目次">
+      <div class="toc-label">CONTENTS</div>
+      <ul class="toc-list">
+        
+        
+        <li class="toc-item toc-item--h2">
+          <a href="#sumahokamerahenobu-man" class="toc-link">スマホカメラへの不満</a>
+          
+        </li>
+        
+        
+        
+        <li class="toc-item toc-item--h2">
+          <a href="#ban-ya-si-ganaitoiuwen-ti" class="toc-link">「半押し」がないという問題</a>
+          
+        </li>
+        
+        
+        
+        <li class="toc-item toc-item--h2">
+          <a href="#nei-bu-nomaikonyaji-pan-noshi-zhuang" class="toc-link">内部のマイコンや基盤の実装</a>
+          
+        </li>
+        
+        
+        
+        <li class="toc-item toc-item--h2">
+          <a href="#guritupuwo3dpurintosuru" class="toc-link">グリップを3Dプリントする</a>
+          
+        </li>
+        
+        
+        
+        <li class="toc-item toc-item--h2">
+          <a href="#apurizuo-cheng" class="toc-link">アプリ作成</a>
+          
+        </li>
+        
+        
+        
+        <li class="toc-item toc-item--h2">
+          <a href="#xmbwocuo-ying-uinichi-tiip-ndali-you" class="toc-link">XMBを撮影UIに持ち込んだ理由</a>
+          
+        </li>
+        
+        
+        
+        <li class="toc-item toc-item--h2">
+          <a href="#yaritaikotoha-miraresunozai-xian-dehanai" class="toc-link">やりたいことは「ミラーレスの再現」ではない</a>
+          
+        </li>
+        
+        
+        
+        <li class="toc-item toc-item--h2">
+          <a href="#ci-niyarukoto" class="toc-link">次にやること</a>
+          
+        </li>
+        
+        
+      </ul>
+    </nav>
+    
+
     <h2 id="sumahokamerahenobu-man">スマホカメラへの不満</h2>
 <p>カメラが趣味で、ミラーレスも何台か持っている。Sony NEX-6やα7。撮るのは好きだが、持ち歩くのが億劫で持ち歩かない日が増えて来た、スマホでも撮る。撮れる。撮れるんだけど、撮影しても楽しくないと感じてしまう。何故だろう。</p>
 <p>何が違うのかを考えた。最初は画質じゃないかと思ったが、違う。最近のスマホは十分きれいに撮れる。足りないのは操作感だと思った。</p>
@@ -173,41 +331,75 @@ USB-C有線接続ならHIDキーボードとして即認識されるしレスポ
 <p>アプリはStep 3（RAW・手動露出）まで完了。残りはキーマッピングプロファイルの保存と、HDR・フォーカスピーキングの表示あたりをやりたい。
 ただアプリ側はデバイス差異でのエラーや設定できない項目などがいろいろあると思うのでそのあたりの対応も考えていかないと汎用的に使えるアプリにはならないと考えている。</p>
 
-  </div>
-</main>
 
-      <footer class="big-footer">
-  <div class="footer-cover">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <div class="footer-brand-title">frogworks404</div>
-        <div class="footer-brand-desc">人と機械の間にある摩擦を、道具として作り直す。AIとの知識共有、制作プロセス、入力デバイス、デジタル表現を題材に、ソフトウェアとハードウェアを試作している。</div>
+    
+    
+    <div class="prose-end-guard" aria-hidden="true"></div>
+    
+  </article>
+
+  <aside class="article-side">
+    
+    
+    <div class="project-card project-card--side">
+      <div class="project-card-band">PROJECT</div>
+      <div class="project-card-name-row">
+        <span class="project-card-name">HalfGrip</span>
+        <span class="status-stamp status-stamp--sm">PROTOTYPE</span>
       </div>
-      <div class="footer-columns footer-columns--nav">
-        <div class="footer-col">
-          <div class="footer-col-label">ページ</div>
-          <a href="https://frog404.work">記録一覧</a>
-          <a href="https://frog404.work/projects">プロジェクト一覧</a>
-          <a href="https://frog404.work/pages/about">About</a>
-        </div>
-        <div class="footer-col">
-          <div class="footer-col-label">リンク</div>
-          <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" target="_blank" rel="noopener noreferrer">X</a>
-          
-        </div>
-      </div>
+      <p class="project-card-desc">Androidネイティブカメラアプリ + 自作USB-C HIDグリップデバイス。半押しAFロックを含むミラーレス的な操作感をスマホで実現する。</p>
+      <a href="https:&#x2F;&#x2F;frog404.work&#x2F;projects&#x2F;halfgrip&#x2F;" class="project-card-link">製作物ページへ →</a>
     </div>
-    <hr class="footer-bottom-divider">
-    <div class="footer-meta">
-      <span class="footer-meta-text">最終更新 2026.09.06</span>
-      <span class="footer-meta-text">© frogworks404 2024–</span>
-    </div>
+    
+  </aside>
+</div>
+
+
+
+<div class="project-card project-card--flow">
+  <div class="project-card-band">PROJECT</div>
+  <div class="project-card-name-row">
+    <span class="project-card-name">HalfGrip</span>
+    <span class="status-stamp status-stamp--sm">PROTOTYPE</span>
+  </div>
+  <p class="project-card-desc">Androidネイティブカメラアプリ + 自作USB-C HIDグリップデバイス。半押しAFロックを含むミラーレス的な操作感をスマホで実現する。</p>
+  <a href="https:&#x2F;&#x2F;frog404.work&#x2F;projects&#x2F;halfgrip&#x2F;" class="project-card-link">製作物ページへ →</a>
+</div>
+
+
+
+<nav class="prevnext" aria-label="前後の記録">
+  <div class="prevnext-cell prevnext-prev">
+    
+    <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;context-mixer-design&#x2F;" class="prevnext-link">
+      <span class="prevnext-label">← PREV · No.005</span>
+      <span class="prevnext-title">ContextMixerの設計思想 — AIが探索しやすいナレッジベースとは何か</span>
+    </a>
+    
+  </div>
+  <div class="prevnext-cell prevnext-next">
+    
+    <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;2025-06-20-ai-cortex&#x2F;" class="prevnext-link prevnext-link--next">
+      <span class="prevnext-label">No.007 · NEXT →</span>
+      <span class="prevnext-title">AI Cortex --  ContextMixerの運用ルールとナレッジ構造</span>
+    </a>
+    
+  </div>
+</nav>
+
+
+    <footer class="colophon">
+  <div class="colophon-band">COLOPHON</div>
+  <div class="colophon-name">frogworks404 — 制作・実験記録</div>
+  <div class="colophon-item colophon-item--built">BUILT WITH Fubako + Zola</div>
+  <div class="colophon-row">
+    <span class="colophon-item">© 2024–2026</span>
+    <a href="https:&#x2F;&#x2F;frog404.work/atom.xml" class="colophon-rss" target="_blank" rel="noopener noreferrer">RSS ↗</a>
   </div>
 </footer>
 
-    </div>
+  </main>
 
-  </div>
+</div>
 </body>
 </html>
