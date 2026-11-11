@@ -3,128 +3,111 @@
 {% block title %}{{ config.title }}{% endblock title %}
 
 {% block content %}
-{% set log = get_section(path="log/_index.md") %}
-{% set projects_section = get_section(path="projects/_index.md") %}
 
-<header class="site-header">
-  <div class="cover-box">
-    <div class="cover-eyebrow">制作・実験記録 ／ Activity Log</div>
-    <h1 class="cover-title">{{ config.title }}</h1>
-    <hr class="cover-divider">
-    <p class="cover-desc">{{ config.description }}</p>
-  </div>
-  <div class="header-table">
-    <div class="header-cell">
-      <span class="cell-label">記録開始</span>
-      <span class="cell-value">{{ config.extra.start_date }}</span>
+{% set statement = config.extra.title_statement | default(value="") %}
+{% set title_sub = config.extra.title_sub | default(value="") %}
+
+{# ── 表題欄 ── #}
+<header class="title-block">
+  <div class="title-left">
+    <div class="title-label-row">
+      <span class="title-label-mono">ACTIVITY LOG</span>
+      <span class="title-label-ja">制作・実験記録</span>
     </div>
-    <div class="header-cell">
-      <span class="cell-label">エントリ数</span>
-      <span class="cell-value">{{ log.pages | length + projects_section.pages | length }}</span>
-    </div>
-    <div class="header-cell">
-      <span class="cell-label">最終更新</span>
-      {% set log_latest = log.pages | first %}
-      {% set pages_latest = projects_section.pages | first %}
-      {% set log_ym = log_latest.date | date(format="%Y%m%d") | int %}
-      {% set pages_ym = pages_latest.date | date(format="%Y%m%d") | int %}
-      {% if log_ym >= pages_ym %}
-      <span class="cell-value">{{ log_latest.date | date(format="%Y.%m") }}</span>
-      {% else %}
-      <span class="cell-value">{{ pages_latest.date | date(format="%Y.%m") }}</span>
-      {% endif %}
+    <h1 class="title-statement">{{ statement }}</h1>
+    <div class="title-lead-row">
+      <span class="title-sub">{{ title_sub }}</span>
+      <a href="{{ get_url(path='/pages/about/') }}" class="text-link">About →</a>
     </div>
   </div>
-  <a href="{{ get_url(path='/pages/about') }}" class="about-lead">
-    <span class="about-lead-text">frogworks404 は、人と機械の間の摩擦を道具として作り直す活動です。ソフトウェアとハードウェアの試作記録をまとめています。</span>
-    <span class="about-lead-link">About →</span>
-  </a>
+  <div class="title-right">
+    <div class="title-band">SHEET 404</div>
+    <div class="title-row"><span class="title-row-label">DRAWN BY</span><span class="title-row-value">{{ config.title }}</span></div>
+    <div class="title-row"><span class="title-row-label">ENTRIES</span><span class="title-row-value">{{ m::entries_n(log=log_section) }}</span></div>
+    <div class="title-row"><span class="title-row-label">SINCE</span><span class="title-row-value">{{ log_section.pages | last | get(key="date", default=now()) | date(format="%Y.%m") }}</span></div>
+    <div class="title-row"><span class="title-row-label">REV.</span><span class="title-row-value">{{ log_section.pages | first | get(key="date", default=now()) | date(format="%Y.%m") }}</span></div>
+  </div>
 </header>
 
-{# ── ピックアッププロジェクト ── #}
-<section class="pickup-section">
-  <div class="section-divider"><span>ピックアッププロジェクト</span></div>
-  <div class="pickup-grid">
-    {% for page in projects_section.pages %}
-    {% if page.extra.featured | default(value=false) %}
-    <article class="pickup-card">
-      {% if page.extra.cover_image %}
-      <div class="pickup-cover">
-        <img src="{{ get_url(path=page.extra.cover_image) }}" alt="{{ page.title }}" loading="lazy">
-      </div>
-      {% endif %}
-      <div class="pickup-meta">
-        <span class="pickup-status">
-          {% if page.extra.status == "in-operation" %}継続運用中
-          {% elif page.extra.status == "usable" %}利用可能
-          {% elif page.extra.status == "active" %}公開中
-          {% elif page.extra.status == "prototype" %}試作
-          {% elif page.extra.status == "tech-verify" %}技術検証
-          {% elif page.extra.status == "concept" %}構想
-          {% elif page.extra.status == "paused" %}休止
-          {% else %}{{ page.extra.status | default(value='') }}{% endif %}
-        </span>
-      </div>
-      <h2 class="pickup-title">
-        <a href="{{ page.permalink }}">{{ page.title }}</a>
-      </h2>
-      {% if page.description %}
-      <p class="pickup-desc">{{ page.description }}</p>
-      {% endif %}
-    </article>
-    {% endif %}
-    {% endfor %}
+{# ── 01 製作物 ── #}
+<section class="block">
+  <div class="section-head">
+    <span class="section-no">01</span>
+    <h2 class="section-title">製作物</h2>
+    <a href="{{ get_url(path='/projects/') }}" class="text-link section-more">すべての製作物 →</a>
   </div>
-  <div class="pickup-more">
-    <a href="{{ get_url(path='/projects/') }}">すべてのプロジェクト →</a>
+  <div class="card-grid">
+    {% set picks = [] %}
+    {% for p in projects_section.pages %}
+      {% if p.extra.featured %}{% set_global picks = picks | concat(with=p) %}{% endif %}
+    {% endfor %}
+    {% if picks | length == 0 %}
+      {% set_global picks = projects_section.pages %}
+    {% endif %}
+    {% for p in picks | slice(end=3) %}
+    {% include "partials/project-card.html" %}
+    {% endfor %}
   </div>
 </section>
 
-{# ── 最新の更新 ── #}
-<div x-data="{ activeTag: 'all' }">
-  <nav class="filter-bar" aria-label="タグフィルター">
-    <span class="filter-label">FILTER —</span>
-    <button class="chip" :class="{ on: activeTag === 'all' }" @click="activeTag = 'all'">すべて</button>
-    <button class="chip" :class="{ on: activeTag === 'ai-collaboration' }" @click="activeTag = 'ai-collaboration'">ai-collaboration</button>
-    <button class="chip" :class="{ on: activeTag === 'developer-tools' }" @click="activeTag = 'developer-tools'">developer-tools</button>
-    <button class="chip" :class="{ on: activeTag === 'interface' }" @click="activeTag = 'interface'">interface</button>
-    <button class="chip" :class="{ on: activeTag === 'hardware' }" @click="activeTag = 'hardware'">hardware</button>
-    <button class="chip" :class="{ on: activeTag === 'creative-tools' }" @click="activeTag = 'creative-tools'">creative-tools</button>
-    <button class="chip" :class="{ on: activeTag === 'knowledge' }" @click="activeTag = 'knowledge'">knowledge</button>
-    <button class="chip" :class="{ on: activeTag === 'note' }" @click="activeTag = 'note'">note</button>
-  </nav>
+{# ── 02 最新の記録 ── #}
+<section class="block">
+  <div class="section-head">
+    <span class="section-no">02</span>
+    <h2 class="section-title">最新の記録</h2>
+    <a href="{{ get_url(path='/log/') }}" class="text-link section-more">記録一覧 →</a>
+  </div>
 
-  <main class="feed">
-    <div class="section-divider"><span>最新の記録</span></div>
+  {% set tax = get_taxonomy(kind="tags") %}
+  <div class="chip-row">
+    {% for t in tax.items | sort(attribute="name") %}
+    <a href="{{ t.permalink }}" class="chip"><span class="chip-label">{{ t.name }}</span><span class="chip-count">{{ t.pages | length }}</span></a>
+    {% endfor %}
+  </div>
 
-    {% for page in log.pages | slice(end=6) %}
-    {% set page_tags = page.taxonomies.tags | default(value=[]) %}
-    <article
-      class="entry{% if page.extra.entry_type | default(value='') == 'project' %} entry--product{% endif %}"
-      x-show='activeTag === "all" || {{ page_tags | json_encode | safe }}.includes(activeTag)'
-    >
-      <div class="entry-meta">
-        <span class="entry-date">{% if page.date %}{{ page.date | date(format="%Y.%m.%d") }}{% else %}—{% endif %}</span>
-        {% for tag in page_tags %}
-        <span class="badge badge-{{ tag }}">{{ tag }}</span>
-        {% endfor %}
-      </div>
-      <div class="entry-clickable">
-        <h2 class="entry-title">
-          <a href="{{ page.permalink }}">{{ page.title }}</a>
-          {% if page.extra.entry_type | default(value='') == 'project' %}
-          <span class="entry-arrow">→</span>
-          {% endif %}
-        </h2>
-        {% if page.description %}
-        <p class="entry-body">{{ page.description }}</p>
+  <div class="ledger">
+    {# 最新記事（1件目） #}
+    {% set latest = log_section.pages | first %}
+    {% set latest_tags = latest.taxonomies.tags | default(value=[]) %}
+    <a href="{{ latest.permalink }}" class="latest">
+      <div class="latest-fig">
+        {% if latest.extra.image %}
+        <img src="{{ get_url(path=latest.extra.image) }}" alt="{{ latest.title }}" loading="lazy">
+        {% elif latest.extra.cover_image %}
+        <img src="{{ get_url(path=latest.extra.cover_image) }}" alt="{{ latest.title }}" loading="lazy">
+        {% else %}
+        <div class="no-fig">
+          <div class="no-fig-plate">
+            <div class="no-fig-head"><span>ENTRY</span><span>NO FIG.</span></div>
+            <div class="no-fig-no">No.{{ m::entry_no(page=latest, log=log_section) }}</div>
+          </div>
+        </div>
         {% endif %}
       </div>
-    </article>
+      <div class="latest-text">
+        <div class="latest-meta-row">
+          <span class="ink-band">LATEST</span>
+          <span class="latest-date">{{ latest.date | date(format="%Y.%m.%d") }}</span>
+          <span class="latest-tag">{{ latest_tags | first | default(value="") }}</span>
+        </div>
+        <h3 class="latest-title">{{ latest.title }}</h3>
+        <p class="latest-excerpt">{{ latest.description | default(value=latest.summary) }}</p>
+        <span class="text-link latest-more">続きを読む →</span>
+      </div>
+    </a>
+
+    {# 台帳（残り3件） #}
+    {% for e in log_section.pages | slice(start=1, end=4) %}
+    {% set e_tags = e.taxonomies.tags | default(value=[]) %}
+    <a href="{{ e.permalink }}" class="ledger-row">
+      <div class="ledger-meta-row">
+        <span class="ledger-date">{{ e.date | date(format="%Y.%m.%d") }}</span>
+        <span class="ledger-tag">{{ e_tags | first | default(value="") }}</span>
+      </div>
+      <span class="ledger-title">{{ e.title }}</span>
+    </a>
     {% endfor %}
-  </main>
-  <div class="feed-more">
-    <a href="{{ get_url(path='/log') }}">すべての記録 →</a>
   </div>
-</div>
+</section>
+
 {% endblock content %}

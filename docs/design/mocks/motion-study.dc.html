@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>frogworks404 モーション試作</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Shippori+Mincho+B1:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0}
+.mroot{--f:83ms}
+@keyframes drawX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes drawY{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes reveal{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes appear{from{opacity:0}to{opacity:1}}
+@keyframes underline{from{background-size:0 1px}to{background-size:100% 1px}}
+.ln{position:absolute;background:#1E1D1A}
+.lx{transform-origin:left center;animation-name:drawX;animation-fill-mode:both}
+.ly{transform-origin:center top;animation-name:drawY;animation-fill-mode:both}
+.rv{animation-name:reveal;animation-fill-mode:both}
+.ap{animation-name:appear;animation-fill-mode:both}
+.d0{animation-delay:0ms}.d2{animation-delay:calc(var(--f)*2)}.d4{animation-delay:calc(var(--f)*4)}.d5{animation-delay:calc(var(--f)*5)}.d6{animation-delay:calc(var(--f)*6)}
+.n1{animation-duration:var(--f)}.n2{animation-duration:calc(var(--f)*2)}.n3{animation-duration:calc(var(--f)*3)}.n4{animation-duration:calc(var(--f)*4)}
+.m-steps .n1{animation-timing-function:steps(1,end)}
+.m-steps .n2{animation-timing-function:steps(2,end)}
+.m-steps .n3{animation-timing-function:steps(3,end)}
+.m-steps .n4{animation-timing-function:steps(4,end)}
+.m-smooth .n1,.m-smooth .n2,.m-smooth .n3,.m-smooth .n4{animation-timing-function:cubic-bezier(.2,.7,.2,1)}
+.lnk{color:#B5391F;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.25em}
+.lnk:hover{text-decoration-thickness:2px}
+.btn{cursor:pointer}
+.btn:active{transform:translateY(1px)}
+.card .cfig{border:1px solid rgba(30,29,26,0.35)}
+.card:hover .cfig{border-color:#1E1D1A}
+.card .ctitle{background-image:linear-gradient(#1E1D1A,#1E1D1A);background-repeat:no-repeat;background-position:0 100%;background-size:0 1px}
+.m-steps .card:hover .ctitle{animation:underline calc(var(--f)*3) steps(3,end) both}
+.m-smooth .card:hover .ctitle{animation:underline 300ms cubic-bezier(.2,.7,.2,1) both}
+@media (prefers-reduced-motion: reduce){.mroot *{animation:none !important}}
+</style>
+</helmet>
+<div class="mroot {{modeClass}}" style="width: 1024px; height: 1216px; box-sizing: border-box; padding: 64px 96px; background-color: #EEEDE8; background-image: linear-gradient(to right, rgba(30,29,26,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(30,29,26,0.04) 1px, transparent 1px); background-size: 32px 32px; color: #1E1D1A; font-family: 'Shippori Mincho B1', serif; display: flex; flex-direction: column">
+
+<div style="height: 64px; box-sizing: border-box; border-bottom: 2px solid #1E1D1A; display: flex; align-items: center; gap: 16px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; color: #5E5B55">MOTION STUDY</span>
+<h1 style="margin: 0; font-size: 24px; font-weight: 700; font-feature-settings: 'palt'">作図×コマ打ち</h1>
+<div role="group" aria-label="タイミングの比較" style="margin-left: auto; display: flex; font-family: 'IBM Plex Mono', monospace; font-size: 12px">
+<button type="button" class="btn" aria-pressed="{{stepsPressed}}" onClick="{{setSteps}}" style="height: 36px; padding: 0 14px; border: 1px solid #1E1D1A; background: {{stepsBg}}; color: {{stepsFg}}; font-family: inherit; font-size: inherit; letter-spacing: 0.08em">コマ打ち 12fps</button>
+<button type="button" class="btn" aria-pressed="{{smoothPressed}}" onClick="{{setSmooth}}" style="height: 36px; padding: 0 14px; border: 1px solid #1E1D1A; border-left: none; background: {{smoothBg}}; color: {{smoothFg}}; font-family: inherit; font-size: inherit; letter-spacing: 0.08em">なめらか（比較用）</button>
+</div>
+</div>
+
+<div style="margin-top: 32px; height: 32px; display: flex; align-items: center; gap: 12px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #B5391F">A</span>
+<span style="font-size: 17px; font-weight: 700">表題欄の作図</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5E5B55">ページを開いたときに1回だけ・合計8コマ</span>
+<button type="button" class="btn" onClick="{{replayA}}" style="margin-left: auto; height: 32px; padding: 0 12px; border: 1px solid #1E1D1A; background: #EEEDE8; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #1E1D1A">▶ REPLAY</button>
+</div>
+
+<div style="margin-top: 16px; height: 160px; position: relative">
+<sc-if value="{{showA}}" hint-placeholder-val="{{ true }}">
+<div style="position: absolute; inset: 0">
+<div class="ln lx n4 d0" style="left: 0; top: 0; width: 832px; height: 1px"></div>
+<div class="ln ly n4 d0" style="left: 0; top: 0; width: 1px; height: 160px"></div>
+<div class="ln lx n4 d2" style="left: 0; top: 159px; width: 832px; height: 1px"></div>
+<div class="ln ly n4 d2" style="left: 831px; top: 0; width: 1px; height: 160px"></div>
+<div class="ln ly n3 d4" style="left: 576px; top: 0; width: 1px; height: 160px"></div>
+<div class="lx n2 d4" style="position: absolute; left: 577px; top: 1px; width: 254px; height: 31px; background: #1E1D1A"></div>
+<div class="ln lx n3 d5" style="left: 577px; top: 63px; width: 254px; height: 1px; background: rgba(30,29,26,0.2)"></div>
+<div class="ln lx n3 d5" style="left: 577px; top: 95px; width: 254px; height: 1px; background: rgba(30,29,26,0.2)"></div>
+<div class="ln lx n3 d5" style="left: 577px; top: 127px; width: 254px; height: 1px; background: rgba(30,29,26,0.2)"></div>
+
+<div style="position: absolute; left: 32px; top: 15px; width: 512px; display: flex; flex-direction: column">
+<div class="ap n1 d4" style="height: 32px; display: flex; align-items: center; gap: 12px"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; color: #5E5B55">ACTIVITY LOG</span><span style="font-size: 14px; color: #5E5B55">制作・実験記録</span></div>
+<h2 class="rv n4 d4" style="margin: 0; font-size: 24px; line-height: 32px; font-weight: 700; font-feature-settings: 'palt'; letter-spacing: 0.04em">人と機械の間にある摩擦を、<br>道具として作り直す。</h2>
+<div class="ap n1 d6" style="height: 32px; display: flex; align-items: center; justify-content: space-between"><span style="font-size: 15px; color: #45433E">ソフトとハードの試作記録。</span><a href="#" class="lnk" style="font-size: 15px">About →</a></div>
+</div>
+
+<div style="position: absolute; left: 577px; top: 1px; width: 254px; font-family: 'IBM Plex Mono', monospace">
+<div class="ap n1 d6" style="height: 31px; display: flex; align-items: center; padding: 0 16px; color: #EEEDE8; font-size: 11px; letter-spacing: 0.2em">SHEET 404</div>
+<div class="ap n1 d5" style="height: 32px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px"><span style="font-size: 12px; letter-spacing: 0.1em; color: #5E5B55">DRAWN BY</span><span style="font-size: 14px">frogworks404</span></div>
+<div class="ap n1 d5" style="height: 32px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px"><span style="font-size: 12px; letter-spacing: 0.1em; color: #5E5B55">ENTRIES</span><span style="font-size: 14px">{{count}}</span></div>
+<div class="ap n1 d5" style="height: 32px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px"><span style="font-size: 12px; letter-spacing: 0.1em; color: #5E5B55">SINCE</span><span style="font-size: 14px">2024.01</span></div>
+<div class="ap n1 d5" style="height: 31px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px"><span style="font-size: 12px; letter-spacing: 0.1em; color: #5E5B55">REV.</span><span style="font-size: 14px">2026.08</span></div>
+</div>
+</div>
+</sc-if>
+</div>
+
+<div style="margin-top: 16px; height: 96px; box-sizing: border-box; border-top: 1px solid rgba(30,29,26,0.25); display: grid; grid-template-columns: 96px repeat(8, minmax(0, 1fr)); font-family: 'IBM Plex Mono', monospace; font-size: 12px">
+<span style="height: 32px; display: flex; align-items: center; color: #5E5B55">FRAME</span>
+<sc-for list="{{frames}}" as="fr" hint-placeholder-count="8"><span style="height: 32px; display: flex; align-items: center; color: #5E5B55">{{fr}}</span></sc-for>
+<span style="height: 32px; display: flex; align-items: center; color: #5E5B55">線</span>
+<span style="grid-column: span 6; height: 32px; display: flex; align-items: center; padding-left: 8px; border-left: 2px solid #1E1D1A">枠：上・左 f0–3 → 下・右 f2–5</span>
+<span style="grid-column: span 2"></span>
+<span style="height: 32px; display: flex; align-items: center; color: #5E5B55">中身</span>
+<span style="grid-column: span 4"></span>
+<span style="grid-column: span 4; height: 32px; display: flex; align-items: center; padding-left: 8px; border-left: 2px solid #B5391F">墨の帯 → 見出し → 罫・数値 000→019</span>
+</div>
+
+<div style="margin-top: 48px; height: 32px; display: flex; align-items: center; gap: 12px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #B5391F">B</span>
+<span style="font-size: 17px; font-weight: 700">図版の焼き付け</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5E5B55">読み込み中は斜線の札 → 読み込み完了で3コマ</span>
+<button type="button" class="btn" onClick="{{replayB}}" style="margin-left: auto; height: 32px; padding: 0 12px; border: 1px solid #1E1D1A; background: #EEEDE8; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #1E1D1A">▶ REPLAY</button>
+</div>
+
+<div style="margin-top: 16px; display: flex; gap: 32px">
+<sc-for list="{{figs}}" as="fg" hint-placeholder-count="3">
+<div style="width: 256px; height: 160px; box-sizing: border-box; position: relative; border: 1px solid rgba(30,29,26,0.35); background-color: #EEEDE8; background-image: repeating-linear-gradient(45deg, rgba(30,29,26,0.10) 0 1px, transparent 1px 8px)">
+<span style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 4px 10px; border: 1px solid #1E1D1A; background: #EEEDE8; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.1em">LOADING FIG.</span>
+<sc-if value="{{loaded}}" hint-placeholder-val="{{ true }}">
+<div class="ap n3 d0" style="position: absolute; inset: 0; padding: 6px; background: #F7F6F2; animation-delay: {{fg.delay}}">
+<img src="{{fg.img}}" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover">
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+
+<div style="margin-top: 48px; height: 32px; display: flex; align-items: center; gap: 12px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #B5391F">C</span>
+<span style="font-size: 17px; font-weight: 700">操作への反応</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5E5B55">マウスを乗せる・押す</span>
+</div>
+
+<div style="margin-top: 16px; display: flex; gap: 32px; align-items: flex-start">
+<div style="width: 256px; display: flex; flex-direction: column">
+<span style="height: 32px; display: flex; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5E5B55">LINK — 下線 1px → 2px（1コマ）</span>
+<a href="#" class="lnk" style="height: 32px; display: flex; align-items: center; font-size: 16px">すべての製作物 →</a>
+<span style="margin-top: 32px; height: 32px; display: flex; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5E5B55">BUTTON — 押すと1px沈む</span>
+<button type="button" class="btn" style="width: 120px; height: 44px; border: 1px solid #1E1D1A; background: #1E1D1A; color: #EEEDE8; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em">MENU ≡</button>
+</div>
+<a href="#" class="card" style="width: 256px; display: flex; flex-direction: column; color: #1E1D1A; text-decoration: none">
+<span style="height: 32px; display: flex; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5E5B55">CARD — 枠が墨に・題に下線（3コマ）</span>
+<div class="cfig" style="height: 128px; box-sizing: border-box; padding: 6px; background: #F7F6F2">
+<img src="/_blob/fb80487f0d3c991b436202b8642a458b" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover">
+</div>
+<span style="margin-top: 16px; align-self: flex-start"><span class="ctitle" style="font-size: 20px; line-height: 32px; font-weight: 700; padding-bottom: 2px">HalfGrip</span></span>
+<span style="font-size: 15px; line-height: 32px; color: #45433E">自作USB-C HIDカメラグリップ</span>
+</a>
+<div style="flex: 1; min-width: 0; font-size: 14px; line-height: 32px; color: #45433E">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5E5B55">NOTE</span><br>
+メニューの開閉は「ヘッダー Mobile（閉）」で確認できます。再生してMENUを押すと、墨の面が4コマで下り、項目が1コマずつ現れます。
+</div>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1024,"height":1216}}'>
+class Component extends DCLogic {
+componentDidMount() {
+this.timers = [];
+this.replay('a');
+this.replay('b');
+}
+componentWillUnmount() {
+(this.timers || []).forEach((t) => clearTimeout(t));
+clearInterval(this.ci);
+}
+later(fn, ms) {
+const t = setTimeout(fn, ms);
+this.timers.push(t);
+}
+startCount() {
+clearInterval(this.ci);
+const smooth = (this.state && this.state.mode) === 'smooth';
+this.setState({ count: '000' });
+const seq = smooth ? Array.from({ length: 25 }, (_, i) => Math.round(19 * (1 - Math.pow(1 - (i + 1) / 25, 3)))) : [3, 6, 10, 13, 16, 19];
+const step = smooth ? 20 : 83;
+let i = 0;
+this.later(() => {
+this.ci = setInterval(() => {
+const v = seq[i];
+this.setState({ count: String(v).padStart(3, '0') });
+i += 1;
+if (i >= seq.length) clearInterval(this.ci);
+}, step);
+}, 333);
+}
+replay(which) {
+if (which === 'a') {
+this.setState({ showA: false });
+this.later(() => { this.setState({ showA: true }); this.startCount(); }, 60);
+} else {
+this.setState({ loaded: false });
+this.later(() => this.setState({ loaded: true }), 900);
+}
+}
+renderVals() {
+const st = this.state || {};
+const mode = st.mode || 'steps';
+const steps = mode === 'steps';
+const imgs = ['/_blob/0945cfdcaedc7b8a0d7903fd5a6259a3', '/_blob/fb80487f0d3c991b436202b8642a458b', '/_blob/ac9bdd32a5e893e8cd5c709be137b2c9'];
+return {
+modeClass: steps ? 'm-steps' : 'm-smooth',
+stepsPressed: steps ? 'true' : 'false',
+smoothPressed: steps ? 'false' : 'true',
+stepsBg: steps ? '#1E1D1A' : '#EEEDE8',
+stepsFg: steps ? '#EEEDE8' : '#1E1D1A',
+smoothBg: steps ? '#EEEDE8' : '#1E1D1A',
+smoothFg: steps ? '#1E1D1A' : '#EEEDE8',
+setSteps: () => { this.setState({ mode: 'steps' }); this.later(() => { this.replay('a'); this.replay('b'); }, 0); },
+setSmooth: () => { this.setState({ mode: 'smooth' }); this.later(() => { this.replay('a'); this.replay('b'); }, 0); },
+replayA: () => this.replay('a'),
+replayB: () => this.replay('b'),
+showA: st.showA !== false,
+loaded: !!st.loaded,
+count: st.count || '019',
+frames: ['f0', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7'],
+figs: imgs.map((img, i) => ({ img: img, delay: (i * 166) + 'ms' }))
+};
+}
+}
+</script>
+</body>
+</html>

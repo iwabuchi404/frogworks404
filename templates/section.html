@@ -3,50 +3,37 @@
 {% block title %}{{ section.title | default(value=config.title) }} — {{ config.title }}{% endblock title %}
 
 {% block content %}
-<header class="site-header">
-  <div class="cover-box">
-    <div class="cover-eyebrow">
-      <a href="{{ get_url(path='/') }}" class="cover-back">← 記録一覧</a>
+{% set section_title = section.title | default(value=config.title) %}
+
+<header class="title-block title-block--entry">
+  <div class="title-left">
+    <div class="title-crumb-row">
+      <a href="{{ get_url(path='/') }}" class="title-crumb-link">SHEET 404</a>
+      <span class="title-crumb-sep">/</span>
+      <span class="title-crumb">{{ section_title | upper }}</span>
     </div>
-    <h1 class="cover-title cover-title--sm">{{ section.title | default(value=config.title) }}</h1>
+    <h1 class="entry-title-heading">{{ section_title }}</h1>
+    <div class="entry-lead-row">{{ section.pages | length }} PAGES</div>
+  </div>
+  <div class="title-right title-right--entry">
+    <div class="title-band">{{ section_title | upper }}</div>
+    <div class="title-row title-row--full"><span class="title-row-label">SHEET</span><span class="title-row-value">404</span></div>
   </div>
 </header>
 
-<div x-data="{ activeTag: 'all' }">
-  <nav class="filter-bar" aria-label="タグフィルター">
-    <span class="filter-label">FILTER —</span>
-    <button class="chip" :class="{ on: activeTag === 'all' }" @click="activeTag = 'all'">すべて</button>
-    <button class="chip" :class="{ on: activeTag === 'ai-collaboration' }" @click="activeTag = 'ai-collaboration'">ai-collaboration</button>
-    <button class="chip" :class="{ on: activeTag === 'developer-tools' }" @click="activeTag = 'developer-tools'">developer-tools</button>
-    <button class="chip" :class="{ on: activeTag === 'interface' }" @click="activeTag = 'interface'">interface</button>
-    <button class="chip" :class="{ on: activeTag === 'hardware' }" @click="activeTag = 'hardware'">hardware</button>
-    <button class="chip" :class="{ on: activeTag === 'creative-tools' }" @click="activeTag = 'creative-tools'">creative-tools</button>
-    <button class="chip" :class="{ on: activeTag === 'knowledge' }" @click="activeTag = 'knowledge'">knowledge</button>
-    <button class="chip" :class="{ on: activeTag === 'note' }" @click="activeTag = 'note'">note</button>
-  </nav>
-
-  <main class="feed">
-    <div class="section-divider"><span>{{ section.pages | length }} エントリ</span></div>
-
-    {% for page in section.pages %}
-    {% set page_tags = page.taxonomies.tags | default(value=[]) %}
-    <article
-      class="entry{% if page.extra.entry_type | default(value='') == 'project' %} entry--product{% endif %}"
-      x-show='activeTag === "all" || {{ page_tags | json_encode | safe }}.includes(activeTag)'
-    >
-      <div class="entry-meta">
-        <span class="entry-date">{% if page.date %}{{ page.date | date(format="%Y.%m.%d") }}{% endif %}</span>
-        {% for tag in page_tags %}<span class="badge badge-{{ tag }}">{{ tag }}</span>{% endfor %}
-      </div>
-      <div class="entry-clickable">
-        <h2 class="entry-title">
-          <a href="{{ page.permalink }}">{{ page.title }}</a>
-          {% if page.extra.entry_type | default(value='') == 'project' %}<span class="entry-arrow">→</span>{% endif %}
-        </h2>
-        {% if page.description %}<p class="entry-body">{{ page.description }}</p>{% endif %}
-      </div>
-    </article>
-    {% endfor %}
-  </main>
+<div class="rows rows--section">
+  {% for e in section.pages %}
+  {% set rel_tags = e.taxonomies.tags | default(value=[]) %}
+  <a href="{{ e.permalink }}" class="row row--m-simple">
+    <div class="row-left">
+      <span class="row-md">{% if e.date %}{{ e.date | date(format="%Y.%m.%d") }}{% else %}—{% endif %}</span>
+      {% if rel_tags | length > 0 %}<span class="row-tag">{{ rel_tags | first }}</span>{% endif %}
+    </div>
+    <div class="row-center">
+      <div class="row-title">{{ e.title }}</div>
+      {% if e.description %}<div class="row-excerpt">{{ e.description }}</div>{% endif %}
+    </div>
+  </a>
+  {% endfor %}
 </div>
 {% endblock content %}

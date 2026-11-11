@@ -1,0 +1,9 @@
+<footer class="colophon">
+  <div class="colophon-band">COLOPHON</div>
+  <div class="colophon-name">{{ config.title }} — 制作・実験記録</div>
+  <div class="colophon-item colophon-item--built">BUILT WITH Fubako + Zola</div>
+  <div class="colophon-row">
+    <span class="colophon-item">© 2024–{{ now() | date(format="%Y") }}</span>
+    <a href="{{ config.base_url }}/atom.xml" class="colophon-rss" target="_blank" rel="noopener noreferrer">RSS ↗</a>
+  </div>
+</footer>

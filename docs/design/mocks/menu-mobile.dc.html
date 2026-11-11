@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>frogworks404 モバイル ヘッダーとメニュー</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Shippori+Mincho+B1:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0}
+@keyframes coverDrop{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes appear{from{opacity:0}to{opacity:1}}
+.panel{animation:coverDrop 500ms steps(4,end) both}
+.mi{animation:appear 83ms steps(1,end) both}
+@media (prefers-reduced-motion: reduce){.panel,.mi{animation:none}}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #EEEDE8; color: #1E1D1A; font-family: 'Shippori Mincho B1', serif">
+
+<div aria-hidden="{{pageHidden}}" style="position: absolute; left: 0; top: 0; width: 390px">
+<dc-import name="ListMobile" hint-size="390px,1792px"></dc-import>
+</div>
+
+<header style="position: absolute; left: 0; top: 0; width: 390px; height: 64px; box-sizing: border-box; padding: 0 19px; display: flex; align-items: center; gap: 12px; background: #1E1D1A; border-bottom: 2px solid #B5391F; z-index: 2">
+<a href="Mobile.dc.html" style="font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 16px; color: #EEEDE8; text-decoration: none">frogworks404</a>
+<span style="margin-left: auto; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.12em; color: #A9A59D">{{pageCode}}</span>
+<button type="button" aria-expanded="{{expanded}}" aria-controls="menu-panel" onClick="{{toggle}}" style="width: 88px; height: 44px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 8px; background: {{btnBg}}; border: 1px solid {{btnBorder}}; color: {{btnFg}}; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; cursor: pointer">{{btnLabel}}<span aria-hidden="true" style="font-size: 14px">{{btnIcon}}</span></button>
+</header>
+
+<sc-if value="{{open}}" hint-placeholder-val="{{ false }}">
+<nav id="menu-panel" class="panel" aria-label="メニュー" style="position: absolute; left: 0; top: 64px; width: 390px; height: 780px; box-sizing: border-box; padding: 32px 19px; display: flex; flex-direction: column; background-color: #1E1D1A; background-image: linear-gradient(to right, rgba(238,237,232,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(238,237,232,0.05) 1px, transparent 1px); background-size: 32px 32px; background-position: 19px 0; color: #EEEDE8; z-index: 1">
+
+<div style="height: 32px; display: flex; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; color: #A9A59D">INDEX</div>
+<div style="border-top: 1px solid rgba(238,237,232,0.35)">
+<sc-for list="{{items}}" as="it" hint-placeholder-count="4">
+<a href="{{it.href}}" class="mi" aria-current="{{it.aria}}" style="animation-delay: {{it.delay}}; height: 64px; box-sizing: border-box; display: flex; align-items: center; gap: 16px; padding-left: {{it.pad}}; border-left: {{it.bar}}; border-bottom: 1px solid rgba(238,237,232,0.15); color: {{it.color}}; text-decoration: none">
+<span style="width: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: {{it.numColor}}">{{it.no}}</span>
+<span style="font-size: 22px; font-weight: 700; font-feature-settings: 'palt'; letter-spacing: 0.04em">{{it.label}}</span>
+<span style="margin-left: auto; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #A9A59D">{{it.meta}}</span>
+</a>
+</sc-for>
+</div>
+
+<div style="margin-top: 32px; height: 32px; display: flex; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; color: #A9A59D">LINKS</div>
+<div style="height: 48px; display: flex; align-items: center; gap: 24px; font-family: 'IBM Plex Mono', monospace; font-size: 15px">
+<a href="#" style="color: #EEEDE8">GitHub ↗</a>
+<a href="#" style="color: #EEEDE8">X ↗</a>
+<a href="#" style="color: #EEEDE8">RSS ↗</a>
+</div>
+
+<div style="margin-top: auto; box-sizing: border-box; border: 1px solid rgba(238,237,232,0.5); display: flex; flex-direction: column; font-family: 'IBM Plex Mono', monospace">
+<div style="height: 32px; display: flex; align-items: center; padding: 0 12px; background: #EEEDE8; color: #1E1D1A; font-size: 11px; letter-spacing: 0.2em">SHEET 404</div>
+<div style="height: 32px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; border-bottom: 1px solid rgba(238,237,232,0.15)"><span style="font-size: 12px; letter-spacing: 0.1em; color: #A9A59D">ENTRIES</span><span style="font-size: 14px">019</span></div>
+<div style="height: 32px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; border-bottom: 1px solid rgba(238,237,232,0.15)"><span style="font-size: 12px; letter-spacing: 0.1em; color: #A9A59D">SINCE</span><span style="font-size: 14px">2024.01</span></div>
+<div style="height: 32px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px"><span style="font-size: 12px; letter-spacing: 0.1em; color: #A9A59D">REV.</span><span style="font-size: 14px">2026.08</span></div>
+</div>
+</nav>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"open":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+const p = this.props.open;
+const initial = p === true || p === 'true';
+const open = this.state && this.state.open !== undefined ? this.state.open : initial;
+const current = 'list';
+const defs = [
+{ key: 'top', no: '00', label: 'トップ', href: 'Mobile.dc.html', meta: '→' },
+{ key: 'list', no: '01', label: '記録一覧', href: 'ListMobile.dc.html', meta: '019' },
+{ key: 'works', no: '02', label: '製作物', href: '#', meta: '05' },
+{ key: 'about', no: '03', label: 'About', href: '#', meta: '→' }
+];
+return {
+open: open,
+expanded: open ? 'true' : 'false',
+pageHidden: open ? 'true' : 'false',
+pageCode: open ? 'MENU' : 'INDEX',
+btnLabel: open ? 'CLOSE' : 'MENU',
+btnIcon: open ? '×' : '≡',
+btnBg: open ? '#EEEDE8' : 'transparent',
+btnFg: open ? '#1E1D1A' : '#EEEDE8',
+btnBorder: open ? '#EEEDE8' : 'rgba(238,237,232,0.45)',
+toggle: () => this.setState({ open: !open }),
+items: defs.map((d, i) => {
+const cur = d.key === current;
+return { ...d, delay: (500 + i * 83) + 'ms',aria: cur ? 'page' : 'false', color: cur ? '#E2775A' : '#EEEDE8', numColor: cur ? '#E2775A' : '#A9A59D', bar: cur ? '2px solid #E2775A' : '2px solid transparent', pad: cur ? '12px' : '0px' };
+})
+};
+}
+}
+</script>
+</body>
+</html>

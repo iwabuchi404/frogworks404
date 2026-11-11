@@ -1,84 +1,35 @@
 {% extends "base.html" %}
 
-{% block title %}プロジェクト一覧 — {{ config.title }}{% endblock title %}
+{% block title %}製作物 — {{ config.title }}{% endblock title %}
 
 {% block content %}
-{% set projects_section = get_section(path="projects/_index.md") %}
-{% set status_order = ["in-operation", "usable", "active", "prototype", "tech-verify", "concept", "paused"] %}
-
-<header class="site-header">
-  <div class="cover-box">
-    <div class="cover-eyebrow">
-      <a href="{{ get_url(path='/') }}" class="cover-back">← 記録一覧</a>
+<header class="title-block title-block--entry">
+  <div class="title-left">
+    <div class="title-crumb-row">
+      <a href="{{ get_url(path='/') }}" class="title-crumb-link">SHEET 404</a>
+      <span class="title-crumb-sep">/</span>
+      <span class="title-crumb">WORKS</span>
     </div>
-    <h1 class="cover-title cover-title--sm">プロジェクト一覧</h1>
-    <hr class="cover-divider">
-    <p class="cover-desc">全プロジェクトのステータス俯瞰</p>
+    <h1 class="entry-title-heading">製作物</h1>
+    <div class="entry-lead-row">{{ projects_section.pages | length }} PROJECTS</div>
+  </div>
+  <div class="title-right title-right--entry">
+    <div class="title-band">WORKS</div>
+    <div class="title-row"><span class="title-row-label">COUNT</span><span class="title-row-value">{{ projects_section.pages | length }}</span></div>
+    <div class="title-row title-row--full"><span class="title-row-label">SHEET</span><span class="title-row-value">404</span></div>
   </div>
 </header>
 
-<div x-data="{ activeTag: 'all' }">
-  <nav class="filter-bar" aria-label="タグフィルター">
-    <span class="filter-label">FILTER —</span>
-    <button class="chip" :class="{ on: activeTag === 'all' }" @click="activeTag = 'all'">すべて</button>
-    <button class="chip" :class="{ on: activeTag === 'ai-collaboration' }" @click="activeTag = 'ai-collaboration'">ai-collaboration</button>
-    <button class="chip" :class="{ on: activeTag === 'developer-tools' }" @click="activeTag = 'developer-tools'">developer-tools</button>
-    <button class="chip" :class="{ on: activeTag === 'interface' }" @click="activeTag = 'interface'">interface</button>
-    <button class="chip" :class="{ on: activeTag === 'hardware' }" @click="activeTag = 'hardware'">hardware</button>
-    <button class="chip" :class="{ on: activeTag === 'creative-tools' }" @click="activeTag = 'creative-tools'">creative-tools</button>
-    <button class="chip" :class="{ on: activeTag === 'knowledge' }" @click="activeTag = 'knowledge'">knowledge</button>
-    <button class="chip" :class="{ on: activeTag === 'note' }" @click="activeTag = 'note'">note</button>
-  </nav>
+<section class="block">
+  <div class="section-head">
+    <span class="section-no">01</span>
+    <h2 class="section-title">すべての製作物</h2>
+  </div>
 
-  <main class="feed">
-
-  {% for current_status in status_order %}
-  {% set_global status_heading_shown = false %}
-  {% for page in projects_section.pages %}
-  {% set et = page.extra.entry_type | default(value='') %}
-  {% set st = page.extra.status | default(value='') %}
-  {% if et == 'project' and st == current_status %}
-  {% if status_heading_shown == false %}
-  <div class="section-divider"><span>
-    {% if current_status == "in-operation" %}継続運用中
-    {% elif current_status == "usable" %}利用可能
-    {% elif current_status == "active" %}公開中
-    {% elif current_status == "prototype" %}試作
-    {% elif current_status == "tech-verify" %}技術検証
-    {% elif current_status == "concept" %}構想
-    {% elif current_status == "paused" %}休止
-    {% else %}{{ current_status }}{% endif %}
-  </span></div>
-  {% set_global status_heading_shown = true %}
-  {% endif %}
-  {% set page_tags = page.taxonomies.tags | default(value=[]) %}
-  <article
-    class="entry entry--product entry--row"
-    x-show='activeTag === "all" || {{ page_tags | json_encode | safe }}.includes(activeTag)'
-  >
-    <div class="entry-text">
-      <div class="entry-meta">
-        <span class="entry-date">{{ page.date | date(format="%Y.%m.%d") }}</span>
-        {% for tag in page_tags %}<span class="badge badge-{{ tag }}">{{ tag }}</span>{% endfor %}
-      </div>
-      <div class="entry-clickable">
-        <h2 class="entry-title">
-          <a href="{{ page.permalink }}">{{ page.title }}</a>
-          <span class="entry-arrow">→</span>
-        </h2>
-        {% if page.description %}<p class="entry-body">{{ page.description }}</p>{% endif %}
-      </div>
-    </div>
-    {% if page.extra.cover_image %}
-    <div class="entry-thumb-right">
-      <img src="{{ get_url(path=page.extra.cover_image) }}" alt="{{ page.title }}" loading="lazy">
-    </div>
-    {% endif %}
-  </article>
-  {% endif %}
-  {% endfor %}
-  {% endfor %}
-
-  </main>
-</div>
+  <div class="card-grid card-grid--all">
+    {% for p in projects_section.pages %}
+    {% include "partials/project-card.html" %}
+    {% endfor %}
+  </div>
+</section>
 {% endblock content %}

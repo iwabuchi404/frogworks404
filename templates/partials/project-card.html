@@ -1,0 +1,23 @@
+{% set pc_status = "" %}
+{% if p.extra.status in ["in-service", "in-operation", "active", "usable"] %}
+  {% set pc_status = "IN SERVICE" %}
+{% else %}
+  {% set pc_status = "PROTOTYPE" %}
+{% endif %}
+<a href="{{ p.permalink }}" class="card">
+  <div class="card-fig">
+    {% if p.extra.cover_image %}
+    <img src="{{ get_url(path=p.extra.cover_image) }}" alt="{{ p.title }}" loading="lazy">
+    {% else %}
+    <div class="no-fig no-fig--project">
+      <div class="no-fig-head"><span>PROJECT</span><span>NO FIG.</span></div>
+    </div>
+    {% endif %}
+  </div>
+  <div class="card-status-row">
+    <span class="status-stamp">{{ pc_status }}</span>
+  </div>
+  <h3 class="card-title">{{ p.title }}</h3>
+  <p class="card-desc">{{ p.description }}</p>
+  <div class="card-stack">{{ p.extra.stack | default(value=p.extra.tech | default(value="")) }}</div>
+</a>

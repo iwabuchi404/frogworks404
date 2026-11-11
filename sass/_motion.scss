@@ -1,0 +1,164 @@
+// ─────────────────────────────────────────────
+// Task 6 モーション: 基本はコマ打ちで動く（§9）
+// 1コマ = --f（83ms）。滑らかな変化は使わない。
+// JS 無効でも内容は見える（animation-fill-mode: both）。
+// prefers-reduced-motion で全停止する（_tokens.scss の考えどおり）。
+// ─────────────────────────────────────────────
+
+// ── 共通のキーフレーム ──
+@keyframes draw-y {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes reveal-x {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes appear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes menu-drop {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0); }
+}
+
+@keyframes menu-lift {
+  from { clip-path: inset(0); }
+  to { clip-path: inset(0 0 100% 0); }
+}
+
+@keyframes underline-grow {
+  from { background-size: 0 1px; }
+  to { background-size: 100% 1px; }
+}
+
+// 表題欄の枠自体は即時に置く（spec の左稜線の拡大縮小より簡略。§12で確認）。
+// バンド以下の上から作図する:
+// SHEET 404 帯（2コマ、f4-5）
+.title-block .title-band {
+  animation: draw-y calc(var(--f) * 2) steps(2, end) both;
+  animation-delay: calc(var(--f) * 4);
+  transform-origin: center top;
+}
+
+// 見出し（4コマ、f4-7）
+.title-block .title-statement,
+.title-block .entry-title-heading {
+  animation: reveal-x calc(var(--f) * 4) steps(4, end) both;
+  animation-delay: calc(var(--f) * 4);
+}
+
+// ラベル・リード・項目の行（3コマ、f5-7）
+.title-block .title-label-row,
+.title-block .title-lead-row,
+.title-block .title-row,
+.title-block .entry-lead-row {
+  animation: appear calc(var(--f) * 3) steps(3, end) both;
+  animation-delay: calc(var(--f) * 5);
+}
+
+// ── 図版: 画像は 3 コマで出る（JSの load 待ちは menu.js の枠外） ──
+.card-fig img,
+.latest-fig img,
+.row-fig img,
+.prose img {
+  animation: appear calc(var(--f) * 3) steps(3, end) both;
+}
+
+// ── メニューを開く: 地の面を上から下（4コマ＋各行 1 コマずつをずらす） ──
+html.js {
+  .menu-panel.is-open {
+    animation: menu-drop 500ms steps(4, end) both;
+  }
+
+  .menu-panel.is-closing {
+    display: flex;
+    animation: menu-lift 500ms steps(4, end) both;
+
+    .menu-item,
+    .menu-label,
+    .menu-links,
+    .menu-colophon {
+      visibility: hidden;
+    }
+  }
+
+  .menu-panel .menu-item {
+    opacity: 0;
+  }
+
+  .menu-panel.is-open .menu-item {
+    animation: appear var(--f) steps(1, end) both;
+  }
+
+  .menu-panel.is-open .menu-item:nth-child(1) { animation-delay: 500ms; }
+  .menu-panel.is-open .menu-item:nth-child(2) { animation-delay: calc(500ms + var(--f)); }
+  .menu-panel.is-open .menu-item:nth-child(3) { animation-delay: calc(500ms + var(--f) * 2); }
+  .menu-panel.is-open .menu-item:nth-child(4) { animation-delay: calc(500ms + var(--f) * 3); }
+}
+
+// ── リンクにを载った: 1px → 2px（1コマで切替） ──
+.prose a:hover,
+.row-tag-link:hover,
+.text-link:hover,
+.binding-link:hover,
+.toc-link:hover {
+  text-decoration-thickness: 2px;
+}
+
+// ── カード・行にを载った: 図版の区切りを墨に、題目の下線を左から伸ばす（3コマ） ──
+.card {
+  .card-title {
+    background-image: linear-gradient(var(--c-ink), var(--c-ink));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0 1px;
+  }
+
+  &:hover {
+    .card-fig {
+      border-color: var(--c-ink);
+    }
+
+    .card-title {
+      animation: underline-grow calc(var(--f) * 3) steps(3, end) both;
+    }
+  }
+}
+
+.row {
+  .row-title {
+    background-image: linear-gradient(var(--c-ink), var(--c-ink));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0 1px;
+  }
+
+  &:hover {
+    .row-fig {
+      border-color: var(--c-rule-strong);
+    }
+
+    .row-title {
+      animation: underline-grow calc(var(--f) * 3) steps(3, end) both;
+    }
+  }
+}
+
+// ── 動きを減らす設定では全停止 ──
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none #{'!important'};
+    transition: none #{'!important'};
+  }
+
+  html.js .menu-panel .menu-item {
+    opacity: 1;
+  }
+}

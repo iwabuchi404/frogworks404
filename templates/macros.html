@@ -1,0 +1,21 @@
+{# ── 共通マクロ ──────────────────────────────────────────────── #}
+
+{# 3桁ゼロ埋め: 19 → 019 #}
+{% macro pad3(n) -%}
+{%- if n < 10 %}00{{ n }}{%- elif n < 100 %}0{{ n }}{%- else %}{{ n }}{%- endif -%}
+{%- endmacro %}
+
+{# 記録番号: extra.no を優先、未設定なら投稿の古い順で採番（No.001 が最古） #}
+{% macro entry_no(page, log) -%}
+{%- if page.extra.no is defined %}{{ page.extra.no }}{%- else -%}
+{%- set total = log.pages | length -%}
+{%- for lp in log.pages -%}
+{%- if lp.permalink == page.permalink %}{{ self::pad3(n=total - loop.index + 1) }}{%- endif -%}
+{%- endfor -%}
+{%- endif -%}
+{%- endmacro %}
+
+{# 記録数（ログセクションのページ数）を0詰めで #}
+{% macro entries_n(log) -%}
+{{- self::pad3(n=log.pages | length) -}}
+{%- endmacro %}

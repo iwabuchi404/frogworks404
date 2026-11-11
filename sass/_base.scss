@@ -1,0 +1,480 @@
+// ── 共通の枠（spec §4, §5, §6, §10） ─────────────────────────────────────
+// 値は _tokens.scss から。ここにない色・サイズを作らないこと。
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+// ── 紙面の幅（モバイル）。round() を含む式は libsass が解釈すると壊れるため文字列として通す
+$sheet-w-str: 'min(round(down, 100vw - 32px, 32px), 704px)';
+
+// ── 紙面（方眼背景。spec §4.3） ─────────────────────────────────────────
+body {
+  @include grid-paper(0px, 0px);
+  // 十字=SVG(128タイル) / 細線=縦横の1pxグラデ(32タイル)。
+  // % はタイルごとに (W - タイル)/2 の補正が入るため、本文の段の左端に合わせてpxを調整:
+  //   十字: 50% → W/2 - 64px、細線: 50% → W/2 - 16px。差分を足して左端に揃える。
+  //   main 左端 = W/2 - 256px(PC) / W/2 - 紙面幅/2(モバイル)
+  background-position: calc(50% - 256px) 0, calc(50% - 240px) 0, calc(50% - 240px) 0;
+  color: var(--c-ink);
+  font-family: var(--font-mincho);
+  font-size: 17px;
+  line-height: 32px;
+  text-autospace: normal;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+// ── フレーム（PC: 綾じ 256 + 間 64 + 紙面 832 を中央に） ─────────────────
+.frame {
+  width: 100%;
+  max-width: var(--layout-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: var(--sidebar-w) var(--main-w);
+  column-gap: var(--sidebar-gap);
+  align-items: stretch;
+  min-height: 100vh;
+
+  @media (max-width: 1215px) {
+    display: block;
+    max-width: none;
+    width: 100%;
+    min-height: 0;
+  }
+}
+
+// ── 綾じ（PCサイドバー。spec §5.1） ─────────────────────────────────────
+.binding {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--c-ink);
+  border-right: 2px solid var(--c-vermilion);
+  padding: 64px 32px;
+  color: var(--c-paper);
+
+  @media (max-width: 1215px) {
+    display: none;
+  }
+}
+
+.binding-logo {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 32px;
+  color: var(--c-paper);
+  text-decoration: none;
+}
+
+.binding-label {
+  margin-top: 64px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.14em;
+  color: var(--c-on-ink-muted);
+}
+
+.binding-nav {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.binding-link {
+  font-family: var(--font-mincho);
+  font-size: 16px;
+  line-height: 32px;
+  color: var(--c-paper);
+  text-decoration: none;
+
+  // 現在地: 文字を朱（墨の上）にし、左に2pxの縦線（spec §5.1）
+  &.is-current {
+    color: var(--c-vermilion-on-ink);
+    border-left: 2px solid var(--c-vermilion-on-ink);
+    padding-left: 10px;
+  }
+}
+
+.binding-nav--mono .binding-link {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 32px;
+}
+
+.binding-bottom {
+  margin-top: auto;
+
+  .binding-label { margin-top: 0; }
+}
+
+// ── 綾じ（モバイルヘッダー。spec §5.2） ─────────────────────────────────
+.m-head {
+  display: none;
+
+  @media (max-width: 1215px) {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 64px;
+    background: var(--c-ink);
+    border-bottom: 2px solid var(--c-vermilion);
+    // 綴じ面を画面の左に合わせる（紙面は中央寄せでないので、同じ余白を持つ）
+    padding: 0 #{'calc((100vw - ' + $sheet-w-str + ' ) / 2)'};
+    // メニュー面 (z-index 10) の上に置いて CLOSE を押せるようにする
+    position: relative;
+    z-index: 20;
+  }
+}
+
+.m-head-logo {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--c-paper);
+  text-decoration: none;
+}
+
+.m-head-code {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--c-on-ink-muted);
+}
+
+.menu-toggle {
+  flex: none;
+  width: 88px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--c-paper) 45%, transparent);
+  color: var(--c-paper);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  // 開いているときは塗りが反転する（spec §7、Task 5 でJSと組み合わせる）
+  &.is-open,
+  body.menu-open & {
+    background: var(--c-paper);
+    color: var(--c-ink);
+    border-color: var(--c-paper);
+  }
+}
+
+// メニューが開いている間は背面をスクロールさせない
+body.menu-open {
+  overflow: hidden;
+}
+
+// ── モバイルのメニュー（配置のみ。開閉は Task 5） ───────────────────────
+.menu-panel {
+  // JS 無効: 側のフローに並べて内容を見せる（Task 6 の条件）
+  display: flex;
+  flex-direction: column;
+  background-color: var(--c-ink);
+  // 地の上に白系5%の文章（spec §7）
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--c-paper) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--c-paper) 5%, transparent) 1px, transparent 1px);
+  // 表面の幅とあわせる
+  background-size: 32px 32px;
+  color: var(--c-paper);
+
+  @media (max-width: 1215px) {
+    background-position: #{'calc((100vw - ' + $sheet-w-str + ' ) / 2)'} 0;
+    padding: 32px #{'calc((100vw - ' + $sheet-w-str + ' ) / 2)'};
+  }
+
+  // JS あり: 固定で全画面分の面にする（閉 = 見えない）
+  @media (min-width: 1216px) {
+    display: none;
+  }
+
+  html.js & {
+    position: fixed;
+    inset: 0;
+    top: 64px;
+    z-index: 10;
+    display: none;
+
+    &.is-open {
+      display: flex;
+    }
+  }
+}
+
+.menu-label {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: var(--c-on-ink-muted);
+
+  &--links { margin-top: 32px; }
+}
+
+.menu-items {
+  border-top: 1px solid color-mix(in srgb, var(--c-paper) 35%, transparent);
+}
+
+.menu-item {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid color-mix(in srgb, var(--c-paper) 15%, transparent);
+  color: var(--c-paper);
+  text-decoration: none;
+
+  &.is-current {
+    color: var(--c-vermilion-on-ink);
+    border-left: 2px solid var(--c-vermilion-on-ink);
+    padding-left: 12px;
+
+    .menu-no { color: var(--c-vermilion-on-ink); }
+  }
+}
+
+.menu-no {
+  width: 24px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--c-on-ink-muted);
+}
+
+.menu-name {
+  font-size: 22px;
+  font-weight: 700;
+  font-feature-settings: "palt";
+}
+
+.menu-meta {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--c-on-ink-muted);
+}
+
+.menu-links {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-family: var(--font-mono);
+  font-size: 15px;
+
+  a {
+    color: var(--c-paper);
+    text-decoration: none;
+  }
+}
+
+.menu-colophon {
+  margin-top: auto;
+  border: 1px solid color-mix(in srgb, var(--c-paper) 50%, transparent);
+  font-family: var(--font-mono);
+}
+
+.menu-colophon-band {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  background: var(--c-paper);
+  color: var(--c-ink);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+}
+
+.menu-colophon-row {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  border-bottom: 1px solid color-mix(in srgb, var(--c-paper) 15%, transparent);
+  font-size: 14px;
+
+  span:first-child {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--c-on-ink-muted);
+  }
+}
+
+// ── 紙面 ───────────────────────────────────────────────────────────────
+.sheet {
+  grid-area: 1 / 2;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding-top: 64px;
+  padding-bottom: 64px;
+
+  @media (max-width: 1215px) {
+    width: #{'round(down, 100vw - 32px, 32px)'};
+    max-width: 704px;
+    margin: 0 auto;
+    padding-top: 32px;
+    padding-bottom: 64px;
+  }
+}
+
+// round() 非対応ブラウザのフォールバック（spec §4.3）
+@supports not (width: #{'round(down, 1px, 1px)'}) {
+  @media (max-width: 1215px) {
+    .sheet {
+      width: calc(100vw - 38px);
+    }
+
+    body {
+      // 紙面左端 = 19px。十字は -64px 開始
+      background-position: -45px 0, 19px 0, 19px 0;
+    }
+
+    .m-head {
+      padding: 0 19px;
+    }
+
+    .menu-panel {
+      padding: 32px 19px;
+    }
+  }
+}
+
+// ── 奥付（spec §6） ─────────────────────────────────────────────────────
+.colophon {
+  margin-top: 64px;
+  height: 64px;
+  border: 1px solid var(--c-rule-strong);
+  background: var(--c-paper);
+  display: flex;
+  align-items: stretch;
+  font-family: var(--font-mono);
+}
+
+.colophon-band {
+  flex: none;
+  width: 128px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  background: var(--c-ink);
+  color: var(--c-paper);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+}
+
+.colophon-name {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-right: 1px solid var(--c-rule-faint);
+  font-family: var(--font-mincho);
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.colophon-item {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-right: 1px solid var(--c-rule-faint);
+  font-size: 12px;
+  color: var(--c-text-muted);
+  white-space: nowrap;
+}
+
+.colophon-row {
+  display: flex;
+  align-items: stretch;
+}
+
+.colophon-rss {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  font-size: 12px;
+  color: var(--c-vermilion);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+  }
+}
+
+// ── リンク・フォーカス（spec §6, §10） ─────────────────────────────────
+.text-link {
+  color: var(--c-vermilion);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+}
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--c-vermilion);
+  outline-offset: 2px;
+}
+
+// 墨の上では墨用の朱を使う（spec §10）
+.binding :focus-visible,
+.m-head :focus-visible,
+.menu-panel :focus-visible {
+  outline-color: var(--c-vermilion-on-ink);
+}
+
+// ── モバイルの共通差分 ─────────────────────────────────────────────────
+@media (max-width: 1215px) {
+  body {
+    // 紙面の左端に合わせる（spec §4.3）
+    //   十字: px部分 = -(紙面幅)/2、細線: px部分 = -(紙面幅)/2 + 16px
+    background-position:
+      #{'calc(-1 * ' + $sheet-w-str + ' / 2)'} 0,
+      #{'calc(-1 * ' + $sheet-w-str + ' / 2 + 16px)'} 0,
+      #{'calc(-1 * ' + $sheet-w-str + ' / 2 + 16px)'} 0;
+  }
+
+  .colophon {
+    height: 128px;
+    flex-direction: column;
+  }
+
+  .colophon-band { width: auto; }
+
+  .colophon-name {
+    border-right: none;
+    border-bottom: 1px solid var(--c-rule-faint);
+  }
+
+  .colophon-item--built {
+    border-right: none;
+    border-bottom: 1px solid var(--c-rule-faint);
+  }
+}

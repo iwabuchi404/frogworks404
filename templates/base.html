@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% import "macros.html" as m %}{% set cur_path = current_path | default(value="") %}{% set log_section = get_section(path="log/_index.md") %}{% set projects_section = get_section(path="projects/_index.md") %}{% set seg = cur_path | trim_start_matches(pat="/") | split(pat="/") | first %}{% set is_index = cur_path == "/" or (seg == "log" and not page) %}{% set is_log_article = seg == "log" and page %}{% set is_projects = seg == "projects" %}{% set is_about = seg == "pages" %}<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -59,9 +59,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDMincho:wght@400;700&family=BIZ+UDPGothic:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ get_url(path='main.css') }}">
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
 
   {# ── Analytics ── #}
   {% if config.extra.analytics_provider == "google" and config.extra.analytics_google_id %}
@@ -77,81 +76,65 @@
   {% endif %}
 </head>
 <body>
-  <div class="page-layout">
+<script>document.documentElement.classList.add('js');</script>
+<script src="{{ get_url(path='js/menu.js') }}" defer></script>
 
-    {# ── 背表紙サイドバー（大画面のみ表示） ── #}
-    {% set log = get_section(path="log/_index.md") %}
-    {% set projects_section = get_section(path="projects/_index.md") %}
-    <aside class="page-sidebar" aria-label="サイトナビゲーション">
-      <div class="sidebar-inner">
-        <a href="{{ get_url(path='/') }}" class="sidebar-brand">
-          <span class="sidebar-brand-text">{{ config.title }}</span>
-        </a>
+<div class="frame">
 
-        <hr class="sidebar-divider">
+  {# ── 綴じ（PC: 左綴じ） ── #}
+  <aside class="binding" aria-label="サイトナビゲーション">
+    <a href="{{ get_url(path='/') }}" class="binding-logo">{{ config.title }}</a>
 
-        <div class="sidebar-meta">
-          <div class="sidebar-meta-row">
-            <span class="sidebar-meta-label">記録開始</span>
-            <span class="sidebar-meta-value">{{ config.extra.start_date }}</span>
-          </div>
-          <div class="sidebar-meta-row">
-            <span class="sidebar-meta-label">エントリ数</span>
-            <span class="sidebar-meta-value">{{ log.pages | length + projects_section.pages | length }}</span>
-          </div>
-          <div class="sidebar-meta-row">
-            <span class="sidebar-meta-label">最終更新</span>
-            {% set log_latest = log.pages | first %}
-            {% set pages_latest = projects_section.pages | first %}
-            {% set log_ym = log_latest.date | date(format="%Y%m%d") | int %}
-            {% set pages_ym = pages_latest.date | date(format="%Y%m%d") | int %}
-            {% if log_ym >= pages_ym %}
-            <span class="sidebar-meta-value">{{ log_latest.date | date(format="%Y.%m") }}</span>
-            {% else %}
-            <span class="sidebar-meta-value">{{ pages_latest.date | date(format="%Y.%m") }}</span>
-            {% endif %}
-          </div>
-        </div>
+    <div class="binding-label">PAGES</div>
+    <nav class="binding-nav">
+      <a href="{{ get_url(path='/log/') }}" class="binding-link{% if is_index or is_log_article %} is-current{% endif %}"{% if is_index or is_log_article %} aria-current="page"{% endif %}>記録一覧</a>
+      <a href="{{ get_url(path='/projects/') }}" class="binding-link{% if is_projects %} is-current{% endif %}"{% if is_projects %} aria-current="page"{% endif %}>製作物</a>
+      <a href="{{ get_url(path='/pages/about/') }}" class="binding-link{% if is_about %} is-current{% endif %}"{% if is_about %} aria-current="page"{% endif %}>About</a>
+    </nav>
 
-        <hr class="sidebar-divider">
-
-        <nav class="sidebar-nav">
-          <div class="sidebar-nav-label">PAGES</div>
-          <a href="{{ get_url(path='/') }}" class="sidebar-nav-link">記録一覧</a>
-          <a href="{{ get_url(path='/projects/') }}" class="sidebar-nav-link">プロジェクト</a>
-          <a href="{{ get_url(path='/pages/about') }}" class="sidebar-nav-link">About</a>
-        </nav>
-
-        <nav class="sidebar-nav">
-          <div class="sidebar-nav-label">TAGS</div>
-          <div class="sidebar-tag-list">
-            <a href="{{ get_url(path='/tags/ai-collaboration') }}" class="sidebar-tag-badge sidebar-tag-badge-ai-collaboration">ai-collaboration</a>
-            <a href="{{ get_url(path='/tags/developer-tools') }}" class="sidebar-tag-badge sidebar-tag-badge-developer-tools">developer-tools</a>
-            <a href="{{ get_url(path='/tags/interface') }}" class="sidebar-tag-badge sidebar-tag-badge-interface">interface</a>
-            <a href="{{ get_url(path='/tags/hardware') }}" class="sidebar-tag-badge sidebar-tag-badge-hardware">hardware</a>
-            <a href="{{ get_url(path='/tags/creative-tools') }}" class="sidebar-tag-badge sidebar-tag-badge-creative-tools">creative-tools</a>
-            <a href="{{ get_url(path='/tags/knowledge') }}" class="sidebar-tag-badge sidebar-tag-badge-knowledge">knowledge</a>
-            <a href="{{ get_url(path='/tags/note') }}" class="sidebar-tag-badge sidebar-tag-badge-note">note</a>
-          </div>
-        </nav>
-
-        {% if config.extra.github or config.extra.x or config.extra.booth %}
-        <div class="sidebar-links">
-          <div class="sidebar-nav-label">LINKS</div>
-          {% if config.extra.github %}<a href="{{ config.extra.github }}" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">GitHub ↗</a>{% endif %}
-          {% if config.extra.x %}<a href="{{ config.extra.x }}" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">X ↗</a>{% endif %}
-          {% if config.extra.booth %}<a href="{{ config.extra.booth }}" class="sidebar-nav-link" target="_blank" rel="noopener noreferrer">BOOTH ↗</a>{% endif %}
-        </div>
-        {% endif %}
-      </div>
-    </aside>
-
-    {# ── メインコンテンツ ── #}
-    <div class="inner">
-      {% block content %}{% endblock content %}
-      {% include "partials/big-footer.html" %}
+    <div class="binding-bottom">
+      <div class="binding-label">LINKS</div>
+      <nav class="binding-nav binding-nav--mono">
+        {% if config.extra.github %}<a href="{{ config.extra.github }}" class="binding-link" target="_blank" rel="noopener noreferrer">GitHub ↗</a>{% endif %}
+        {% if config.extra.x %}<a href="{{ config.extra.x }}" class="binding-link" target="_blank" rel="noopener noreferrer">X ↗</a>{% endif %}
+        {% if config.extra.booth %}<a href="{{ config.extra.booth }}" class="binding-link" target="_blank" rel="noopener noreferrer">BOOTH ↗</a>{% endif %}
+      </nav>
     </div>
+  </aside>
 
-  </div>
+  {# ── 綴じ（モバイル: 上綴じヘッダー） ── #}
+  <header class="m-head">
+    <a href="{{ get_url(path='/') }}" class="m-head-logo">{{ config.title }}</a>
+
+    {% if is_projects %}
+      {% set n_projects = projects_section.pages | length %}
+      {% set page_code = "SHOPS " ~ n_projects %}
+    {% elif is_about %}
+      {% set page_code = "ABOUT" %}
+    {% elif seg == "tags" or seg == "pages" %}
+      {% set page_code = "INDEX" %}
+    {% else %}
+      {% set page_code = "INDEX" %}
+    {% endif %}
+    {% if is_log_article %}
+      <span class="m-head-code">No.{{ m::entry_no(page=page, log=log_section) }}</span>
+    {% else %}
+      <span class="m-head-code">{{ page_code }}</span>
+    {% endif %}
+    <button type="button" id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu">
+      <span class="menu-toggle-label">MENU</span><span class="menu-toggle-icon" aria-hidden="true">≡</span>
+    </button>
+  </header>
+
+  {# ── モバイルのメニュー（Task 5 で開閉を実装） ── #}
+  {% include "partials/mobile-menu.html" %}
+
+  {# ── 紙面 ── #}
+  <main class="sheet">
+    {% block content %}{% endblock content %}
+    {% include "partials/colophon.html" %}
+  </main>
+
+</div>
 </body>
 </html>

@@ -1,0 +1,32 @@
+{# モバイルのメニュー。Task 5 で JS / inert / フォーカス制御を実装する #}
+<nav id="mobile-menu" class="menu-panel" aria-label="メニュー" hidden>
+  <div class="menu-label">INDEX</div>
+  <div class="menu-items">
+    <a href="{{ get_url(path='/') }}" class="menu-item{% if cur_path == '/' %} is-current{% endif %}">
+      <span class="menu-no">00</span><span class="menu-name">トップ</span><span class="menu-meta">—</span>
+    </a>
+    <a href="{{ get_url(path='/log/') }}" class="menu-item{% if seg == 'log' %} is-current{% endif %}">
+      <span class="menu-no">01</span><span class="menu-name">記録一覧</span><span class="menu-meta">{{ m::entries_n(log=log_section) }}</span>
+    </a>
+    <a href="{{ get_url(path='/projects/') }}" class="menu-item{% if is_projects %} is-current{% endif %}">
+      <span class="menu-no">02</span><span class="menu-name">製作物</span><span class="menu-meta">{{ projects_section.pages | length }}</span>
+    </a>
+    <a href="{{ get_url(path='/pages/about/') }}" class="menu-item{% if is_about %} is-current{% endif %}">
+      <span class="menu-no">03</span><span class="menu-name">About</span><span class="menu-meta">—</span>
+    </a>
+  </div>
+
+  <div class="menu-label menu-label--links">LINKS</div>
+  <div class="menu-links">
+    {% if config.extra.github %}<a href="{{ config.extra.github }}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>{% endif %}
+    {% if config.extra.x %}<a href="{{ config.extra.x }}" target="_blank" rel="noopener noreferrer">X ↗</a>{% endif %}
+    <a href="{{ config.base_url }}/atom.xml" target="_blank" rel="noopener noreferrer">RSS ↗</a>
+  </div>
+
+  <div class="menu-colophon">
+    <div class="menu-colophon-band">{{ config.title }}</div>
+    <div class="menu-colophon-row"><span>ENTRIES</span><span>{{ m::entries_n(log=log_section) }}</span></div>
+    <div class="menu-colophon-row"><span>SINCE</span><span>{{ config.extra.start_date }}</span></div>
+    <div class="menu-colophon-row"><span>REV.</span><span>{{ now() | date(format="%Y.%m") }}</span></div>
+  </div>
+</nav>

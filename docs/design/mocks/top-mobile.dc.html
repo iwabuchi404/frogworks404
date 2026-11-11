@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>frogworks404 トップ モバイル</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Shippori+Mincho+B1:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0}
+.g-cross{background-image:url(/_blob/e449ba21cb98d2aee11f4cd28a331ec4),linear-gradient(to right,rgba(30,29,26,0.04) 1px,transparent 1px),linear-gradient(to bottom,rgba(30,29,26,0.04) 1px,transparent 1px);background-size:128px 128px,32px 32px,32px 32px;background-position:-45px 0,19px 0,19px 0}
+.g-lines{background-image:linear-gradient(to right,rgba(30,29,26,0.08) 1px,transparent 1px),linear-gradient(to bottom,rgba(30,29,26,0.08) 1px,transparent 1px);background-size:32px 32px;background-position:19px 0}
+</style>
+</helmet>
+<div class="{{gridClass}}" style="width: 390px; height: 3072px; box-sizing: border-box; background-color: #EEEDE8; color: #1E1D1A; font-family: 'Shippori Mincho B1', serif; text-autospace: normal">
+
+<header style="height: 64px; box-sizing: border-box; padding: 0 19px; display: flex; align-items: center; justify-content: space-between; background: #1E1D1A; border-bottom: 2px solid #B5391F">
+<a href="#" style="font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 16px; color: #EEEDE8; text-decoration: none">frogworks404</a>
+<button type="button" style="height: 44px; padding: 0 14px; background: transparent; border: 1px solid rgba(238,237,232,0.45); color: #EEEDE8; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em">MENU</button>
+</header>
+
+<main style="width: 352px; margin: 32px auto 0; display: flex; flex-direction: column">
+
+<section style="height: 256px; box-sizing: border-box; border: 1px solid #1E1D1A; display: flex; flex-direction: column; background: #EEEDE8">
+<div style="height: 160px; box-sizing: border-box; padding: 15px 16px; display: flex; flex-direction: column">
+<div style="height: 32px; display: flex; align-items: center; gap: 10px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.14em; color: #5E5B55">ACTIVITY LOG</span>
+<span style="font-size: 14px; color: #5E5B55">制作・実験記録</span>
+</div>
+<h1 style="margin: 0; font-size: 22px; line-height: 32px; font-weight: 700; font-feature-settings: 'palt'; letter-spacing: 0.03em">人と機械の間にある摩擦を、<br>道具として作り直す。</h1>
+<div style="height: 32px; display: flex; align-items: center; justify-content: space-between">
+<span style="font-size: 15px; color: #45433E">ソフトとハードの試作記録。</span>
+<a href="#" style="font-size: 15px; color: #B5391F; text-underline-offset: 0.25em">About →</a>
+</div>
+</div>
+<div style="height: 32px; display: flex; align-items: center; padding: 0 16px; background: #1E1D1A; color: #EEEDE8; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.2em">SHEET 404</div>
+<div style="flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); font-family: 'IBM Plex Mono', monospace">
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 0 12px; border-right: 1px solid rgba(30,29,26,0.2); border-bottom: 1px solid rgba(30,29,26,0.2)"><span style="font-size: 12px; letter-spacing: 0.1em; color: #5E5B55">ENTRIES</span><span style="font-size: 14px">019</span></div>
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 0 12px; border-bottom: 1px solid rgba(30,29,26,0.2)"><span style="font-size: 12px; letter-spacing: 0.1em; color: #5E5B55">SINCE</span><span style="font-size: 14px">2024.01</span></div>
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 0 12px; border-right: 1px solid rgba(30,29,26,0.2)"><span style="font-size: 12px; letter-spacing: 0.1em; color: #5E5B55">REV.</span><span style="font-size: 14px">2026.08</span></div>
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 0 12px"><span style="font-size: 12px; letter-spacing: 0.1em; color: #5E5B55">LINKS</span><span style="font-size: 14px">GH ↗ X ↗</span></div>
+</div>
+</section>
+
+<section style="margin-top: 64px">
+<div style="height: 32px; box-sizing: border-box; border-bottom: 2px solid #1E1D1A; display: flex; align-items: center; gap: 12px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; letter-spacing: 0.1em">01</span>
+<h2 style="margin: 0; font-size: 20px; line-height: 30px; font-weight: 700; font-feature-settings: 'palt'">製作物</h2>
+<a href="#" style="margin-left: auto; font-size: 15px; color: #B5391F; text-underline-offset: 0.25em">すべて →</a>
+</div>
+<div style="margin-top: 32px; display: flex; flex-direction: column; gap: 32px">
+<sc-for list="{{projects}}" as="p" hint-placeholder-count="3">
+<a href="#" style="height: 448px; display: flex; flex-direction: column; color: #1E1D1A; text-decoration: none">
+<div style="height: 224px; flex: none; box-sizing: border-box; padding: 6px; border: 1px solid rgba(30,29,26,0.35); background: #F7F6F2">
+<img src="{{p.img}}" alt="{{p.name}}" style="display: block; width: 100%; height: 100%; object-fit: cover">
+</div>
+<div style="margin-top: 32px; height: 32px; display: flex; align-items: center"><span style="border: 1px solid #B5391F; background: #EEEDE8; color: #B5391F; font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 16px; letter-spacing: 0.12em; padding: 3px 8px">{{p.status}}</span></div>
+<h3 style="margin: 0; font-size: 20px; line-height: 32px; font-weight: 700">{{p.name}}</h3>
+<p style="margin: 0; height: 96px; font-size: 16px; line-height: 32px; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-align: left">{{p.desc}}</p>
+<div style="height: 32px; display: flex; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5E5B55">{{p.stack}}</div>
+</a>
+</sc-for>
+</div>
+</section>
+
+<section style="margin-top: 64px">
+<div style="height: 32px; box-sizing: border-box; border-bottom: 2px solid #1E1D1A; display: flex; align-items: center; gap: 12px">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; letter-spacing: 0.1em">02</span>
+<h2 style="margin: 0; font-size: 20px; line-height: 30px; font-weight: 700; font-feature-settings: 'palt'">最新の記録</h2>
+<a href="#" style="margin-left: auto; font-size: 15px; color: #B5391F; text-underline-offset: 0.25em">一覧 →</a>
+</div>
+<div style="margin-top: 32px; height: 32px; display: flex; align-items: center; gap: 8px; overflow-x: auto; white-space: nowrap; font-family: 'IBM Plex Mono', monospace; font-size: 12px">
+<sc-for list="{{tags}}" as="t" hint-placeholder-count="8">
+<span style="flex: none; height: 28px; box-sizing: border-box; white-space: nowrap; display: inline-flex; align-items: center; padding: 0 10px; border: 1px solid {{t.border}}; background: {{t.bg}}; color: {{t.fg}}">{{t.label}}</span>
+</sc-for>
+</div>
+<div style="margin-top: 32px; border-bottom: 1px solid #1E1D1A">
+
+<a href="#" style="height: 448px; box-sizing: border-box; display: flex; flex-direction: column; border-top: 1px solid #1E1D1A; color: #1E1D1A; text-decoration: none">
+<div style="height: 31px; flex: none; display: flex; align-items: center; gap: 12px; font-family: 'IBM Plex Mono', monospace">
+<span style="font-size: 11px; letter-spacing: 0.14em; padding: 2px 6px; background: #1E1D1A; color: #EEEDE8">LATEST</span>
+<span style="font-size: 13px">{{featured.date}}</span>
+<span style="margin-left: auto; font-size: 12px; color: #5E5B55">{{featured.tag}}</span>
+</div>
+<sc-if value="{{featured.hasImg}}" hint-placeholder-val="{{ true }}">
+<div style="height: 192px; flex: none; box-sizing: border-box; padding: 6px; border: 1px solid rgba(30,29,26,0.35); background: #F7F6F2">
+<img src="{{featured.img}}" alt="" style="display: block; width: 100%; height: 100%; object-fit: cover">
+</div>
+</sc-if>
+<sc-if value="{{featured.noImg}}" hint-placeholder-val="{{ false }}">
+<div style="height: 192px; flex: none; box-sizing: border-box; border: 1px solid rgba(30,29,26,0.35); background-color: #EEEDE8; background-image: repeating-linear-gradient(45deg, rgba(30,29,26,0.10) 0 1px, transparent 1px 8px); display: flex; align-items: center; justify-content: center">
+<div style="width: 192px; height: 96px; box-sizing: border-box; border: 1px solid #1E1D1A; background: #EEEDE8; display: flex; flex-direction: column; font-family: 'IBM Plex Mono', monospace">
+<div style="height: 32px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; background: #1E1D1A; color: #EEEDE8; font-size: 11px; letter-spacing: 0.2em"><span>ENTRY</span><span>NO FIG.</span></div>
+<div style="flex: 1; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 500; letter-spacing: 0.06em">{{featured.no}}</div>
+</div>
+</div>
+</sc-if>
+<span style="margin-top: 32px; height: 64px; flex: none; font-size: 19px; line-height: 32px; font-weight: 700; font-feature-settings: 'palt'; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden">{{featured.title}}</span>
+<p style="margin: 0; height: 96px; flex: none; font-size: 16px; line-height: 32px; font-weight: 500; color: #45433E; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden">{{featured.excerpt}}</p>
+<span style="height: 32px; display: flex; align-items: center; font-size: 15px; color: #B5391F"><span style="text-decoration: underline; text-underline-offset: 0.25em">続きを読む →</span></span>
+</a>
+
+<sc-for list="{{entries}}" as="e" hint-placeholder-count="3">
+<a href="#" style="height: 96px; box-sizing: border-box; display: flex; flex-direction: column; border-top: 1px solid rgba(30,29,26,0.25); color: #1E1D1A; text-decoration: none">
+<div style="height: 31px; flex: none; display: flex; align-items: center; justify-content: space-between; font-family: 'IBM Plex Mono', monospace">
+<span style="font-size: 13px">{{e.date}}</span>
+<span style="font-size: 12px; color: #5E5B55">{{e.tag}}</span>
+</div>
+<span style="font-size: 16px; line-height: 32px; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden">{{e.title}}</span>
+</a>
+</sc-for>
+</div>
+</section>
+
+<footer style="margin-top: 64px; height: 128px; box-sizing: border-box; border: 1px solid #1E1D1A; display: flex; flex-direction: column; font-family: 'IBM Plex Mono', monospace">
+<div style="height: 32px; flex: none; display: flex; align-items: center; padding: 0 16px; background: #1E1D1A; color: #EEEDE8; font-size: 11px; letter-spacing: 0.2em">COLOPHON</div>
+<div style="flex: 1; display: flex; align-items: center; padding: 0 16px; border-bottom: 1px solid rgba(30,29,26,0.2); font-family: 'Shippori Mincho B1', serif; font-size: 14px">frogworks404 — 制作・実験記録</div>
+<div style="flex: 1; display: flex; align-items: center; padding: 0 16px; border-bottom: 1px solid rgba(30,29,26,0.2); font-size: 12px; color: #5E5B55">BUILT WITH Fubako + Zola</div>
+<div style="flex: 1; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; font-size: 12px; color: #5E5B55"><span>© 2024–2026</span><a href="#" style="color: #B5391F">RSS ↗</a></div>
+</footer>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"grid":{"editor":"enum","options":["cross","lines","none"],"default":"cross"},"latestHasImage":{"editor":"boolean","default":false},"$preview":{"width":390,"height":3072}}'>
+class Component extends DCLogic {
+renderVals() {
+const grid = this.props.grid ?? 'cross';
+const latestImg = this.props.latestHasImage ?? false;
+const tagNames = ['all', 'ai-collaboration', 'developer-tools', 'interface', 'hardware', 'creative-tools', 'knowledge', 'note'];
+return {
+gridClass: grid === 'cross' ? 'g-cross' : (grid === 'lines' ? 'g-lines' : ''),
+tags: tagNames.map((n, i) => ({ label: n, bg: i === 0 ? '#1E1D1A' : '#EEEDE8', fg: i === 0 ? '#EEEDE8' : '#1E1D1A', border: i === 0 ? '#1E1D1A' : 'rgba(30,29,26,0.45)' })),
+projects: [
+{ name: 'ContextMixer', status: 'IN SERVICE', img: '/_blob/0945cfdcaedc7b8a0d7903fd5a6259a3', desc: 'AIと人間が共同管理するナレッジベース。', stack: 'CF Workers · Hono · D1 · MCP' },
+{ name: 'HalfGrip', status: 'PROTOTYPE', img: '/_blob/fb80487f0d3c991b436202b8642a458b', desc: 'Androidネイティブカメラアプリと自作USB-C HIDグリップデバイス。半押しAFロックを含むミラーレス的な操作感をスマホで実現する。', stack: 'RP2040 · Camera2 API · 3D print' },
+{ name: 'Fubako', status: 'IN SERVICE', img: '/_blob/ac9bdd32a5e893e8cd5c709be137b2c9', desc: 'Zolaベースの静的サイトをGUIで管理できるデスクトップCMS。Electron + Vue 3で構築。', stack: 'Electron · Vue 3 · Zola' }
+],
+featured: { no: '019', hasImg: latestImg, noImg: !latestImg, date: '2026.08.24', tag: 'hardware', title: 'HalfGrip 筐体の汎用化：固定部と可変部をどう分けるか', excerpt: '対象機種ごとの幅の違いを、どの部品で吸収するか。固定部と可変部の切り分けと、肉厚の決め方を試作しながら詰めた記録。', img: '/_blob/fb80487f0d3c991b436202b8642a458b' },
+entries: [
+{ date: '2026.07.12', title: 'Electronアプリのめんどくさいバグを自作ツールKamoXでAIに調べてもらった話', tag: 'developer-tools' },
+{ date: '2026.06.30', title: 'ContextMixer：書き込み経路ごとの整合性をどう揃えるか', tag: 'knowledge' },
+{ date: '2026.05.18', title: 'PhotonMixer：Oklab混色とSSAAの実装メモ', tag: 'creative-tools' }
+]
+};
+}
+}
+</script>
+</body>
+</html>

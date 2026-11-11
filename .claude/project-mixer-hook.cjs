@@ -1,19 +1,17 @@
 #!/usr/bin/env node
 // Project Mixer hook - sends notification to local HTTP server
-// Port is discovered via PROJECT_MIXER_PORT_FILE env var (set by PM's PTY).
 const http = require('http');
-const fs = require('fs');
 
-const portFile = process.env.PROJECT_MIXER_PORT_FILE;
-if (!portFile) { process.exit(0); }
-
-let port = null;
+const hookUrl = process.env.PM_HOOK_URL;
+const hookToken = process.env.PM_HOOK_TOKEN;
+if (!hookUrl) { process.exit(0); }
+if (!hookToken) { process.exit(0); }
+let target;
 try {
-  const data = JSON.parse(fs.readFileSync(portFile, 'utf-8'));
-  port = data.port;
-} catch (e) {}
-
-if (!port) { process.exit(0); }
+  target = new URL(hookUrl);
+} catch (e) {
+  process.exit(0);
+}
 
 const arg = process.argv[2] || '';
 const namedEvent = arg && !arg.startsWith('{');
@@ -34,11 +32,15 @@ function send(input = {}) {
   }
   const payload = JSON.stringify(notification);
   const req = http.request({
-    hostname: '127.0.0.1',
-    port: port,
-    path: '/hook',
+    hostname: target.hostname,
+    port: target.port,
+    path: target.pathname,
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(payload) },
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(payload),
+      'X-Project-Mixer-Hook': hookToken,
+    },
   }, () => { process.stdout.write('{}\n'); process.exit(0); });
   req.on('error', () => { process.exit(0); });
   req.write(payload);

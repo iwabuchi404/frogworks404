@@ -4,46 +4,153 @@
 
 {% block content %}
 {% set page_tags = page.taxonomies.tags | default(value=[]) %}
+{% set page_no = m::entry_no(page=page, log=log_section) %}
 
-<header class="site-header">
-  <div class="cover-box">
-    <div class="cover-eyebrow">
-      <a href="{{ get_url(path='/') }}" class="cover-back">← 記録一覧</a>
-      <span class="cover-sep"> ／ </span>
-      {% for tag in page_tags %}<span class="cover-tag">{{ tag }}</span>{% if not loop.last %} {% endif %}{% endfor %}
-    </div>
-    <h1 class="cover-title cover-title--sm">{{ page.title }}</h1>
-    {% if page.description %}
-    <hr class="cover-divider">
-    <p class="cover-desc">{{ page.description }}</p>
+{# 関連する製作物（extra.project_slug から引く。なければ札を出さない） #}
+{% set project_page = "" %}
+{% if page.extra.project_slug %}
+  {% for pr in projects_section.pages %}
+    {% if pr.slug == page.extra.project_slug %}
+      {% set_global project_page = pr %}
     {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% set project_status = "" %}
+{% if project_page and project_page.extra.status %}
+  {% if project_page.extra.status in ["in-service", "in-operation", "active", "usable"] %}
+    {% set project_status = "IN SERVICE" %}
+  {% else %}
+    {% set project_status = "PROTOTYPE" %}
+  {% endif %}
+{% endif %}
+
+{# 前後の記録（log_section.pages は新しい順） #}
+{% set prev_entry = "" %}
+{% set next_entry = "" %}
+{% for e in log_section.pages %}
+  {% if e.permalink == page.permalink %}
+    {% if loop.index0 > 0 %}
+      {% set_global next_entry = log_section.pages | slice(start=loop.index0 - 1, end=loop.index0) | first %}
+    {% endif %}
+    {% set_global prev_entry = log_section.pages | slice(start=loop.index0 + 1) | first %}
+  {% endif %}
+{% endfor %}
+
+{# ── 表題欄 ── #}
+<header class="title-block title-block--entry">
+  <div class="title-left">
+    <div class="title-crumb-row">
+      <a href="{{ get_url(path='/') }}" class="title-crumb-link">SHEET 404</a>
+      <span class="title-crumb-sep">/</span>
+      <a href="{{ get_url(path='/log/') }}" class="title-crumb-link">INDEX</a>
+      <span class="title-crumb-sep">/</span>
+      <span class="title-crumb">{% if page_no != "" %}No.{{ page_no }}{% endif %}</span>
+    </div>
+    <h1 class="entry-title-heading">{{ page.title }}</h1>
+    <div class="entry-lead-row">{{ page.description | default(value="") }}</div>
   </div>
-  <div class="header-table">
-    <div class="header-cell">
-      <span class="cell-label">公開日</span>
-      <span class="cell-value">{% if page.date %}{{ page.date | date(format="%Y.%m.%d") }}{% else %}—{% endif %}</span>
-    </div>
-    {% if page.extra.status is defined %}
-    <div class="header-cell">
-      <span class="cell-label">ステータス</span>
-      <span class="cell-value">
-        {% if page.extra.status == "in-operation" %}継続運用中
-        {% elif page.extra.status == "usable" %}利用可能
-        {% elif page.extra.status == "active" %}公開中
-        {% elif page.extra.status == "prototype" %}試作
-        {% elif page.extra.status == "tech-verify" %}技術検証
-        {% elif page.extra.status == "concept" %}構想
-        {% elif page.extra.status == "paused" %}休止
-        {% else %}{{ page.extra.status }}{% endif %}
-      </span>
-    </div>
+  <div class="title-right title-right--entry">
+    <div class="title-band">{% if page_no != "" %}ENTRY {{ page_no }}{% else %}ENTRY{% endif %}</div>
+    <div class="title-row"><span class="title-row-label">DATE</span><span class="title-row-value">{{ page.date | date(format="%Y.%m.%d") }}</span></div>
+    <div class="title-row"><span class="title-row-label">REV.</span><span class="title-row-value">{% if page.updated %}{{ page.updated | date(format="%Y.%m") }}{% else %}—{% endif %}</span></div>
+    {% if page_tags | length > 0 %}
+    <div class="title-row"><span class="title-row-label">TAG</span><span class="title-row-value title-row-link"><a href="{{ get_taxonomy_url(kind="tags", name=page_tags | first) }}" class="row-tag-link">{{ page_tags | first }}</a></span></div>
     {% endif %}
+    {% if project_page %}
+    <div class="title-row title-row--full"><span class="title-row-label">PROJECT</span><span class="title-row-value title-row-link"><a href="{{ project_page.permalink }}" class="row-tag-link">{{ project_page.title }}</a></span></div>
+    {% endif %}
+    <div class="title-row"><span class="title-row-label">READ</span><span class="title-row-value">≈ {{ page.reading_time }} min</span></div>
   </div>
 </header>
 
-<main class="article-wrap">
-  <div class="article-body{% if page.extra.entry_type | default(value='') == 'project' %} article-body--product{% endif %}">
+{# ── 本文 576 ＋ 傍注 224 ──
+   目次と注は PC: float で傍注の段へ / M: 本文の流れの中へ #}
+<div class="article-frame">
+  <article class="prose">
+    {% if page.toc %}
+    <nav class="toc toc--aside" aria-label="目次">
+      <div class="toc-label">CONTENTS</div>
+      <ul class="toc-list">
+        {% for h in page.toc %}
+        {% if h.level == 2 %}
+        <li class="toc-item toc-item--h2">
+          <a href="#{{ h.id | safe }}" class="toc-link">{{ h.title }}</a>
+          {% if h.children %}
+          <ul class="toc-list toc-list--sub">
+            {% for c in h.children %}
+            <li class="toc-item toc-item--h{{ c.level }}"><a href="#{{ c.id | safe }}" class="toc-link">{{ c.title }}</a></li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </nav>
+    {% endif %}
+
     {{ page.content | safe }}
+
+    {# 関連製作物の札（傍注の段の下端）が注と重ならないようにする空き #}
+    {% if project_page %}
+    <div class="prose-end-guard" aria-hidden="true"></div>
+    {% endif %}
+  </article>
+
+  <aside class="article-side">
+    {# 関連製作物の札（PC: 傍注の段） #}
+    {% if project_page %}
+    <div class="project-card project-card--side">
+      <div class="project-card-band">PROJECT</div>
+      <div class="project-card-name-row">
+        <span class="project-card-name">{{ project_page.title }}</span>
+        <span class="status-stamp status-stamp--sm">{{ project_status }}</span>
+      </div>
+      <p class="project-card-desc">{{ project_page.description }}</p>
+      <a href="{{ project_page.permalink }}" class="project-card-link">製作物ページへ →</a>
+    </div>
+    {% endif %}
+  </aside>
+</div>
+
+{# 関連製作物の札（モバイル: 本文の後） #}
+{% if project_page %}
+<div class="project-card project-card--flow">
+  <div class="project-card-band">PROJECT</div>
+  <div class="project-card-name-row">
+    <span class="project-card-name">{{ project_page.title }}</span>
+    <span class="status-stamp status-stamp--sm">{{ project_status }}</span>
   </div>
-</main>
+  <p class="project-card-desc">{{ project_page.description }}</p>
+  <a href="{{ project_page.permalink }}" class="project-card-link">製作物ページへ →</a>
+</div>
+{% endif %}
+
+{# ── 前後の記録 ── #}
+<nav class="prevnext" aria-label="前後の記録">
+  <div class="prevnext-cell prevnext-prev">
+    {% if prev_entry %}
+    <a href="{{ prev_entry.permalink }}" class="prevnext-link">
+      <span class="prevnext-label">← PREV{% set prev_no = m::entry_no(page=prev_entry, log=log_section) %}{% if prev_no != "" %} · No.{{ prev_no }}{% endif %}</span>
+      <span class="prevnext-title">{{ prev_entry.title }}</span>
+    </a>
+    {% else %}
+    <span class="prevnext-label prevnext-label--disabled">PREV</span>
+    <span class="prevnext-none">これが最初の記録です。</span>
+    {% endif %}
+  </div>
+  <div class="prevnext-cell prevnext-next">
+    {% if next_entry %}
+    <a href="{{ next_entry.permalink }}" class="prevnext-link prevnext-link--next">
+      <span class="prevnext-label">{% set next_no = m::entry_no(page=next_entry, log=log_section) %}{% if next_no != "" %}No.{{ next_no }} · {% endif %}NEXT →</span>
+      <span class="prevnext-title">{{ next_entry.title }}</span>
+    </a>
+    {% else %}
+    <span class="prevnext-label prevnext-label--disabled">NEXT →</span>
+    <span class="prevnext-none">これが最新の記録です。</span>
+    {% endif %}
+  </div>
+</nav>
+
 {% endblock content %}

@@ -3,18 +3,26 @@
 {% block title %}{{ page.title }} — {{ config.title }}{% endblock title %}
 
 {% block content %}
-<header class="site-header">
-  <div class="cover-box">
-    <div class="cover-eyebrow">
-      <a href="{{ get_url(path='/') }}" class="cover-back">← 記録一覧</a>
+<header class="title-block title-block--entry">
+  <div class="title-left">
+    <div class="title-crumb-row">
+      <a href="{{ get_url(path='/') }}" class="title-crumb-link">SHEET 404</a>
+      <span class="title-crumb-sep">/</span>
+      <span class="title-crumb">{{ page.title | upper }}</span>
     </div>
-    <h1 class="cover-title cover-title--sm">{{ page.title }}</h1>
+    <h1 class="entry-title-heading">{{ page.title }}</h1>
+    <div class="entry-lead-row">{{ config.extra.title_statement | default(value="") }}</div>
+  </div>
+  <div class="title-right title-right--entry">
+    <div class="title-band">PAGE</div>
+    <div class="title-row"><span class="title-row-label">UPDATED</span><span class="title-row-value">{% if page.updated %}{{ page.updated | date(format="%Y.%m") }}{% else %}—{% endif %}</span></div>
+    <div class="title-row title-row--full"><span class="title-row-label">SHEET</span><span class="title-row-value">404</span></div>
   </div>
 </header>
 
-<main class="article-wrap">
-  <div class="article-body">
+<div class="page-body">
+  <article class="prose prose--wide">
     {{ page.content | safe }}
-  </div>
-</main>
+  </article>
+</div>
 {% endblock content %}

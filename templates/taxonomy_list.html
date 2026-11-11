@@ -3,22 +3,36 @@
 {% block title %}タグ一覧 — {{ config.title }}{% endblock title %}
 
 {% block content %}
-<header class="site-header">
-  <div class="cover-box">
-    <div class="cover-eyebrow">
-      <a href="{{ get_url(path='/') }}" class="cover-back">← 記録一覧</a>
+{% set total_entries = m::pad3(n=log_section.pages | length) %}
+
+<header class="title-block title-block--entry">
+  <div class="title-left">
+    <div class="title-crumb-row">
+      <a href="{{ get_url(path='/') }}" class="title-crumb-link">SHEET 404</a>
+      <span class="title-crumb-sep">/</span>
+      <span class="title-crumb">TAGS</span>
     </div>
-    <h1 class="cover-title cover-title--sm">タグ一覧</h1>
+    <h1 class="entry-title-heading">タグ一覧</h1>
+    <div class="entry-lead-row">{{ terms | length }} TAGS</div>
+  </div>
+  <div class="title-right title-right--entry">
+    <div class="title-band">TAGS</div>
+    <div class="title-row title-row--full"><span class="title-row-label">SHEET</span><span class="title-row-value">404</span></div>
   </div>
 </header>
 
-<main class="article-wrap">
-  <div class="article-body">
-    <ul>
-      {% for term in terms %}
-      <li><a href="{{ term.permalink }}">{{ term.name }} ({{ term.pages | length }})</a></li>
-      {% endfor %}
-    </ul>
+<section class="block">
+  <div class="section-head">
+    <span class="section-no">01</span>
+    <h2 class="section-title">すべてのタグ</h2>
   </div>
-</main>
+
+  <div class="chip-row chip-row--list">
+    {% for term in terms %}
+    <a href="{{ term.permalink }}" class="chip"><span class="chip-label">{{ term.name }}</span><span class="chip-count">{{ term.pages | length }}</span></a>
+    {% endfor %}
+  </div>
+
+  <div class="index-end">END OF INDEX — {{ m::entries_n(log=log_section) }} ENTRIES</div>
+</section>
 {% endblock content %}

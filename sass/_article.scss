@@ -1,0 +1,721 @@
+// ─────────────────────────────────────────────
+// Task 4 記事詳細（§3.3 / §8, mocks/article-pc, article-mobile）
+// ─────────────────────────────────────────────
+
+// ── 表題欄（192px） ──
+.title-block--entry {
+  height: 192px;
+  border: 1px solid var(--c-rule-strong);
+  background: var(--c-paper);
+
+  .title-left {
+    width: 576px;
+    border-right: 1px solid var(--c-rule-strong);
+    padding: 15px 32px;
+  }
+}
+
+.title-crumb-row {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-meta);
+  letter-spacing: 0.1em;
+  color: var(--c-text-sub);
+}
+
+.title-crumb-link {
+  color: var(--c-text-sub);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--c-ink);
+  }
+}
+
+.title-crumb-sep,
+.title-crumb {
+  color: var(--c-text-sub);
+}
+
+.entry-title-heading {
+  margin: 0;
+  height: 96px;
+  font-size: 28px;
+  line-height: 48px;
+  font-weight: 700;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  letter-spacing: 0.03em;
+}
+
+.entry-lead-row {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  color: var(--c-text-body);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.title-band {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  background: var(--c-ink);
+  color: var(--c-paper);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+}
+
+.title-row {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--c-figure-border);
+  font-size: 14px;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.title-row-label {
+  font-size: var(--text-meta);
+  letter-spacing: 0.1em;
+  color: var(--c-text-sub);
+}
+
+.title-row-value {
+  font-size: 14px;
+}
+
+.row-tag-link {
+  color: var(--c-accent);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+}
+
+// ── 本文 576 ＋ 傍注 224 ──
+.article-frame {
+  margin-top: 64px;
+  display: flex;
+  gap: 32px;
+}
+
+.prose {
+  width: 576px;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  counter-reset: fig;
+
+  // リード段落（最初の p）は1字下げしない
+  > p:first-of-type {
+    text-indent: 0;
+  }
+
+  p,
+  ul,
+  ol,
+  blockquote,
+  figure,
+  pre,
+  table {
+    margin: 32px 0 0;
+    width: 100%;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  p {
+    font-size: 17px;
+    line-height: 32px;
+    font-weight: 500;
+    text-align: justify;
+    text-indent: 1em;
+    line-break: strict;
+  }
+
+  ul,
+  ol {
+    padding-left: 1.5em;
+  }
+
+  li {
+    font-size: 17px;
+    line-height: 32px;
+    font-weight: 500;
+  }
+
+  a {
+    color: var(--c-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    text-decoration-thickness: 1px;
+
+    &:hover {
+      color: var(--c-ink);
+    }
+  }
+
+  // ── 見出し（h2 は § カウンタで番号を打つ） ──
+  counter-reset: sec;
+  h2,
+  h3 {
+    margin: 32px 0 0;
+    width: 100%;
+    font-weight: 700;
+  }
+
+  h2 {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 20px;
+    line-height: 32px;
+
+    &::before {
+      counter-increment: sec;
+      content: counter(sec);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--c-accent);
+    }
+  }
+
+  h3 {
+    font-size: 16px;
+    line-height: 32px;
+    color: var(--c-text-body);
+  }
+
+  // ── 図版 ──
+  img {
+    display: block;
+    max-width: 100%;
+    height: 288px;
+    object-fit: cover;
+    box-sizing: border-box;
+    padding: 6px;
+    border: 1px solid var(--c-figure-border);
+    background: var(--c-figure-mount);
+  }
+
+  figcaption {
+    min-height: 32px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--c-text-body);
+
+    &::before {
+      counter-increment: fig;
+      content: 'FIG. ' counter(fig);
+      font-family: var(--font-mono);
+      font-size: var(--text-meta);
+      letter-spacing: 0.1em;
+      color: var(--c-ink);
+      flex: none;
+      line-height: 32px;
+    }
+  }
+
+  // ── 引用 ──
+  blockquote {
+    padding-left: 16px;
+    border-left: 1px solid var(--c-rule-strong);
+    color: var(--c-text-sub);
+
+    p {
+      margin: 0;
+      text-indent: 0;
+    }
+  }
+
+  // ── コード ──
+  pre {
+    padding: 16px 20px;
+    border: 1px solid var(--c-figure-border);
+    background: var(--c-code-bg);
+    font-size: 14px;
+    line-height: 24px;
+    overflow-x: auto;
+    max-width: 100%;
+  }
+
+  code {
+    font-family: var(--font-mono);
+  }
+
+  p code,
+  li code {
+    font-size: 14px;
+    padding: 4px 6px;
+    background: var(--c-code-bg);
+  }
+
+  // ── 表 ──
+  table {
+    border-collapse: collapse;
+    font-size: 14px;
+    line-height: 32px;
+  }
+
+  th {
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    text-align: left;
+    border-bottom: 1px solid var(--c-rule-strong);
+  }
+
+  td {
+    border-bottom: 1px solid var(--c-rule);
+  }
+
+  // ── 注（ショートコード）: PC=傍注の段、M=囲み ──
+  counter-reset: note;
+}
+
+.note {
+  counter-increment: note;
+  display: flex;
+  flex-direction: column;
+
+  &::before {
+    content: 'NOTE ' counter(note);
+    font-family: var(--font-mono);
+    font-size: var(--text-meta);
+    letter-spacing: 0.14em;
+    color: var(--c-accent);
+  }
+
+  .note-body {
+    font-size: 14px;
+    color: var(--c-text-body);
+
+    p {
+      margin: 0;
+      text-indent: 0;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+}
+
+// ── 傍注（PCのみ） ──
+@media (min-width: 1216px) {
+  .note {
+    float: right;
+    clear: right; // 注どうし・目次との重なりを防ぐ
+    width: 224px;
+    // 本文 576 の右 32px（間）＋ 傍注の段 224px 分を右へ逃がす
+    margin-right: -256px;
+    margin-top: 32px;
+    margin-bottom: 32px;
+
+    &::before {
+      height: 32px;
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+// ── 目次（PC=傍注の段の上端、M=本文の前） ──
+.toc {
+  width: 100%;
+}
+
+.toc-label {
+  height: 32px;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--c-rule-strong);
+  display: flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  letter-spacing: 0.14em;
+}
+
+.toc-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.toc-item--h2 {
+  counter-increment: tocsec;
+}
+
+.toc-link {
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--c-ink);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+}
+
+.toc-item--h2 .toc-link::before {
+  content: counter(tocsec);
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  color: var(--c-accent);
+  flex: none;
+}
+
+.toc-list--sub {
+  .toc-item {
+    counter-increment: none;
+  }
+
+  .toc-link {
+    padding-left: 22px;
+    color: var(--c-text-body);
+  }
+
+  .toc-link::before {
+    display: none;
+  }
+}
+
+@media (min-width: 1216px) {
+  .toc--aside {
+    float: right;
+    width: 224px;
+    // 注と同じ列に置く: 注は clear で目次の下以降に並ぶ
+    margin-right: -256px;
+    margin-bottom: 32px;
+  }
+}
+
+.article-side {
+  width: 224px;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+// ── 関連製作物の札 ──
+.project-card {
+  box-sizing: border-box;
+  border: 1px solid var(--c-rule-strong);
+  background: var(--c-paper);
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card--side {
+  margin-top: auto; // 傍注の段の下端（札は注の下に置く）
+  padding-top: 32px;
+  margin-left: 0;
+}
+
+.project-card-band {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  background: var(--c-ink);
+  color: var(--c-paper);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+}
+
+.project-card-name-row {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+}
+
+.project-card-name {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.project-card-desc {
+  margin: 0;
+  padding: 0 12px;
+  font-size: 14px;
+  line-height: 32px;
+  color: var(--c-text-body);
+}
+
+.project-card-link {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 14px;
+  color: var(--c-accent);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+}
+
+.status-stamp--sm {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  padding: 1px 6px;
+  border: 1px solid var(--c-accent);
+  color: var(--c-accent);
+}
+
+// ── 本文末の空き: 関連製作物の札（傍注の段の下端）が注と重ならないようにする ──
+@media (min-width: 1216px) {
+  .prose-end-guard {
+    height: 224px;
+  }
+}
+
+// ── 前後の記録 ──
+.prevnext {
+  margin-top: 64px;
+  min-height: 96px;
+  box-sizing: border-box;
+  border-top: 1px solid var(--c-rule-strong);
+  border-bottom: 1px solid var(--c-rule-strong);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.prevnext-cell {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.prevnext-prev {
+  padding-right: 16px;
+  border-right: 1px solid var(--c-figure-border);
+}
+
+.prevnext-next {
+  padding-left: 16px;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.prevnext-link {
+  display: flex;
+  flex-direction: column;
+  color: var(--c-ink);
+  text-decoration: none;
+
+  &:hover .prevnext-title {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+}
+
+.prevnext-label {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  letter-spacing: 0.1em;
+  color: var(--c-accent);
+}
+
+.prevnext-next .prevnext-label,
+.prevnext-label--disabled {
+  color: var(--c-text-disabled);
+}
+
+.prevnext-title {
+  font-size: 16px;
+  line-height: 32px;
+  font-weight: 500;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.prevnext-none {
+  font-size: 15px;
+  line-height: 32px;
+  color: var(--c-text-sub);
+}
+
+// ── モバイル ──
+@media (max-width: 1215px) {
+  .title-block--entry {
+    height: auto;
+
+    // 160（表題）＋ 32（SHEET 404帯）＋ 項目の 2列グリッド
+    .title-left {
+      height: 160px;
+      width: auto;
+      border-right: none;
+      padding: 0 16px;
+    }
+  }
+
+  .entry-title-heading {
+    height: 64px;
+    font-size: 21px;
+    line-height: 32px;
+    letter-spacing: 0.02em;
+  }
+
+  .entry-lead-row {
+    font-size: 14px;
+  }
+
+  .title-band {
+    height: 32px;
+    flex: none;
+    padding: 0 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+
+  .title-right--entry {
+    flex: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    .title-row {
+      height: 32px;
+      flex: none;
+      padding: 0 12px;
+      font-size: 13px;
+
+      &:nth-child(odd) {
+        border-right: 1px solid var(--c-figure-border);
+      }
+    }
+
+    // 最後の行（PROJECT）は全幅で下段へ
+    .title-row--full {
+      grid-column: 1 / -1;
+      order: 5;
+      border-right: none;
+    }
+  }
+
+  .article-frame {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  // 目次を本文の前へ（.prose 内の最初の要素として出る）
+  .toc {
+    order: -1;
+    margin-bottom: 32px;
+  }
+
+  .toc-link {
+    font-size: 15px;
+  }
+
+  .prose {
+    width: auto;
+
+    img {
+      height: 224px;
+      padding: 4px;
+    }
+  }
+
+  .prose-end-guard {
+    display: none;
+  }
+
+  .article-side {
+    width: auto;
+  }
+
+  // 注は本文の中の囲みに
+  .note {
+    float: none;
+    margin: 32px 0 0;
+    width: auto;
+    border: 1px solid var(--c-rule-strong);
+    background: var(--c-paper);
+
+    &::before {
+      height: 32px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      border-bottom: 1px solid var(--c-figure-border);
+    }
+
+    .note-body {
+      font-size: 14px;
+      padding: 8px 12px;
+      margin-top: 0;
+    }
+  }
+
+  .project-card--side {
+    display: none;
+  }
+
+  .project-card--flow {
+    display: flex;
+    margin-top: 32px;
+  }
+
+  .prevnext {
+    margin-top: 32px;
+    grid-template-columns: 1fr;
+
+    .prevnext-prev {
+      padding-right: 0;
+      border-right: none;
+      border-bottom: 1px solid var(--c-figure-border);
+    }
+
+    .prevnext-next {
+      padding-left: 0;
+    }
+  }
+}
+
+// PC ではモバイル用の札を隠す
+@media (min-width: 1216px) {
+  .project-card--flow {
+    display: none;
+  }
+}

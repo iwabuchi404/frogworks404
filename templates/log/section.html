@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}{{ section.title | default(value=config.title) }} — {{ config.title }}{% endblock title %}
+
+{% block content %}
+{% set list_pages = section.pages %}
+{% set selected_slug = "" %}
+{% set crumb = "INDEX" %}
+{% set h1 = section.title | default(value="記録一覧") %}
+{% set shown = m::entries_n(log=log_section) %}
+{% set total_entries = m::entries_n(log=log_section) %}
+{% set desc = "制作と実験の記録。新しい順に、すべての記録を1ページに並べています。" %}
+{% include "partials/index-list.html" %}
+{% endblock content %}

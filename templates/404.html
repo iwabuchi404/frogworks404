@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Not Found — {{ config.title }}{% endblock title %}
+
+{% block content %}
+<header class="title-block title-block--entry">
+  <div class="title-left">
+    <div class="title-crumb-row">
+      <a href="{{ get_url(path='/' ) }}" class="title-crumb-link">SHEET 404</a>
+      <span class="title-crumb-sep">/</span>
+      <span class="title-crumb">NOT FOUND</span>
+    </div>
+    <h1 class="entry-title-heading">ページが見つかりません</h1>
+    <div class="entry-lead-row">この紙には何も描かれていない。</div>
+  </div>
+  <div class="title-right title-right--entry">
+    <div class="title-band">404</div>
+    <div class="title-row title-row--full"><span class="title-row-label">STATUS</span><span class="title-row-value">NOT FOUND</span></div>
+  </div>
+</header>
+
+<div class="page-body">
+  <article class="prose prose--wide">
+    <p>ほしい物がどこにあるか、まだ仕上げていない。この製図面のまわりを見て回るか、いちばん新しい記録からまた読み始めてください。</p>
+    <p><a href="{{ get_url(path='/log/') }}">記録一覧へ戻る →</a></p>
+  </article>
+</div>
+{% endblock content %}

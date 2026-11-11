@@ -1,0 +1,57 @@
+// ─────────────────────────────────────────────
+// About / 製作物一覧・詳細 / 404（§12: 共通の部品で組む）
+// ─────────────────────────────────────────────
+
+.page-body {
+  margin-top: 64px;
+}
+
+.prose--wide {
+  width: 832px;
+}
+
+// 表題欄の行に置くステータス印
+.status-stamp--inline {
+  font-size: 12px;
+}
+
+// 関連記録の行は一覧の行の間隔と同じにする
+.block--related {
+  margin-top: 64px;
+}
+
+.row--m-simple {
+  .row-left {
+    width: 128px;
+  }
+}
+
+// 製作物一覧は全件を 3 列に入れる
+.card-grid--all {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 256px));
+  gap: 32px;
+  width: 100%;
+
+  .card {
+    width: auto;
+  }
+}
+
+@media (max-width: 1215px) {
+  .page-body {
+    margin-top: 32px;
+  }
+
+  .prose--wide {
+    width: 100%;
+  }
+
+  .block--related {
+    margin-top: 32px;
+  }
+
+  .card-grid--all {
+    grid-template-columns: 1fr;
+  }
+}

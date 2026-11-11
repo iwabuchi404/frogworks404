@@ -1,0 +1,62 @@
+<header class="page-head">
+  <div class="page-crumb-row">
+    <a href="{{ get_url(path='/') }}" class="page-crumb-link">SHEET 404</a>
+    <span class="page-crumb-sep">/</span>
+    <span class="page-crumb">{{ crumb }}</span>
+  </div>
+  <div class="page-title-row">
+    <h1 class="page-title">{{ h1 }}</h1>
+    <span class="page-entries page-entries--pc">{{ shown }} / {{ total_entries }} ENTRIES</span>
+    <span class="page-entries page-entries--m">{{ total_entries }} ENTRIES</span>
+  </div>
+  <div class="page-desc-row">{{ desc }}</div>
+</header>
+
+{% set tax = get_taxonomy(kind="tags") %}
+<div class="chip-row chip-row--list">
+  {% for t in tax.items | sort(attribute="name") %}
+  <a href="{{ t.permalink }}" class="chip{% if selected_slug == t.slug %} is-selected{% endif %}">
+    <span class="chip-label">{{ t.name }}<span class="chip-count">{{ t.pages | length }}</span></span>
+  </a>
+  {% endfor %}
+</div>
+
+<div class="index-list">
+  {% set_global prev_year = "" %}
+  {% for e in list_pages %}
+  {% set e_year = e.date | date(format="%Y") %}
+  {% set is_year_start = e_year != prev_year %}
+  {% if is_year_start %}{% set_global prev_year = e_year %}{% endif %}
+  {% set e_tags = e.taxonomies.tags | default(value=[]) %}
+  {% set e_img = e.extra.image | default(value=e.extra.cover_image | default(value="")) %}
+  {% set e_no = m::entry_no(page=e, log=log_section) %}
+  {% set e_excerpt = e.description | default(value=e.summary | default(value="")) %}
+
+  <a href="{{ e.permalink }}" class="row{% if is_year_start %} row--year-start{% endif %}">
+    <div class="row-left">
+      <div class="row-year-slot">
+        {% if is_year_start %}<span class="year-plate">{{ e_year }}</span>{% endif %}
+      </div>
+      <span class="row-md">{{ e.date | date(format="%m.%d") }}</span>
+      <span class="row-no">{% if e_no != "" %}No.{{ e_no }}{% endif %}</span>
+      <span class="row-tag">{{ e_tags | first | default(value="") }}</span>
+    </div>
+    <div class="row-center">
+      <span class="row-title">{{ e.title }}</span>
+      <p class="row-excerpt">{{ e_excerpt }}</p>
+    </div>
+    <div class="row-fig{% if e_img == "" %} row-fig--hatch{% endif %}">
+      {% if e_img != "" %}
+      <img src="{{ get_url(path=e_img) }}" alt="" loading="lazy">
+      {% else %}
+      <span class="row-nofig">{% if e_no != "" %}No.{{ e_no }} · {% endif %}NO FIG.</span>
+      {% endif %}
+    </div>
+  </a>
+  {% endfor %}
+</div>
+
+<div class="index-end">
+  <span>END OF INDEX — {{ total_entries }} ENTRIES</span>
+  <a href="#top" class="index-end-top">↑ TOP</a>
+</div>

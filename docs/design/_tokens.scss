@@ -1,0 +1,66 @@
+// frog404.work design tokens v1
+// 値の根拠と使い分けは docs/design/spec.md を参照。ここにない値を新しく作らないこと。
+
+:root {
+  /* ---------- 色 ---------- */
+  --c-paper:        #EEEDE8; /* 紙。ページ地、箱の塗り */
+  --c-ink:          #1E1D1A; /* 墨。本文、綴じ、墨ベタの帯、強い罫線 */
+  --c-vermilion:    #B5391F; /* 朱。リンク、ステータス印、見出し番号（紙の上） */
+  --c-vermilion-on-ink: #E2775A; /* 朱（墨の上）。サイドバーとメニューの現在地 */
+  --c-text-sub:     #45433E; /* 抜粋、リード、注 */
+  --c-text-muted:   #5E5B55; /* Mono のラベル、メタ情報 */
+  --c-text-disabled:#8A867E; /* 無効なリンク、タグの件数 */
+  --c-on-ink-muted: #A9A59D; /* 墨の上の補助文字 */
+  --c-figure-mount: #F7F6F2; /* 図版の台紙 */
+  --c-code-bg:      #E4E2DB; /* コードの囲み */
+  --c-rule-strong:  #1E1D1A;                /* 区画の下線、箱の枠 */
+  --c-rule:         rgba(30, 29, 26, 0.25); /* 台帳の行の区切り */
+  --c-rule-faint:   rgba(30, 29, 26, 0.20); /* 表題欄の中の罫 */
+  --c-figure-border:rgba(30, 29, 26, 0.35); /* 図版の枠 */
+  --c-chip-border:  rgba(30, 29, 26, 0.45); /* タグの枠 */
+  --c-grid-line:    rgba(30, 29, 26, 0.04); /* 方眼の細線 */
+  --c-hatch:        rgba(30, 29, 26, 0.10); /* 図版なしの斜線 */
+
+  /* ---------- 書体 ---------- */
+  /* 人が書いた文章（見出しを含む）= 明朝 / 機械が付けた情報（日付・番号・タグ・ラベル）= Mono（英数字のみ） */
+  --font-mincho: 'Shippori Mincho B1', serif;    /* 400 / 500 / 700 */
+  --font-mono:   'IBM Plex Mono', monospace;     /* 400 / 500 / 600 */
+
+  /* ---------- グリッド ---------- */
+  --u:   8px;    /* 部品の内側の余白の単位 */
+  --g:   32px;   /* 方眼1マス = 本文の行送り。部品間の間隔はこの倍数 */
+  --g-major: 128px; /* 主線（十字）の間隔 = 4マス */
+
+  /* ---------- PC レイアウト ---------- */
+  --layout-w:   1152px; /* 綴じ + 間隔 + 本文 */
+  --sidebar-w:  256px;
+  --sidebar-gap: 64px;
+  --main-w:     832px;
+  --prose-w:    576px;  /* 記事本文の段 */
+  --aside-w:    224px;  /* 記事の傍注の段 */
+
+  /* ---------- モーション（コマ打ち） ---------- */
+  --f:  83ms;   /* 1コマ = 2コマ打ち（12fps）の1枚 */
+  --f-heavy: 125ms; /* 大きな動き用（3コマ打ち、8fps） */
+}
+
+/* 方眼の背景。background-position の x はレイアウトの本文左端に合わせる（spec.md §4） */
+@mixin grid-paper($x: 0px, $y: 0px) {
+  background-color: var(--c-paper);
+  background-image:
+    url('/img/grid-cross.svg'),
+    linear-gradient(to right,  var(--c-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--c-grid-line) 1px, transparent 1px);
+  background-size: var(--g-major) var(--g-major), var(--g) var(--g), var(--g) var(--g);
+  /* 十字は SVG タイル内 (64,64) に描いてある。タイル原点を主線から -64px ずらす */
+  background-position: calc(#{$x} - 64px) calc(#{$y} - 64px), $x $y, $x $y;
+}
+
+@mixin hatch {
+  background-color: var(--c-paper);
+  background-image: repeating-linear-gradient(45deg, var(--c-hatch) 0 1px, transparent 1px 8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
