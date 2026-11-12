@@ -11,6 +11,11 @@
   to { transform: scaleY(1); }
 }
 
+@keyframes draw-x {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
 @keyframes reveal-x {
   from { clip-path: inset(0 100% 0 0); }
   to { clip-path: inset(0 0 0 0); }
@@ -145,6 +150,109 @@ html.js {
 
     .row-title {
       animation: underline-grow calc(var(--f) * 3) steps(3, end) both;
+    }
+  }
+}
+
+// ── hover の作図（ポインティングデバイスのみ） ──
+// 案3: 行に載ったら下罫を「引き直す」: 左から4コマ。線が着いたら端点に小さな十字（1コマ）。
+// 案4: 製作物カードに載ったら右側に縦の寸法線（3コマ）＋寸法値 384（1コマ、線を切って載せる）。
+@media (hover: hover) and (pointer: fine) {
+  .row,
+  .ledger-row {
+    position: relative;
+
+    // 引き直した罫
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 1px;
+      background: var(--c-rule-strong);
+      transform: scaleX(0);
+      transform-origin: left top;
+    }
+
+    // 端点の小さな十字（左と右）
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -5px;
+      height: 9px;
+      opacity: 0;
+      background-image:
+        linear-gradient(var(--c-rule-strong), var(--c-rule-strong)),
+        linear-gradient(var(--c-rule-strong), var(--c-rule-strong)),
+        linear-gradient(var(--c-rule-strong), var(--c-rule-strong)),
+        linear-gradient(var(--c-rule-strong), var(--c-rule-strong));
+      background-repeat: no-repeat;
+      background-size: 9px 1px, 1px 9px, 9px 1px, 1px 9px;
+      background-position: 0 center, 4px center, right center, calc(100% - 5px) center;
+    }
+
+    &:hover::after {
+      animation: draw-x calc(var(--f) * 4) steps(4, end) both;
+    }
+
+    &:hover::before {
+      animation: appear var(--f) steps(1, end) both;
+      animation-delay: calc(var(--f) * 4);
+    }
+  }
+
+  // 寸法線はカードの高さが固定の PC のみ（M は高さが違うので数値が出せない）
+  @media (min-width: 1216px) {
+    .card {
+      position: relative;
+
+      // 縦の寸法線と上下の端の目
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: -24px;
+        width: 16px;
+        transform: scaleY(0);
+        transform-origin: center top;
+        background-image:
+          linear-gradient(var(--c-rule-strong), var(--c-rule-strong)),
+          linear-gradient(var(--c-rule-strong), var(--c-rule-strong)),
+          linear-gradient(var(--c-rule-strong), var(--c-rule-strong));
+        background-repeat: no-repeat;
+        background-size: 1px 100%, 8px 1px, 8px 1px;
+        background-position: 15px 0, 8px 0, 8px calc(100% - 1px);
+      }
+
+      // 寸法値（紙色で線を切って載せる）
+      &::after {
+        content: '384';
+        position: absolute;
+        top: 50%;
+        right: -31px;
+        transform: translateY(-50%);
+        writing-mode: vertical-rl;
+        padding: 4px 0;
+        background: var(--c-paper);
+        font-family: var(--font-mono);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        color: var(--c-text-muted);
+        opacity: 0;
+      }
+
+      &:hover::before {
+        animation: draw-y calc(var(--f) * 3) steps(3, end) both;
+      }
+
+      &:hover::after {
+        animation: appear var(--f) steps(1, end) both;
+        animation-delay: calc(var(--f) * 3);
+      }
     }
   }
 }
