@@ -308,4 +308,9 @@
 .index-end-top {
   color: var(--c-vermilion);
   text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
 }

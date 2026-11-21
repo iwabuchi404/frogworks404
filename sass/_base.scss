@@ -72,6 +72,8 @@ body {
   line-height: 32px;
   color: var(--c-paper);
   text-decoration: none;
+
+  &:hover { color: var(--c-vermilion-on-ink); }
 }
 
 .binding-label {
@@ -101,6 +103,11 @@ body {
     color: var(--c-vermilion-on-ink);
     border-left: 2px solid var(--c-vermilion-on-ink);
     padding-left: 10px;
+  }
+
+  // 現在地以外は載ると朱になる（現在地はすでに朱なので変化なし）
+  &:hover {
+    color: var(--c-vermilion-on-ink);
   }
 }
 
@@ -141,6 +148,8 @@ body {
   font-size: 16px;
   color: var(--c-paper);
   text-decoration: none;
+
+  &:hover { color: var(--c-vermilion-on-ink); }
 }
 
 .m-head-code {
@@ -171,12 +180,25 @@ body {
     transform: translateY(1px);
   }
 
+  // 閉じているとき: 載ると枠と文字が朱になる
+  &:hover {
+    border-color: var(--c-vermilion-on-ink);
+    color: var(--c-vermilion-on-ink);
+  }
+
   // 開いているときは塗りが反転する（spec §7、Task 5 でJSと組み合わせる）
   &.is-open,
   body.menu-open & {
     background: var(--c-paper);
     color: var(--c-ink);
     border-color: var(--c-paper);
+  }
+
+  // 反転（紙地）の上での hover は墨の上用の朱は使わない
+  &.is-open:hover,
+  body.menu-open &:hover {
+    border-color: var(--c-vermilion);
+    color: var(--c-vermilion);
   }
 }
 
@@ -254,6 +276,13 @@ body.menu-open {
 
     .menu-no { color: var(--c-vermilion-on-ink); }
   }
+
+  // 載ると文字と番号が朱になる
+  &:hover {
+    color: var(--c-vermilion-on-ink);
+
+    .menu-no { color: var(--c-vermilion-on-ink); }
+  }
 }
 
 .menu-no {
@@ -287,6 +316,11 @@ body.menu-open {
   a {
     color: var(--c-paper);
     text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+      text-underline-offset: 0.25em;
+    }
   }
 }
 
@@ -436,18 +470,26 @@ body.menu-open {
   text-underline-offset: 0.25em;
 }
 
+// フォーカス: 図面の「仮線」（破線の枠）。hover は要素の内側（色・下線・枠）、
+// focus は要素の外側（周りの枠）なので、両方が同時に立っても成り立つ。
 a:focus-visible,
 button:focus-visible,
 summary:focus-visible {
-  outline: 2px solid var(--c-vermilion);
-  outline-offset: 2px;
+  outline: 2px dashed var(--c-vermilion);
+  outline-offset: 3px;
 }
 
-// 墨の上では墨用の朱を使う（spec §10）
+// 墨の上では墨用の朱（spec §10）
 .binding :focus-visible,
 .m-head :focus-visible,
 .menu-panel :focus-visible {
   outline-color: var(--c-vermilion-on-ink);
+}
+
+// テキスト選択: 朱の下敷き。文字は必ず紙色を明示（朱×紙 = 5.03:1, AA）
+::selection {
+  background: var(--c-vermilion);
+  color: var(--c-paper);
 }
 
 // ── モバイルの共通差分 ─────────────────────────────────────────────────

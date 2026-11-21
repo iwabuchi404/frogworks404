@@ -345,6 +345,11 @@
     border-color: var(--c-rule-strong);
     color: var(--c-paper);
   }
+
+  // 選択外は載ると枠が墨になる（1コマ感覚の即時切替）
+  &:not(.is-selected):hover {
+    border-color: var(--c-ink);
+  }
 }
 
 .chip-count {

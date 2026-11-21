@@ -1,4 +1,4 @@
-{% import "macros.html" as m %}{% set cur_path = current_path | default(value="") %}{% set log_section = get_section(path="log/_index.md") %}{% set projects_section = get_section(path="projects/_index.md") %}{% set seg = cur_path | trim_start_matches(pat="/") | split(pat="/") | first %}{% set is_index = cur_path == "/" or (seg == "log" and not page) %}{% set is_log_article = seg == "log" and page %}{% set is_projects = seg == "projects" %}{% set is_about = seg == "pages" %}<!DOCTYPE html>
+{% import "macros.html" as m %}{% set cur_path = current_path | default(value="") %}{% set log_section = get_section(path="log/_index.md") %}{% set projects_section = get_section(path="projects/_index.md") %}{% set seg = cur_path | trim_start_matches(pat="/") | split(pat="/") | first %}{% set is_index = cur_path == "/" %}{% set is_log_article = seg == "log" and page %}{% set is_projects = seg == "projects" %}{% set is_about = seg == "pages" %}<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -49,12 +49,17 @@
   <meta property="og:title" content="{{ og_title }}">
   <meta property="og:description" content="{{ og_desc }}">
   <meta property="og:url" content="{{ og_url | safe }}">
+  <link rel="icon" href="{{ get_url(path='favicon.ico') }}" sizes="16x16 32x32 48x48">
+  <link rel="apple-touch-icon" href="{{ get_url(path='apple-touch-icon.png') }}">
+  {# 画像が無いページはサイト共通の OGP 画像に落ちる #}
   {% if og_img != "" %}
   <meta property="og:image" content="{{ get_url(path=og_img) }}">
-  <meta name="twitter:card" content="summary_large_image">
   {% else %}
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="{{ get_url(path='ogp.png') }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   {% endif %}
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ og_title }}">
   <meta name="twitter:description" content="{{ og_desc }}">
 
@@ -88,7 +93,8 @@
 
     <div class="binding-label">PAGES</div>
     <nav class="binding-nav">
-      <a href="{{ get_url(path='/log/') }}" class="binding-link{% if is_index or is_log_article %} is-current{% endif %}"{% if is_index or is_log_article %} aria-current="page"{% endif %}>記録一覧</a>
+      <a href="{{ get_url(path='/') }}" class="binding-link{% if is_index %} is-current{% endif %}"{% if is_index %} aria-current="page"{% endif %}>表紙</a>
+      <a href="{{ get_url(path='/log/') }}" class="binding-link{% if seg == 'log' %} is-current{% endif %}"{% if seg == 'log' %} aria-current="page"{% endif %}>記録一覧</a>
       <a href="{{ get_url(path='/projects/') }}" class="binding-link{% if is_projects %} is-current{% endif %}"{% if is_projects %} aria-current="page"{% endif %}>製作物</a>
       <a href="{{ get_url(path='/pages/about/') }}" class="binding-link{% if is_about %} is-current{% endif %}"{% if is_about %} aria-current="page"{% endif %}>About</a>
     </nav>

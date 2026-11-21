@@ -110,8 +110,8 @@ html.js {
 .prose a:hover,
 .row-tag-link:hover,
 .text-link:hover,
-.binding-link:hover,
-.toc-link:hover {
+.toc-link:hover,
+.index-end-top:hover {
   text-decoration-thickness: 2px;
 }
 
@@ -133,6 +133,33 @@ html.js {
       animation: underline-grow calc(var(--f) * 3) steps(3, end) both;
     }
   }
+}
+
+// 最新の記録（大ぶりのカード）も同じ扱い
+.latest {
+  .latest-title {
+    background-image: linear-gradient(var(--c-ink), var(--c-ink));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0 1px;
+  }
+
+  &:hover {
+    .latest-fig {
+      border-color: var(--c-ink);
+    }
+
+    .latest-title {
+      animation: underline-grow calc(var(--f) * 3) steps(3, end) both;
+    }
+  }
+}
+
+// 図版なしの札の内枠も、載られたら一段濃くなる
+.card:hover .no-fig,
+.row:hover .no-fig,
+.latest:hover .no-fig {
+  border-color: var(--c-rule-strong);
 }
 
 .row {

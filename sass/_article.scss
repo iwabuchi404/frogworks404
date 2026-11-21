@@ -359,7 +359,8 @@
   letter-spacing: 0.14em;
 }
 
-.toc-list {
+// .prose ul の余白（margin 32 / padding 1.5em）より強くするため .toc を付ける
+.toc .toc-list {
   margin: 0;
   padding: 0;
   list-style: none;
