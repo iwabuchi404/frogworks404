@@ -8,6 +8,10 @@ build_search_index = false
 [[taxonomies]]
 name = "tags"
 
+# 配信: log（記録）セクションの Atom フィードのみ（content/log/_index.md 側で generate_feed = true）
+feed_filename = "atom.xml"
+generate_feed = false
+
 [extra]
 start_date = "2024.01"
 title_statement = "人と機械の間にある摩擦を、道具として作り直す。"

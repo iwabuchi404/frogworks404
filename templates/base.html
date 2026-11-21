@@ -43,6 +43,7 @@
   {% set og_img = "" %}
   {% endif %}
   <link rel="canonical" href="{{ og_url | safe }}">
+  <link rel="alternate" type="application/atom+xml" title="frogworks404 · 記録" href="{{ get_url(path="log/atom.xml") | safe }}">
   <meta property="og:site_name" content="{{ config.title }}">
   <meta property="og:type" content="{{ og_type }}">
   <meta property="og:title" content="{{ og_title }}">

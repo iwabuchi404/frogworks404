@@ -20,7 +20,7 @@
   <div class="menu-links">
     {% if config.extra.github %}<a href="{{ config.extra.github }}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>{% endif %}
     {% if config.extra.x %}<a href="{{ config.extra.x }}" target="_blank" rel="noopener noreferrer">X ↗</a>{% endif %}
-    <a href="{{ config.base_url }}/atom.xml" target="_blank" rel="noopener noreferrer">RSS ↗</a>
+    <a href="{{ get_url(path="log/atom.xml") }}" target="_blank" rel="noopener noreferrer">RSS ↗</a>
   </div>
 
   <div class="menu-colophon">
