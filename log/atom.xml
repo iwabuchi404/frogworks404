@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ja">
+    <title>frogworks404 - 記録</title>
+    <subtitle>人と機械の間にある摩擦を、道具として作り直す。AIとの知識共有、制作プロセス、入力デバイス、デジタル表現を題材に、ソフトウェアとハードウェアを試作している。</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://frog404.work/log/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://frog404.work/log/"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-08-03T00:00:00+00:00</updated>
+    <id>https://frog404.work/log/atom.xml</id>
+    <entry xml:lang="ja">
+        <title>WebGPUでイラストソフトを作っている</title>
+        <published>2026-08-03T00:00:00+00:00</published>
+        <updated>2026-08-03T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://frog404.work/log/2026-08-03-photon-mixer/"/>
+        <id>https://frog404.work/log/2026-08-03-photon-mixer/</id>
+        
+        <content type="html" xml:base="https://frog404.work/log/2026-08-03-photon-mixer/">&lt;blockquote&gt;
+&lt;p&gt;この記事は&lt;a href=&quot;https:&#x2F;&#x2F;zenn.dev&#x2F;frogworks404&#x2F;articles&#x2F;4d9edadcd74c3a&quot;&gt;Zennに掲載した記事&lt;&#x2F;a&gt;の転載に加筆したものです。&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;uploads&#x2F;2026&#x2F;08&#x2F;oklab-mix.png&quot; alt=&quot;混色比較：sRGB &#x2F; Linear RGB &#x2F; Oklab&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;上からsRGB補間、リニアRGB補間、Oklab補間。&lt;&#x2F;p&gt;
+&lt;p&gt;多くのイラストソフトでは、通常のsRGBでの合成や補間が、非線形に符号化されたRGB値に対して行われる（注1）。
+中間が暗く濁るのはバグではなく、その符号化された値をそのまま平均した結果である。&lt;&#x2F;p&gt;
+&lt;p&gt;PhotonMixerというイラストソフトを個人で作っている。
+構成はElectron、TypeScript、WebGPU（raw API）、Lit（Web Components）。&lt;&#x2F;p&gt;
+&lt;p&gt;名前はそのまま光を混ぜるという意味。
+絵の具ではなく光の量として色を持ち、光として混ぜるといったコンセプトから名前をつけた。&lt;&#x2F;p&gt;
+&lt;p&gt;動機の半分は、イラストソフトの色処理を3DCG寄りのパイプラインで組んだら何が変わるかという興味にある。
+モニターは光を発する媒体なので、デジタルネイティブなソフトなら色を混ぜるのではなく光を混ぜるという発想で作るべきではないか、という問いからきている。&lt;&#x2F;p&gt;
+&lt;p&gt;もう半分は、SAIの書き味が好きで離れられないことにある。
+CLIP STUDIO PAINTも持っているし機能面では不足はないが、結局SAIに戻ってしまう。
+SAIのペンの滑らかさや色を混ぜながら描く書き味がどうしても手に合っていて、離れられないでいる。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;nazeoklabdehun-se-suruka&quot;&gt;なぜOklabで混色するか&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;sainohun-se-moderu&quot;&gt;SAIの混色モデル&lt;&#x2F;h3&gt;
+&lt;p&gt;SAIの水彩筆には「混色」「水分量」「色延び」という三つのパラメータがある。
+ブラシがキャンバスに触れたとき、その位置のピクセル色を拾い、ブラシ色と混ぜながらストロークに沿って広げていく。
+この「キャンバスの色を拾って混ぜる」機能は、イラストソフトの普通のブラシが持つ標準的な動作ではない。
+Photoshopのミキサーブラシ、Kritaのカラースマッジブラシなど、特定のブラシ種別に搭載される機能である。
+通常のペンや鉛筆ツールはブラシ色をα合成するだけで、キャンバス色を拾わない。&lt;&#x2F;p&gt;
+&lt;p&gt;PhotonMixerはこのSAI的な混色モデルを再現している。
+変えたのは補間の計算空間で、Oklabという色空間を使っている。&lt;&#x2F;p&gt;
+&lt;p&gt;この記事で扱う「混色」は、レイヤーのα合成そのものではなく、ブラシが拾ったキャンバス色とブラシ色の間をどの色空間で補間するか、という処理を指す。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;srgbdebu-jian-suruchang-he&quot;&gt;sRGBで補間する場合&lt;&#x2F;h3&gt;
+&lt;p&gt;sRGBの伝達関数は非線形であり、色の演算用には設計されていない。
+この空間で二色の中間値を取ると、知覚的な中間にならない。
+要は感覚的な中間色にならないのである。
+冒頭の画像の1行目がその例で、赤とシアンの間に暗く彩度の落ちた領域が生まれる。&lt;&#x2F;p&gt;
+&lt;p&gt;ではリニアRGBで補間すればよいかというと、別の問題が出る。
+2行目のリニアRGB補間は物理的な光のエネルギーとしては正しい色の配分になる。
+しかし人間の目には中間色が明るすぎるように見える。
+リニアRGBは物理量であって、人間の感覚的なものとは関係ないからである。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;oklabnoxuan-ding&quot;&gt;Oklabの選定&lt;&#x2F;h3&gt;
+&lt;p&gt;sRGBでもリニアRGBでも、人間の感覚的な色を扱う方法としては課題がある。
+色空間の仕組みや種類を調べ回っていたとき、AIにOklabを教えてもらった。
+Björn Ottosson氏が設計した空間で（注2）、以下の性質がある。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;L軸&lt;&#x2F;strong&gt;：知覚的な明度に対応する。物理的な光量ではなく、人間が「同じ明るさ」と感じる尺度&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;a&#x2F;b軸上の距離&lt;&#x2F;strong&gt;：知覚的な色差に近い&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;色相の回転&lt;&#x2F;strong&gt;：補間中に意図しない色相を通過しにくい&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;色彩工学では、こうした性質を**知覚均等性（perceptual uniformity）**と呼ぶらしい。
+知覚均等な空間で補間すれば、二色の間の色がどこも同じくらいの「違い」に見えるようになる。&lt;&#x2F;p&gt;
+&lt;p&gt;3行目のOklab補間では、sRGB補間のように単純に暗い灰色へ落ち込まず、知覚的に比較的滑らかな経路を通る。
+ただし、Oklabの線形補間が万能というわけではなく、明度やクロマを常に一定に保つわけではない。
+反対色同士ではOklab上でも補間途中でクロマが低下する（注3）。
+sRGB補間との違いは「濁らない」というより「濁り方の性質が違う」で、人間の感覚的な色の滑らかさではOklabが優位になる（注4）。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;shi-zhuang-nogou-zao&quot;&gt;実装の構造&lt;&#x2F;h3&gt;
+&lt;p&gt;PhotonMixerの描画パイプラインはWebGPUのraw API（&lt;code&gt;@webgpu&#x2F;types&lt;&#x2F;code&gt;）で組んでいる。
+フレームワークやラッパーライブラリは使わず、シェーダーはWGSLで直接書いている。&lt;&#x2F;p&gt;
+&lt;p&gt;筆者がフロントエンドエンジニアで、ブラウザベースの環境で作ってみたいという動機からこういった構成になっている。
+ネイティブのほうがパフォーマンス的には有利かもしれないが、WebGPUやシェーダーが直接使えるようになった昨今ではある程度戦えると思って、この選定にしてみた。&lt;&#x2F;p&gt;
+&lt;p&gt;作業色空間はlinear sRGB。
+混色の計算はブラシのフラグメントシェーダー内で完結させた。
+CPU側にテクスチャを読み戻す方式も考えられるが、毎フレームのGPU↔CPU往復はレイテンシが大きいと思い、この仕組みにしている。
+シェーダーが確定済みキャンバスのテクスチャをサンプリングし、プリマルチプライドαをストレートに戻してからOklab空間で補間し、リニアRGBに戻して書き込む。&lt;&#x2F;p&gt;
+&lt;p&gt;以下は実際のシェーダーから簡略化した擬似コードである。&lt;&#x2F;p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;#x2F;&amp;#x2F; 係数は掲載用に丸めている。実装ではOklab参照実装の10桁精度の値を使用
+fn linear_to_oklab(c: vec3f) -&amp;gt; vec3f {
+    let lms = vec3f(
+        0.4122 * c.r + 0.5363 * c.g + 0.0514 * c.b,
+        0.2119 * c.r + 0.6807 * c.g + 0.1074 * c.b,
+        0.0883 * c.r + 0.2817 * c.g + 0.6300 * c.b
+    );
+    &amp;#x2F;&amp;#x2F; WGSLのpowは負値を扱えないため、符号を保存した立方根を取る
+    let lms_ = sign(lms) * pow(abs(lms), vec3f(1.0 &amp;#x2F; 3.0));
+    return vec3f(
+        0.2105 * lms_.x + 0.7936 * lms_.y - 0.0041 * lms_.z,
+        1.9780 * lms_.x - 2.4286 * lms_.y + 0.4506 * lms_.z,
+        0.0259 * lms_.x + 0.7828 * lms_.y - 0.8087 * lms_.z
+    );
+}
+
+var target_color = brush_color;  &amp;#x2F;&amp;#x2F; 透明な領域ではブラシ色がそのまま乗る
+
+if (canvas_alpha &amp;gt; 0.001) {
+    let canvas_oklab = linear_to_oklab(canvas_color &amp;#x2F; canvas_alpha);
+    let brush_oklab  = linear_to_oklab(brush_color);
+    let mixed_oklab  = mix(brush_oklab, canvas_oklab, wet_ratio * canvas_alpha);
+    target_color = oklab_to_linear(mixed_oklab);
+}
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;混ぜる比率は&lt;code&gt;wet_ratio&lt;&#x2F;code&gt;（にじみのスライダー）に&lt;code&gt;canvas_alpha&lt;&#x2F;code&gt;を掛けたものになる。
+キャンバスに色が乗っているほど混色が強く効き、透明な領域ではブラシ色がそのまま乗る。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;canvas_alpha &amp;gt; 0.001&lt;&#x2F;code&gt;のガードはアンプリマルチプライの除算のためのもので、ここで見た目の段差は生じない。
+混色の比率自体に&lt;code&gt;canvas_alpha&lt;&#x2F;code&gt;が掛かっているため、αが0に近づくにつれて混色率も0へ収束するからである。&lt;&#x2F;p&gt;
+&lt;p&gt;なおクランプは入力側にのみ入っている。
+&lt;code&gt;linear_to_oklab&lt;&#x2F;code&gt;内の処理はWGSLの&lt;code&gt;pow&lt;&#x2F;code&gt;が負値を扱えないことへの対処であり、符号を保存する形にしてある（&lt;code&gt;Math.cbrt&lt;&#x2F;code&gt;を使うTypeScript側では不要になる）。
+一方、Oklab補間後のリニアRGB出力にはクランプをかけておらず、1.0を超える値や負値もそのままrgba16floatに保存される。
+表示時にトーンマップとsRGB変換が適用される。&lt;&#x2F;p&gt;
+&lt;p&gt;冒頭の画像で見たsRGB補間の濁りは、実際にストロークを引くとより体感的にわかる。
+色を重ねるたびに彩度が落ちていく挙動と、Oklabで補間したときの滑らかさの違いは、手で触って確かめられる差になる。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;ge-zhou-4bei-nosupasanpuringumiao-hua&quot;&gt;各軸4倍のスーパーサンプリング描画&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;nazessaaka&quot;&gt;なぜSSAAか&lt;&#x2F;h3&gt;
+&lt;p&gt;ブラシストロークのアンチエイリアスにはいくつかの方式がある。
+分析的AA、ハードウェア支援のMSAA、描画解像度を上げてから縮小するSSAA（スーパーサンプリング）などがある。&lt;&#x2F;p&gt;
+&lt;p&gt;PhotonMixerはSSAAを選んだ。
+分析的AAはブラシ形状ごとに被覆率計算を実装する必要があり、テクスチャブラシへの拡張が面倒になる。そもそも筆者が仕組みをよく把握していない。
+WebGPUのMSAAは標準仕様上4サンプルに限られ、またMSAAはポリゴン境界の被覆率を扱う仕組みなので、テクスチャブラシ内部のアルファまでは面倒を見てくれない。
+高解像度バッファに描いて縮小するSSAAが、一番素直で汎用的だろうということでSSAAで処理している。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;paipurainnoliu-re&quot;&gt;パイプラインの流れ&lt;&#x2F;h3&gt;
+&lt;p&gt;描画は3ステップで行う。&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;各軸4倍の一時バッファにブラシスタンプを描画（max blend）&lt;&#x2F;li&gt;
+&lt;li&gt;Compute Shaderで4×4ピクセルを1ピクセルに畳み込み（Box Filter）&lt;&#x2F;li&gt;
+&lt;li&gt;1xの隔離バッファからキャンバスにOver合成で焼き込み&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;各軸4倍なので1ピクセルあたり16サンプルを取り、その平均から被覆率を得る。
+ブラシのフラグメントシェーダーは&lt;code&gt;smoothstep&lt;&#x2F;code&gt;で連続的なアルファを出力するため、単純な二値被覆の離散段階ではなく、16サンプルの連続値の平均になる。&lt;&#x2F;p&gt;
+&lt;p&gt;ステップ1のmax blendは、同一ストローク内でスタンプが重なったときのα累積を防ぐためのものである。
+通常のOver合成では、30%不透明のブラシを引くとスタンプの重なり部分で不透明度が累積し、ほぼ不透明になる。
+max blendは各ピクセルの最大値だけを残すため、1ストローク内では不透明度が頭打ちになる。&lt;&#x2F;p&gt;
+&lt;p&gt;このmax blendはRGBA全チャンネルに適用される。
+PhotonMixerの混色モードでは、同一ストローク内の全スタンプが同じ確定済みキャンバスをサンプリングするため、同じ位置では同じ色が出力される。
+そのためRGBに対するmaxも実質的に同一値のmaxとなり、問題は起きない（注4）。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;uploads&#x2F;2026&#x2F;08&#x2F;ssaa-compare.png&quot; alt=&quot;SSAA比較：左が通常描画、右が各軸4倍のSSAA&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;左が通常描画、右が各軸4倍のSSAA。
+8倍に拡大すると、通常描画では階段状のエッジが目立つのに対し、SSAAでは中間輝度のピクセルが被覆率に応じた濃淡を作っている。&lt;&#x2F;p&gt;
+&lt;p&gt;この実装は特に細い線の描画で違いが出る。
+SAIほどではないが、1px程度でもある程度滑らかで繊細な線を引けるようになった。
+今後さらに改良していくことになると思う。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ssaanokosuto&quot;&gt;SSAAのコスト&lt;&#x2F;h3&gt;
+&lt;p&gt;問題もいくつかある。
+大きいのはメモリと帯域である。
+一時バッファ1枚がキャンバス全体の各軸4倍になるため、キャンバスサイズに対してコストが急速に増大する。&lt;&#x2F;p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;論理解像度&lt;&#x2F;th&gt;&lt;th&gt;各軸4倍バッファ（rgba16float 1枚）&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;800×600&lt;&#x2F;td&gt;&lt;td&gt;約60MB&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;1920×1080&lt;&#x2F;td&gt;&lt;td&gt;約265MB&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;4K（3840×2160）&lt;&#x2F;td&gt;&lt;td&gt;約1GB&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;p&gt;さらにWebGPUの&lt;code&gt;maxTextureDimension2D&lt;&#x2F;code&gt;の標準的な下限値は8192なので、各軸4倍では論理キャンバスの一辺が2048までに制限される環境がある。&lt;&#x2F;p&gt;
+&lt;p&gt;現在はキャンバス全体の各軸4倍バッファを1枚確保している。
+このバッファは毎フレーム使い回す一時テクスチャ1枚で、レイヤーごとには持たない。
+高解像度キャンバスではさらに増えることになるので、このメモリ消費は改善が必要だと思っている。
+ストロークのバウンディングボックスだけを高解像度化するか、タイル分割するなどの工夫が今後必要になる。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;fu-dong-xiao-shu-dian-riniadese-wochi-tu&quot;&gt;浮動小数点リニアで色を持つ&lt;&#x2F;h2&gt;
+&lt;p&gt;PhotonMixerは内部キャンバスをrgba16float（16bit浮動小数点）のlinear sRGBで保持している。
+KritaのScene Linear PaintingやPhotoshopの32bit&#x2F;channel HDRなど、既存ソフトにも浮動小数点リニアのワークフローは存在する。
+一方で、一般的なイラスト制作ソフトで標準的な動作として浮動小数点リニアを採用するものはほぼないと思う。
+PhotonMixerではこれを基本の内部表現として採用した。&lt;&#x2F;p&gt;
+&lt;p&gt;色を光の量として持っているのは、光を混ぜたいからである。
+絵の具の混色をモデル化するなら別の設計になるが、デジタルのイラストを作成するなら、発光する側の色をコントロールする設計のソフトがあってもいいのではないかという発想である。&lt;&#x2F;p&gt;
+&lt;p&gt;浮動小数点リニアで保持することで、内部的に1.0を超える値をそのまま保持できる。
+ただし、rgba16floatで1.0超を保存できることと、それがHDRモニターに発光色として表示されることは別の話である。
+表示経路（WebGPUのcanvas設定、OS、ディスプレイ）が揃う必要がある。
+HDR表示に対応したモニターは増えていて、スマートフォンではほぼ標準になっている。
+出力側をどう作るかは、これから手を付けるところになる。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;xian-zhuang&quot;&gt;現状&lt;&#x2F;h2&gt;
+&lt;p&gt;レイヤーシステム、基本ブラシ、エフェクトレイヤー（ぼかし、グロー、シャープ）などが動いている。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;uploads&#x2F;2026&#x2F;08&#x2F;photon-mixer-dev.png&quot; alt=&quot;開発中の画面&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;仕組みや設計は自分で決めているが、実際の実装はほとんどAIに書いてもらっている。&lt;&#x2F;p&gt;
+&lt;p&gt;できていないことのほうが多い。
+ブラシの種類とUIは途中で、SSAAの都合で高解像度キャンバスにも対応できていない。
+HDR出力も、内部表現は用意できているが表示経路がまだない。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;pei-bu&quot;&gt;配布&lt;&#x2F;h2&gt;
+&lt;p&gt;v0.1.0をポータブル版で公開している。インストール不要で、そのまま起動できる。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;プロジェクトページ: &lt;a href=&quot;&#x2F;projects&#x2F;photon-mixer&#x2F;&quot;&gt;PhotonMixer&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;ソースコード: &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;photon-mixer&quot;&gt;https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;photon-mixer&lt;&#x2F;a&gt; （MIT）&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;まだ開発途中だが、独自のパイプラインでイラストソフトを組むのは発見が多い。
+気になる点や「こういう使い方がしたい」などがあれば、&lt;a href=&quot;https:&#x2F;&#x2F;x.com&#x2F;frogworks404&quot;&gt;X&lt;&#x2F;a&gt;で教えてほしい。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;zhu&quot;&gt;注&lt;&#x2F;h2&gt;
+&lt;ol&gt;
+&lt;li&gt;PhotoshopではGamma 1.00によるブレンドを明示的に選択できる（Color Settings内）。Kritaでは線形浮動小数点のドキュメントを作成でき、Scene Linear Paintingとして公式にサポートされている。ここでの記述は各ソフトの標準設定での挙動を指している。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;bottosson.github.io&#x2F;posts&#x2F;oklab&#x2F;&quot;&gt;https:&#x2F;&#x2F;bottosson.github.io&#x2F;posts&#x2F;oklab&#x2F;&lt;&#x2F;a&gt; 。Photoshopではグラデーションツールの補間方法としてOklab（Perceptual）が選択可能になっているが、ブラシの混色にOklabを使うイラストソフトは、調査した範囲では見つからなかった。&lt;&#x2F;li&gt;
+&lt;li&gt;Oklabのクロマ（彩度に対応）はC = √(a² + b²)で計算される。a&#x2F;bを線形補間すると色空間上の二点を直線で結ぶため、反対方向の色同士では中心に近づきCが低下する。&lt;&#x2F;li&gt;
+&lt;li&gt;ストローク中にブラシ色が変化するモード（progressive）では、隣接スタンプ間で色が異なる場合にチャンネル単位のmaxが意図しない色を生む可能性がある。現在は隣接スタンプ間の色差が小さいため実用上の問題は出ていないが、設計上の制約として認識している。&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>CSSに設計論がない気がして、AIと考え直した記録</title>
+        <published>2026-07-16T00:00:00+00:00</published>
+        <updated>2026-07-16T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://frog404.work/log/cssai/"/>
+        <id>https://frog404.work/log/cssai/</id>
+        
+        <content type="html" xml:base="https://frog404.work/log/cssai/">&lt;p&gt;CSSのネイティブ機能は、この数年で急に増えた。&lt;code&gt;@layer&lt;&#x2F;code&gt;、&lt;code&gt;@scope&lt;&#x2F;code&gt;、コンテナクエリ、&lt;code&gt;:has()&lt;&#x2F;code&gt;、ネスト、アンカーポジショニング。ハックやJSに頼っていたことの多くが、言語機能で書けるようになっている。&lt;&#x2F;p&gt;
+&lt;p&gt;なら、この強くなったCSSを前提にした設計の枠組みが、そろそろ出てきてもいいはずだ。UIライブラリというか、CSSフレームワークというか。それらしいものが見当たらない。おかしくないか——というのが、最初のモヤモヤだった。&lt;&#x2F;p&gt;
+&lt;p&gt;うまく言語化できていなかったので、AIを壁打ち相手にして掘ってみた。掘っているうちに、自分の主張が二度訂正されることになった。その過程ごと書いておく。解決策の話にはならないので、そこはあらかじめ断っておきたい。
+Tailwindは流行った。CSSをコントロール可能な対象として示した意味は大きかったと思う。ただ、あれがやったのは責務をReactやVueのコンポーネント側へ移すことで、何かが解決されたわけではない。移された先のコンポーネント指向フレームワークは、コンポーネントとしての再利用や分割しか考えていない。特にReactはCSSを扱う機能が薄く、スタンダードすらない。二線級の扱いだ。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;gou-zao-notong-zhi-dehafang-genai-toqi-duku&quot;&gt;「構造の統治」では防げない、と気づく&lt;&#x2F;h2&gt;
+&lt;p&gt;最初にAIが返してきたのは、いかにも筋の良さそうな答えだった。&lt;code&gt;@layer&lt;&#x2F;code&gt;のレイヤー分類規約。生値を禁止するトークン出所規則。それを機械的に落とすリント。tsconfigのようにプロジェクトの憲法になる設定ファイルを置く、という案まで付いてきた。なるほど、と一瞬思った。&lt;&#x2F;p&gt;
+&lt;p&gt;でも、これでは防げない。&lt;&#x2F;p&gt;
+&lt;p&gt;私の実感では、CSSがぐちゃぐちゃになっていく最大の要因は、命名の乱れでも詳細度の衝突でもない。デザインとCSS設計のズレが、拡大し続けることだ。なぜこの操作を目立たせるのか。なぜこの状態でこの色なのか。そうしたデザイン上の判断は、実装に落ちる過程でどこにも記録されない。あとに残るのは、意味の分からない指定の山だ。&lt;&#x2F;p&gt;
+&lt;p&gt;正確に言えば「意味の分からない&lt;strong&gt;ように見える&lt;&#x2F;strong&gt;」指定だ。書かれた時点では、意味はあった。回収できなくなっただけで。&lt;&#x2F;p&gt;
+&lt;p&gt;たとえば、構造としては何も問題のないこういうCSSがあったとする。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;css&quot; class=&quot;language-css &quot;&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;.account-card__delete-button--danger {
+  color: var(--color-danger);
+}
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;命名は規約通り。生値はなく、トークン参照。リントは全部通る。それでも、このコードは何も答えてくれない。なぜこの操作が&lt;code&gt;danger&lt;&#x2F;code&gt;なのか。&lt;code&gt;danger&lt;&#x2F;code&gt;が表しているのは危険性なのか、不可逆性なのか。目立たせるべきなのか、誤操作防止のためにむしろ抑制すべきなのか。構造が正しいことと、意味が正しいことは、別の問題なのだ。&lt;&#x2F;p&gt;
+&lt;p&gt;レイヤー規約やリントは、言うなれば「構造の統治」だ。私が欲しかったのは、その一段上——「意味の統治」の方だった。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;csswoshi-ishe-tenisureba-woque-xia-suru&quot;&gt;「CSSを使い捨てにすれば」を却下する&lt;&#x2F;h2&gt;
+&lt;p&gt;対話の途中で、発想の反転が出てきた。デザインモデルだけを真実とし、CSSは再生成可能な派生物として使い捨てる。ズレはCSSを手でパッチし続けるから蓄積するのだから、パッチ自体を禁じればいい、と。&lt;&#x2F;p&gt;
+&lt;p&gt;一瞬、筋が通って見える。でも即座に却下した。&lt;&#x2F;p&gt;
+&lt;p&gt;まず、その発想自体がCSSの地位の低さの表れだと感じる。そして何より、これはプログラミング言語で既に失敗していることだ。モデルからコードを全生成するというMDA&#x2F;UMLの夢は死んだ。生き残ったのは生成ではなく、DDDやClean Architectureのような、人が内面化する設計論の方だった。プログラミング言語でできなかったことが、CSSでできるとは思えない。&lt;&#x2F;p&gt;
+&lt;p&gt;却下してみて、自分の欲しいものがはっきりした。ツールやフレームワークではない。設計論だ。MVCやDDDには層の名前があり、責務の割り当てがあり、依存方向の規則があり、プロジェクトや人をまたいで通じる。CSSには、それに相当するものがない。BEMやITCSSが扱っていたのは命名とファイル構成の話で、一段下だ。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;domaingabo-i-toya-sifan-su&quot;&gt;「Domainが薄い」と押し返す&lt;&#x2F;h2&gt;
+&lt;p&gt;設計論という方向で、AIが層分けを出してきた。判断層、語彙層、構造層、表象層、例外層。一見それらしい。でも、納得がいかなかった。Domainに相当する層が薄すぎる。デザインシステムを再現すれば良い、という話ではないはずなのだ。&lt;&#x2F;p&gt;
+&lt;p&gt;押し返しながら、自分の中で一番はっきりしてきたのは、デザインシステムへの違和感だった。デザインシステムは、ドメインの文脈を表現するために作られる。それなのに、文脈や意味の構造そのものは、デザインシステムの成果物にならない。成果物になるのはButtonやCard、&lt;code&gt;danger&lt;&#x2F;code&gt;バリアント、スペーシングトークン——語彙だ。&lt;&#x2F;p&gt;
+&lt;p&gt;では、「どの操作を&lt;code&gt;danger&lt;&#x2F;code&gt;に分類するのか」はどこにあるのか。削除という名前が付けば常に赤くするのか。復元可能な削除と不可逆な削除は、同じ表現でいいのか。この画面では危険性と主要性のどちらを優先するのか。語彙を適用する判断は、語彙の外にある。判断できたとしても、その意味論的な構造はデザインとコードで少しずつズレていく。さっきの&lt;code&gt;--danger&lt;&#x2F;code&gt;ボタンが答えてくれなかったのは、まさにこの部分だ。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;qian-ti-woyi-u-somosomojie-jue-sareteinainoka&quot;&gt;前提を疑う。「そもそも解決されていないのか？」&lt;&#x2F;h2&gt;
+&lt;p&gt;ここまでで、主張が固まりかけていた。CSSにはUI意味構造を成果物化する層が欠けていて、そこは空席だ——。&lt;&#x2F;p&gt;
+&lt;p&gt;固まりかけたところで、怖くなった。本当に空席なのか。既に何かあるんじゃないか。そもそも、誰にも求められていない可能性は。別のAIに、前提の検証をさせた。&lt;&#x2F;p&gt;
+&lt;p&gt;結果、二箇所訂正された。&lt;&#x2F;p&gt;
+&lt;p&gt;一つ目。「空席」は言い過ぎだった。上流にはOOUXが存在する。オブジェクト・関係・行為・属性を整理する、ORCAという枠組みまである。モデルベースUIという研究の系譜も、ドメインモデルやタスクモデルからUIへの写像を昔から扱ってきた。空席ではなく、断片化。空いているのは意味構造そのものではなく、それらを現代のコンポーネント・トークン・CSSネイティブ機能まで、一貫して追跡できる形で接続する層だった。&lt;&#x2F;p&gt;
+&lt;p&gt;二つ目。デザインシステム批判も強すぎた。USWDSやPolarisのような成熟したデザインシステムは、業務パターンや判断理由まで文書化している。「カタログにすぎない」は不当で、正確にはこうだ。判断が散文とデザイナーの暗黙知に留まっていて、オブジェクト・状態・コンポーネント・CSSの間を機械的に追跡できるモデルになっていない。&lt;&#x2F;p&gt;
+&lt;p&gt;主張は弱くなった。でも、輪郭はむしろ明確になった。上流には、意味を考える手法がある。下流には、実装を管理する手法がある。無いのはその間——「このデザイン上の意味を、なぜこの実装構造と表現へ変換するのか」という接続部分が、体系化された成果物になっていない。&lt;&#x2F;p&gt;
+&lt;p&gt;接続と言っても、上流の意味さえ決まれば実装は自動的に決まるのでは、と思われるかもしれない。決まらない。仕様に「主要な操作を明確にする」と書いてあったとしよう。実装には、まだ判断が山ほど残っている。サイズで強調するのか、色か。周囲の要素を弱めるのか、位置で示すのか。モバイルでは順序を変えるのか。無効状態でも主要性は維持するのか。主要な操作が複数競合したら、どうするのか。意味から表現への変換には、解釈と判断が挟まる。ここは作業ではなく、本来は設計の対象なのだ。&lt;&#x2F;p&gt;
+&lt;p&gt;この接続が成果物にならない限り、デザイン意図は実装へ移る過程で暗黙化し、個々の実装者の判断に分散する。見た目は似ているのに意味的には別物の実装や、理由を説明できないCSSは、こうして蓄積する。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;cssshe-ji-wo-guang-kuzhuo-ezhi-sitai&quot;&gt;CSS設計を、広く捉え直したい&lt;&#x2F;h2&gt;
+&lt;p&gt;ここまで来て、自分の中でCSS設計の捉え方自体が変わっていることに気づいた。&lt;&#x2F;p&gt;
+&lt;p&gt;現在「CSS設計」と呼ばれているもの——BEM、ITCSS、CSS Modules、&lt;code&gt;@layer&lt;&#x2F;code&gt;——は、決まった表現をどう壊れにくく実装し、管理するかを扱っている。言うなれば詳細設計論だ。それ自体は現実の問題への重要な蓄積で、否定する気はまったくない。&lt;&#x2F;p&gt;
+&lt;p&gt;ただ私は、CSSをデザイン上の決定を受け取るだけの受動的な出力形式ではなく、デザイン上の意味をWebで知覚可能な表現へ翻訳する、最終の実行層として捉え直したい。そう捉えると、CSS設計の射程は「何を、なぜ、そのように表現するのか」まで——意味が最終出力まで保たれることまで——広がることになる。&lt;&#x2F;p&gt;
+&lt;p&gt;あくまで私個人の捉え直しで、呼び名を付けられるほど固まってもいない。ただ、この捉え方に立つと冒頭のモヤモヤの正体は少しはっきりする。無かったのは上位の設計論の方で、詳細設計論なら、ずっと豊富にあったのだ。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;ni-fang-xiang-nixue-gajian-erukamosirenai-toiuyu-gan&quot;&gt;逆方向に穴が見えるかもしれない、という予感&lt;&#x2F;h2&gt;
+&lt;p&gt;もう一つ、考えていて面白かったのは、逆方向の効果への予感だ。&lt;&#x2F;p&gt;
+&lt;p&gt;デザイン意図を実装へ変換しようとすると、おそらく変換できない場面に出会う。原因を掘ると、実装力の不足ではなく、上流で意味が定義されていないことに行き当たるケースがかなりあるのではないか。この画面の主目的は何か。危険な操作と不可逆な操作は、同じ扱いでいいのか。権限不足やデータ欠損の状態は、モデル化されているか。こうした問いに、答えが用意されていない形で。&lt;&#x2F;p&gt;
+&lt;p&gt;もしそうなら、接続を成果物にしようとする行為自体が、デザイン設計の解像度を検査する装置になりうる。まだ検証していない仮説だが、これが個人的には、この問題を考え続ける一番の動機になっている。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;aihayuan-yin-dehanaku-lu-cheng-saseta&quot;&gt;AIは原因ではなく、露呈させた&lt;&#x2F;h2&gt;
+&lt;p&gt;ところで、考え始めたきっかけの一つは「AIにCSSを書かせるとぐちゃぐちゃになる」という実感だった。崩れ方を見ていると、既存のスタイルを、理由を理解しないまま模倣する。上流で定義されていない判断を、その場でそれらしく補完する。そういう振る舞いが目につく。&lt;&#x2F;p&gt;
+&lt;p&gt;ただ、整理してみるとAIは中心の問題ではなかった。人間同士の開発でも、デザイン意図は昔から同じ経路で失われてきた。人間は過去の経緯やチーム内の会話といった暗黙知で、なんとか接続を維持してきた。AIにはその暗黙知がない。暗黙知だけでは接続を維持できないことをAIが顕在化させた——それだけの話で、AIを抜きにしてもこの問題は残る。&lt;&#x2F;p&gt;
+&lt;p&gt;頭の中の暗黙の違和感を、AIとの対話で外在化する。この記事を書く作業自体が、同じ構図の入れ子になっていた。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;ci-niyarukoto&quot;&gt;次にやること&lt;&#x2F;h2&gt;
+&lt;p&gt;なんとなく、仮説めいたものは頭の中にある。ただ、それがちゃんとした形になるものなのかは、正直まだ分からない。ここで整理したことをもう少し詰めて、何かアウトプットにしてみたい。今のところ、その程度の温度感でいる。&lt;&#x2F;p&gt;
+&lt;p&gt;手始めに、小さく試す。自分のプロジェクトを1本選んで、既存のCSSから逆方向に「意味構造」を書き起こしてみる。そもそも書けるのか。書けるとして、どの粒度なら維持できるのか。あの&lt;code&gt;--danger&lt;&#x2F;code&gt;が何を意味していたのかを、自分のコードで説明できるのか——そのあたりから確かめていくつもりでいる。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>KamoXのElectronとVSCode対応を「使える」ようにした話</title>
+        <published>2026-07-12T00:00:00+00:00</published>
+        <updated>2026-07-12T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://frog404.work/log/2026-07-12-kamoxelectronvscode/"/>
+        <id>https://frog404.work/log/2026-07-12-kamoxelectronvscode/</id>
+        
+        <content type="html" xml:base="https://frog404.work/log/2026-07-12-kamoxelectronvscode/">&lt;h2 id=&quot;dui-ying-siteiru-toshi-eru-hawei-tuta&quot;&gt;対応している、と使える、は違った&lt;&#x2F;h2&gt;
+&lt;p&gt;前の記事で、KamoXが3プラットフォームに対応していると書いた。嘘ではなかったが、正確でもなかった。当時のElectron対応とVSCode対応は「起動してスクリーンショットが撮れる」レベルで、Chrome拡張と同じ密度で使えるものではなかった。&lt;&#x2F;p&gt;
+&lt;p&gt;実際にAIと開発する道具として使い込むと、プラットフォームごとに「スクショだけでは足りない部分」が全然違うことが分かってきた。この記事はその作り込みの記録。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;electron-bu-ju-he-hahua-mian-nowai-deqi-kiru&quot;&gt;Electron: 不具合は画面の外で起きる&lt;&#x2F;h2&gt;
+&lt;p&gt;FubakoをAIと開発していて気づいたのは、Electronの不具合の多くはレンダラーの画面上ではなく、メインプロセスとの間、IPCの向こう側で起きるということだった。&lt;&#x2F;p&gt;
+&lt;p&gt;たとえばFubakoの画像アップロードが壊れたときがそうだった。&lt;code&gt;check-ui&lt;&#x2F;code&gt;で撮ったスクリーンショットでは、アップロードボタンもフォームも正常に表示されている。DOMを渡してもAIは「問題なさそうです」と返すだけ。しかし実際には、Electronの&lt;code&gt;contextIsolation: true&lt;&#x2F;code&gt;環境で&lt;code&gt;&amp;lt;input type=&quot;file&quot;&amp;gt;&lt;&#x2F;code&gt;の&lt;code&gt;file.path&lt;&#x2F;code&gt;が空文字列になっていて、ファイルパスを取得できず画像コピーが失敗していた。画面の向こう側、IPCハンドラの向こうで起きていることだった。修正は&lt;code&gt;dialog.showOpenDialog&lt;&#x2F;code&gt;をIPC経由で呼ぶ方式への切り替えで、これもまた画面からは見えない変更だった。&lt;&#x2F;p&gt;
+&lt;p&gt;似た話がもう一つある。プレビューのビルドエラーがレンダラーに届かない現象があった。Zolaのserveプロセスはstderrにエラーを出しているのに、スクショを撮ってもプレビュー画面は正常に見える。原因はメインプロセス側の&lt;code&gt;event.sender.send(&#x27;zola-error&#x27;, ...)&lt;&#x2F;code&gt;の1行がコメントアウトされていて、IPCでエラーを送る経路が切れていたことだった。エラーはメインプロセスの中で吸われていた。画面とDOMだけを見ていたら、プレビューが壊れている理由は永遠に分からなかった。&lt;&#x2F;p&gt;
+&lt;p&gt;Fubakoのコンテンツ削除でも同じ断絶があった。&lt;code&gt;deleteContent&lt;&#x2F;code&gt;という関数はメインプロセスに実装されていたが、IPCハンドラが未登録で、&lt;code&gt;preload.cjs&lt;&#x2F;code&gt;にもAPIとして公開されていなかった。結果としてUIに削除ボタンすら出ない。レンダラー側のDOMをいくら調べても「削除機能が存在しない」ことしか分からず、実装はあるのに届いていないという断絶は、IPCのログを見るまで見えなかった。&lt;&#x2F;p&gt;
+&lt;p&gt;スクショを撮っても画面は正常に見える。DOMも問題ない。でも動かない。原因はIPCハンドラの名前の食い違いだったり、メインプロセス側の例外だったりする。AIにスクショとDOMだけ渡しても「画面は問題なさそうです」と返ってくるだけで、ループが前に進まない。&lt;&#x2F;p&gt;
+&lt;p&gt;なのでElectronアダプタにはIPCの監視を入れた。レンダラーとメインプロセスの間で飛んでいるメッセージをKamoXが記録して、&lt;code&gt;&#x2F;logs&lt;&#x2F;code&gt;で取れる。AIは「ボタンを押した→IPCで&lt;code&gt;save-file&lt;&#x2F;code&gt;が飛んだ→メイン側で例外」という因果を、テキストで追える。&lt;&#x2F;p&gt;
+&lt;p&gt;もう1つがネイティブダイアログ。&lt;code&gt;dialog.showOpenDialog()&lt;&#x2F;code&gt;が開くOSのファイル選択ダイアログはDOMの外側なので、Playwrightからは触れない。人間なら手でファイルを選べばいいが、AIの自己確認ループの中では、ここで毎回止まる。なのでダイアログAPIの戻り値をモックできるようにした。「ファイル選択で&lt;code&gt;&#x2F;tmp&#x2F;test.txt&lt;&#x2F;code&gt;が返ってきた体で続きを動かす」ということがHTTP API経由でできる。&lt;&#x2F;p&gt;
+&lt;p&gt;Playwright自体のElectron対応はexperimental扱いだが、&lt;code&gt;electron.launch&lt;&#x2F;code&gt;での起動とウィンドウ操作は実行基盤として十分使えている。KamoXが足しているのは、その外側にあるIPCとネイティブUIの層だ。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;vscodekuo-zhang-somosomowebpezidehanai&quot;&gt;VSCode拡張: そもそもWebページではない&lt;&#x2F;h2&gt;
+&lt;p&gt;VSCode拡張はさらに別の世界だった。VSCode自体はElectronアプリだが、拡張の確認はExtension Development Hostを立ち上げてその中でやることになる。公式のテスト手段もPlaywrightではなく&lt;code&gt;@vscode&#x2F;test-electron&lt;&#x2F;code&gt;系だ。&lt;&#x2F;p&gt;
+&lt;p&gt;それ以上に違うのは、確認したい対象がWebページの部品ではないこと。ボタンやフォームではなく、コマンドパレット、通知トースト、ステータスバー、ツリービュー、Problemsパネル。「コマンドを実行して、Problemsが増えていないか見る」がVSCode拡張開発の基本ループで、これはセレクタでDOMを叩く世界観と噛み合わない。&lt;&#x2F;p&gt;
+&lt;p&gt;なのでVSCodeアダプタには専用のエンドポイント群を持たせた。&lt;code&gt;&#x2F;vscode&#x2F;command&lt;&#x2F;code&gt;でコマンドIDを指定して実行、&lt;code&gt;&#x2F;vscode&#x2F;problems&lt;&#x2F;code&gt;でProblemsパネルのマーカー取得、&lt;code&gt;&#x2F;vscode&#x2F;notifications&lt;&#x2F;code&gt;で通知の確認、&lt;code&gt;&#x2F;vscode&#x2F;tree-view&lt;&#x2F;code&gt;でツリービューの中身。AIから見ると「コマンドを打って結果を見る」がcurl2回で済む。&lt;&#x2F;p&gt;
+&lt;p&gt;共通APIに寄せる、という方針からすると専用エンドポイントは敗北に見えるかもしれない。でも「ビルド→確認→ログ」の共通の骨格は保ちつつ、プラットフォーム固有の語彙は隠さず出す、という割り切りの方が実際には使いやすかった。VSCodeのProblemsパネルを無理やり&lt;code&gt;check-ui&lt;&#x2F;code&gt;のDOM情報に押し込んでも、AIにとって読みやすくはならない。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;lian-sok-cao-zuo-kai-itapeziwowei-chi-suru&quot;&gt;連続操作: 開いたページを維持する&lt;&#x2F;h2&gt;
+&lt;p&gt;3プラットフォームを使い込む中で、共通側にも直すべき問題が見つかった。&lt;code&gt;&#x2F;check-ui&lt;&#x2F;code&gt;は確認のたびにページを開いて閉じる設計だったので、「さっき確認したpopupのボタンを押す」ができなかった。確認と操作が別のページに向いてしまう。&lt;&#x2F;p&gt;
+&lt;p&gt;なので&lt;code&gt;check-ui&lt;&#x2F;code&gt;に&lt;code&gt;keepOpen&lt;&#x2F;code&gt;オプションを足して、開いたページをpageIdで管理するようにした。操作系のAPIは&lt;code&gt;pageId&lt;&#x2F;code&gt;、&lt;code&gt;pageType&lt;&#x2F;code&gt;(popup &#x2F; options &#x2F; tab)、&lt;code&gt;pageUrl&lt;&#x2F;code&gt;などでページを指定できる。「popupを開いたままにして、そのpopupのボタンを押して、変化を見る」が繋がるようになった。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;fen-katutakoto&quot;&gt;分かったこと&lt;&#x2F;h2&gt;
+&lt;p&gt;共通化できるのはループの形で、確認の中身はプラットフォームごとに違う。「ビルドして、見て、操作して、ログを読む」という骨格は3つとも同じだが、「見る」の意味がChrome拡張ではpopupのDOMで、ElectronではIPCを含み、VSCodeではProblemsパネルを含む。最初の設計はこの骨格の共通性だけ見ていて、中身の違いを甘く見ていた。&lt;&#x2F;p&gt;
+&lt;p&gt;道具は対象と一緒に育つ、という当たり前の話でもある。Chrome拡張だけ触っていた頃には、IPCの監視もダイアログのモックも発想として出てこなかった。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;rinku&quot;&gt;リンク&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;kamox&quot;&gt;GitHub&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.npmjs.com&#x2F;package&#x2F;kamox&quot;&gt;npm&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;&#x2F;log&#x2F;2025-06-25-kamox&#x2F;&quot;&gt;前の記事: AIにChrome拡張を作らせる — KamoXを作った理由と仕組み&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>AIにChrome拡張を作らせる — KamoXを作った理由と仕組み</title>
+        <published>2025-06-25T00:00:00+00:00</published>
+        <updated>2025-06-25T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://frog404.work/log/2025-06-25-kamox/"/>
+        <id>https://frog404.work/log/2025-06-25-kamox/</id>
+        
+        <content type="html" xml:base="https://frog404.work/log/2025-06-25-kamox/">&lt;h2 id=&quot;aihakodowoshu-kuga-jian-tamu-haque-ren-dekinai&quot;&gt;AIはコードを書くが、見た目は確認できない&lt;&#x2F;h2&gt;
+&lt;p&gt;AIにChrome拡張を作らせていた時のこと。「ポップアップにボタンを3つ並べて、クリックしたら背景色が変わる拡張を作って」とお願いすると、コードは正しく返ってくる。manifest.jsonも、popup.htmlも、JavaScriptも。&lt;&#x2F;p&gt;
+&lt;p&gt;でも実際にChromeに読み込ませてみると、ボタンが1つしか表示されていなかったり、ServiceWorkerでエラーが出ていたりする。AIはコードを書くことはできるが、自分でビルドして、ブラウザに読み込んで、画面を確認することはできない。つまり「書いたコードが正しく動いているか」をAI自身が確認する手段がない。&lt;&#x2F;p&gt;
+&lt;p&gt;これの何が辛いかというと、人間が毎回その確認をやらないといけないことだ。ビルドして、Chromeにリロードして、画面を開いて、エラーが出てないかコンソールを見て。AIに書かせておいて、確認は人間が手作業。これではAIの得意な「試行錯誤を高速で回す」メリットが活きない。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;ainozi-ji-que-ren-rupuwozuo-ritai&quot;&gt;AIの自己確認ループを作りたい&lt;&#x2F;h2&gt;
+&lt;p&gt;やりたいことはシンプルで、AIに「書いて、確認して、直す」のループを自律的に回してほしい。&lt;&#x2F;p&gt;
+&lt;p&gt;ソフトウェア開発は本質的に「書く→確認する→直す」のサイクルだ。人間のエンジニアも同じことをやっている。コードを書いて、ビルドして、画面を見て、ダメなら直す。このサイクルを高速で回せる人が良いエンジニアだと言われる。&lt;&#x2F;p&gt;
+&lt;p&gt;AIも同じはず。コードを書く能力は十分にある。でも確認する手段がないから、人間がループに介入しないといけない。AIが自分で結果を確認できれば、人間は最終結果だけ見ればよくなる。&lt;&#x2F;p&gt;
+&lt;p&gt;Playwrightを使えばブラウザの自動操作はできる。でもChrome拡張の確認は通常のWebページとは勝手が違う。ServiceWorkerのデバッグ、manifest.jsonの検証、拡張のリロード。Playwright自体は拡張機能にも対応しているが、セットアップ手順が違うし、AIエージェントに毎回その手順を説明して実行させるのは重い。&lt;&#x2F;p&gt;
+&lt;p&gt;そこで、Playwrightを内包しつつAIが叩きやすいHTTP APIとしてラップした。ビルドして、起動して、スクリーンショットを撮って、ログを取得する。全部HTTPエンドポイント1つで実行できる。AIはAPIを叩くだけで自己確認ループを回せる。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;3puratutohuomudui-ying-noshe-ji&quot;&gt;3プラットフォーム対応の設計&lt;&#x2F;h2&gt;
+&lt;p&gt;最初はChrome拡張だけだったが、使っているうちにElectronアプリもVSCode拡張も同じ問題があることに気づいた。FubakoをAIと一緒に開発している時に、ElectronアプリのプレビューをAIに確認させたい場面があった。VSCode拡張も、コマンドを実行してUIが正しく出ているかをAIに見せたかった。&lt;&#x2F;p&gt;
+&lt;p&gt;3つのプラットフォームはそれぞれ起動方法も確認方法も違う。Chrome拡張はブラウザにロードして、Electronはプロセスを起動して、VSCode拡張はExtension Hostを立ち上げる。でも「ビルド→確認→ログ」というAPIの形は共通化できる。&lt;&#x2F;p&gt;
+&lt;p&gt;プラットフォームごとの違いを内部に閉じ込めて、APIのインターフェースを統一した。AI側からは &lt;code&gt;POST &#x2F;rebuild&lt;&#x2F;code&gt;、&lt;code&gt;POST &#x2F;check-ui&lt;&#x2F;code&gt;、&lt;code&gt;GET &#x2F;logs&lt;&#x2F;code&gt; が同じように叩ける。対象がChrome拡張でもElectronでもVSCode拡張でも、AIの呼び出し方は変わらない。&lt;&#x2F;p&gt;
+&lt;p&gt;設計の判断としては、プラットフォーム固有の処理をアダプタパターンで分離したこと。各プラットフォームの起動・確認ロジックを独立したモジュールに切り出して、共通のHTTP APIで呼べるようにしている。新しいプラットフォームを追加する時もアダプタを書けば済む。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;npmdegong-kai-sitahua&quot;&gt;npmで公開した話&lt;&#x2F;h2&gt;
+&lt;p&gt;KamoXはnpmで公開している。&lt;code&gt;npm install -g kamox&lt;&#x2F;code&gt; で入る。&lt;&#x2F;p&gt;
+&lt;p&gt;npm公開自体は技術的に難しくないが、AIエージェントが使うことを前提にすると設計の優先順位が変わる。まず依存関係を最小にしたい。AIの開発環境に何かが足りなくて動かないという状況を避けたい。Playwrightのブラウザバイナリもできるだけ自動で解決するようにした。&lt;&#x2F;p&gt;
+&lt;p&gt;あとパッケージ構成はnpm workspacesにした。Chrome拡張用、Electron用、VSCode拡張用のパッケージを分けて、ルートパッケージがそれらをまとめる形。各プラットフォームのモジュールを独立して開発・テストできるようにしたかった。&lt;&#x2F;p&gt;
+&lt;p&gt;CLIの引数設計も工夫した。AIがコマンドを組み立てやすいように、オプションは少なく、予測しやすくしている。人間向けのCLIなら「使いやすさ」の基準が違うが、AI向けなら「一貫性」と「予測可能性」が重要だ。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;jin-nozhuang-tai-tojin-hou&quot;&gt;今の状態と今後&lt;&#x2F;h2&gt;
+&lt;p&gt;Chrome拡張、Electron、VSCode拡張の3プラットフォームに対応済みで、実際にAIと一緒に開発する時に使っている。このサイトのFubakoもKamoXを使ってAIがプレビューを確認しながら開発している。&lt;&#x2F;p&gt;
+&lt;p&gt;まだ改善の余地はある。特にエラーメッセージの設計をもう少し考えたい。AIがログを見て「何が悪いか」を判断できるように、エラーの構造化をもっと整える必要がある。スクリーンショットも、全画面だけでなく特定要素だけ切り抜けるようにするとトークン消費を抑えられるはずだ。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;strong&gt;追記(2026.07)&lt;&#x2F;strong&gt;: この記事の後、ElectronとVSCode対応を大きく作り込んだ。IPCの監視、ネイティブダイアログのモック、VSCode専用のエンドポイント群など。詳しくは&lt;a href=&quot;&#x2F;log&#x2F;2026-07-12-kamoxelectronvscode&#x2F;&quot;&gt;KamoXのElectronとVSCode対応を「使える」ようにした話&lt;&#x2F;a&gt;に書いた。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;rinku&quot;&gt;リンク&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;kamox&quot;&gt;GitHub&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.npmjs.com&#x2F;package&#x2F;kamox&quot;&gt;npm&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>AI Cortex --  ContextMixerの運用ルールとナレッジ構造</title>
+        <published>2025-06-20T00:00:00+00:00</published>
+        <updated>2025-06-20T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://frog404.work/log/2025-06-20-ai-cortex/"/>
+        <id>https://frog404.work/log/2025-06-20-ai-cortex/</id>
+        
+        <content type="html" xml:base="https://frog404.work/log/2025-06-20-ai-cortex/">&lt;h2 id=&quot;contextmixerwozuo-tutaci-nikao-erukoto&quot;&gt;ContextMixerを作った次に考えること&lt;&#x2F;h2&gt;
+&lt;p&gt;ContextMixerは作って終わりではなく、運用して初めて価値が出る。AIが自発的にナレッジベースを読み書きするには、何をどこに書くか、いつ書くか、書いていいかのルールが必要です。&lt;&#x2F;p&gt;
+&lt;p&gt;この運用仕組みを「AI Cortex」と呼んでいます。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;puroziekutodan-wei-nonaretuzigou-zao&quot;&gt;プロジェクト単位のナレッジ構造&lt;&#x2F;h2&gt;
+&lt;p&gt;各プロジェクトには4つのドキュメントを置きます。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;context&lt;&#x2F;strong&gt; — 現在のフェーズ、直近の作業、未解決事項、次のエージェントへの引き継ぎ&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;spec&lt;&#x2F;strong&gt; — ゴール、要件、技術構成（確定事項のみ）&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;decisions&lt;&#x2F;strong&gt; — 設計判断の理由と経緯、検討した選択肢と却下理由&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;notes&lt;&#x2F;strong&gt; — ライブラリのクセ、バグ、実装Tips、アイデア出しの記録&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;エージェントが作業を始める時にまず &lt;code&gt;context&lt;&#x2F;code&gt; を読み、必要に応じて &lt;code&gt;spec&lt;&#x2F;code&gt; も読む。作業終了時に &lt;code&gt;context&lt;&#x2F;code&gt; を更新して次のエージェントに引き継ぐ。このサイクルを回すことで、セッションをまたいでコンテキストが失われなくなります。&lt;&#x2F;p&gt;
+&lt;p&gt;記録したい情報の種類を明確にしておくのが大事で、仕様・設計判断・技術調査・UXアイデア（ボツ案含む）・ライブラリの罠・未解決事項と分けておくと、後から「なぜこの選択をしたのか」を追いやすくなります。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;claude-mdtoskillderuruwogong-you&quot;&gt;CLAUDE.mdとSkillでルールを共有&lt;&#x2F;h2&gt;
+&lt;p&gt;エージェントの行動ルールは &lt;code&gt;CLAUDE.md&lt;&#x2F;code&gt; とSkillファイルで定義しています。&lt;code&gt;CLAUDE.md&lt;&#x2F;code&gt; には最小限の指示を書き、詳細なルールはSkillファイルに切り出しました。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;markdown&quot; class=&quot;language-markdown &quot;&gt;&lt;code class=&quot;language-markdown&quot; data-lang=&quot;markdown&quot;&gt;# {プロジェクト名}
+
+## ナレッジベース
+作業に関わる情報はすべてContextMixerで管理している。
+
+## 作業開始時に必ず実行すること
+1. 該当プロジェクトの context を読む
+2. タスクに関連する場合は spec も読む
+
+## knowledge-management スキルを使うタイミング
+- 作業終了時（contextの更新・記録判断）
+- 技術選定・ライブラリ選択をした時
+- 仕様や設計方針を決定・変更した時
+- ライブラリのバグ・クセ・回避策を発見した時
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Skillファイルには禁止事項も書いています。「ユーザー確認なしにdecisionsを作成しない」「specに検討中の内容を書かない」「過去の記録を上書き・削除しない」。AIが勝手に判断を記録して事実と混ざるのを防ぐためです。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;notionkaracontextmixerhenoyi-xing&quot;&gt;NotionからContextMixerへの移行&lt;&#x2F;h2&gt;
+&lt;p&gt;最初はNotionでこの構造を作っていました。Claude.aiチャットからNotion MCP経由で読み書きできるのが理由です。GitHubリポジトリ + GitHub MCPも検討しましたが、当時Claude.ai webにGitHub MCPコネクターが存在せず、チャットからの書き込みができないという制約がありました。&lt;&#x2F;p&gt;
+&lt;p&gt;Obsidian Vault + Git + filesystem MCPも候補にありました。ローカルファイルでツールロックインなし、Claude Codeからはアクセスしやすい。しかしClaude.aiチャットからローカルファイルにアクセスできないのがネックでした。PocketBase + カスタムMCPも考えましたが、長文テキストをDBに入れる抵抗感とMCPサーバーの自作コストで見送り。&lt;&#x2F;p&gt;
+&lt;p&gt;Notionで運用してみて、レイテンシとトークン消費の問題が浮かんできた。Notionのリッチなブロック構造は人間には便利ですが、AIが1段落のためにページ全体を取得しなければならないのは無駄が多い。そこでContextMixerを自作して移行しました。粒度を選べる取得APIのおかげで、トークン消費は劇的に減りました。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;yun-yong-sitemitenosuo-gan&quot;&gt;運用してみての所感&lt;&#x2F;h2&gt;
+&lt;p&gt;ContextMixerに移行してから、30以上のプロジェクトコレクションが動いています。各コレクションにcontext&#x2F;spec&#x2F;decisions&#x2F;notesが置かれ、エージェントがセッションをまたいで引き継ぐサイクルが回っている。&lt;&#x2F;p&gt;
+&lt;p&gt;一番効果を感じるのはClaude Codeでの開発場面で、「前回どこまでやったか」を人間が説明しなくて済むこと。エージェントが自分でcontextを読んで続きから始められる。MCP経由で検索もできるので、「このプロジェクトの設計方針は」と聞けばAIが勝手にContextMixerを検索して持ってきてくれます。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;jin-hou-nogai-shan&quot;&gt;今後の改善&lt;&#x2F;h2&gt;
+&lt;p&gt;AI Cortexの運用を続ける中で、いくつか課題も見えてきました。
+重複するドキュメントができることがあります。同日に似たテーマの思考記録が複数書かれることがあり、書き込み前に検索で重複をチェックする習慣をエージェントに教える必要があります。
+また「誰の指示でいつ何を学習したか」という監査証跡の仕組みも、ai-cortexのrulesコレクションと関連して今後整備していきたい領域です。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>HalfGrip開発記録 — スマホカメラの操作を物理的に作り直す</title>
+        <published>2025-06-18T00:00:00+00:00</published>
+        <updated>2025-06-18T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://frog404.work/log/2025-06-18-halfgrip-dev/"/>
+        <id>https://frog404.work/log/2025-06-18-halfgrip-dev/</id>
+        
+        <content type="html" xml:base="https://frog404.work/log/2025-06-18-halfgrip-dev/">&lt;h2 id=&quot;sumahokamerahenobu-man&quot;&gt;スマホカメラへの不満&lt;&#x2F;h2&gt;
+&lt;p&gt;カメラが趣味で、ミラーレスも何台か持っている。Sony NEX-6やα7。撮るのは好きだが、持ち歩くのが億劫で持ち歩かない日が増えて来た、スマホでも撮る。撮れる。撮れるんだけど、撮影しても楽しくないと感じてしまう。何故だろう。&lt;&#x2F;p&gt;
+&lt;p&gt;何が違うのかを考えた。最初は画質じゃないかと思ったが、違う。最近のスマホは十分きれいに撮れる。足りないのは操作感だと思った。&lt;&#x2F;p&gt;
+&lt;p&gt;ミラーレスはグリップを握って、ファインダーを覗いて、半押しでフォーカスを合わせて、そのまま押し込んで撮る。全部が片手の中で連続している。
+スマホは画面をタッチして、別のところをタッチして、ぐらぐらする本体を支えながらもう一回タッチする。体の動線が切れている。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;ban-ya-si-ganaitoiuwen-ti&quot;&gt;「半押し」がないという問題&lt;&#x2F;h2&gt;
+&lt;p&gt;市販のスマホ用グリップも買って試したがBluetooth接続のものがほとんどで、やれることはシャッターを切るだけ。AFロックに対応しているものがない。&lt;&#x2F;p&gt;
+&lt;p&gt;「半押し」は小さな機能に見えるかもしれないが、カメラ操作の核心にある気がしている、フォーカスを合わせてからフレーミングを微調整して切る、というリズムは半押しがないと成立しない。
+タッチAFでフォーカスポイントを指定してからシャッターを押す、というスマホの操作モデルとは根本的に違う。&lt;&#x2F;p&gt;
+&lt;p&gt;色々探した。iPhone用のものは見つけたが、Android用で半押し対応のカメラグリップは見つけられなかった。では自分で作るか、と言った感じで構想を考え始めた。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;nei-bu-nomaikonyaji-pan-noshi-zhuang&quot;&gt;内部のマイコンや基盤の実装&lt;&#x2F;h2&gt;
+&lt;p&gt;マイコンはRP2040 Zeroを選んだ。小さくて驚くほど安い。CircuitPythonでUSB HIDが簡単に書ける。Bluetoothを使わなかったのは遅延の問題と実装が複雑になるしバッテリー問題もあるので有線接続にした。&lt;&#x2F;p&gt;
+&lt;p&gt;半押しでAFを制御するのに数十msの遅延が入るとフィーリングがかなり変わると思う。
+USB-C有線接続ならHIDキーボードとして即認識されるしレスポンスもいい、ドライバや設定も不要。&lt;&#x2F;p&gt;
+&lt;p&gt;何気に一番苦労したのは半押し対応のスイッチを探すところだった、ほとんど市販されておらず、マルツでようやく見つけた。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;guritupuwo3dpurintosuru&quot;&gt;グリップを3Dプリントする&lt;&#x2F;h2&gt;
+&lt;p&gt;筐体は3Dプリンターで作ることにした。
+最初のプロトタイプは普段使っているNothing Phone 3専用で作った。
+自分が使えればいいのでケース込みの寸法でぴったり合わせたものを作った。
+文章で書くと簡単だが、ぴったりのものを作るまでに10個は試作した、CADはまだAIにやってもらうわけには行かないので苦労した。&lt;&#x2F;p&gt;
+&lt;p&gt;他にも悩んだのが固定方法。スマホグリップの固定は大きく分けてクランプ式（バネで挟む）とMagSafeでの固定がある。
+クランプ式は汎用性が高いが嵩張る。MagSafe型はスマートだが固定強度やiPhoneしか使えないという問題がある。&lt;&#x2F;p&gt;
+&lt;p&gt;結局、スマホの下部3分の1を差し込むだけの構造にした。最初は内側にTPUのライナーを入れる構造を考えていたが、ピッタリ作ればそう言った工夫無く固定出来た、一旦自分で使うだけなのでプロトタイプはこれで良しとした。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;apurizuo-cheng&quot;&gt;アプリ作成&lt;&#x2F;h2&gt;
+&lt;p&gt;アプリ側はKotlin + Jetpack Compose。カメラAPIはCamera2を使った。CameraXの方が簡単だが、半押しAFロックのような細かい制御には不安が残るらしい、ここはほとんどAIに言われるままの構成だ、アプリ系はまだまだ勉強が必要だ。&lt;&#x2F;p&gt;
+&lt;p&gt;アプリ側の実装はほとんどAIがやってくれたが、一番厄介だったのはデバッグだ、アプリの状態、どうなっているかをＡＩに言葉で伝えるのが大変だった。エラーメッセージが出ればそれを伝えればいいが、動作するが少しおかしいとか、ＵＩの崩れなどはどう伝えればいいか苦労した。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;xmbwocuo-ying-uinichi-tiip-ndali-you&quot;&gt;XMBを撮影UIに持ち込んだ理由&lt;&#x2F;h2&gt;
+&lt;p&gt;もう一つ、苦労したのが、撮影画面のUIをどうするかで結構考えた。
+既存のカメラアプリは大体2パターン。パラメータを変更するときにメニューやダイアログを開くか、画面下部にスライダーが出るか。どちらもライブビューが邪魔になるか、一度に1つのパラメータしか見えないかのどちらか。
+グリップにロータリーエンコーダを付けている以上、回転操作で値を変えられるUIが必要。かつ全パラメータが一覧できて、ライブビューの邪魔にならない。&lt;&#x2F;p&gt;
+&lt;p&gt;ここでPS3のXMB（クロスメディアバー）を思い出した。横軸で値選択、縦軸でカテゴリ切り替え。これをL字型に画面の端に寄せれば、ライブビューを矩形のまま大きく確保できる。&lt;&#x2F;p&gt;
+&lt;p&gt;実装してみると、このUIの面白い性質に気づいた。「対象を切り替える」と「値を変更する」が直交する1次元の軸になっている。ロータリーエンコーダ（1次元）でもスティック（2次元）でもタッチスワイプ（2次元）でも、同じ操作モデルで動く。入力デバイスを選ばない。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;yaritaikotoha-miraresunozai-xian-dehanai&quot;&gt;やりたいことは「ミラーレスの再現」ではない&lt;&#x2F;h2&gt;
+&lt;p&gt;作りながら方針が固まったことがある。このプロジェクトは「スマホでミラーレスを再現する」のではなく「スマホカメラの操作を作り直す」プロジェクトだということ。&lt;&#x2F;p&gt;
+&lt;p&gt;たとえば、P&#x2F;A&#x2F;S&#x2F;Mモードは入れていない。スマホは物理絞りが固定のものが多く、これらのモードは形だけになる。代わりに計算写真の強度（HDR、夜景モード的なもの）やレンズ切り替えを撮影パラメータとして第一級に扱う。これはミラーレスにはない操作軸だとおもう。
+モード概念もアプリ側には持たせていない。グリップ側で物理的にモードを切り替えたければ、モードごとに別のキーコードを送ればいい。アプリは来たキーコードに対してマッピングされたアクションを実行するだけ。&lt;&#x2F;p&gt;
+&lt;p&gt;こうしておけば、市販のゲームパッドでもそこそこ使えるし、自作グリップのボタン構成が変わってもアプリ側は改修不要。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;ci-niyarukoto&quot;&gt;次にやること&lt;&#x2F;h2&gt;
+&lt;p&gt;今はNothing Phone 3専用のグリップで自分だけが使っている。次はCADデータを公開できる形で整理して公開したい。
+さらに、別の機種にも対応できるようにクランプがたの固定でのモデルも作り始めている。&lt;&#x2F;p&gt;
+&lt;p&gt;アプリはStep 3（RAW・手動露出）まで完了。残りはキーマッピングプロファイルの保存と、HDR・フォーカスピーキングの表示あたりをやりたい。
+ただアプリ側はデバイス差異でのエラーや設定できない項目などがいろいろあると思うのでそのあたりの対応も考えていかないと汎用的に使えるアプリにはならないと考えている。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>ContextMixerの設計思想 — AIが探索しやすいナレッジベースとは何か</title>
+        <published>2025-06-18T00:00:00+00:00</published>
+        <updated>2025-06-18T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://frog404.work/log/context-mixer-design/"/>
+        <id>https://frog404.work/log/context-mixer-design/</id>
+        
+        <content type="html" xml:base="https://frog404.work/log/context-mixer-design/">&lt;h2 id=&quot;shi-marihanotionhenobu-man&quot;&gt;始まりはNotionへの不満&lt;&#x2F;h2&gt;
+&lt;p&gt;個人開発のプロジェクトが20を超えたあたりで、Notionに溜めた情報をAIツールから使うのがしんどくなった。&lt;&#x2F;p&gt;
+&lt;p&gt;Claude Codeに「このプロジェクトの設計方針に沿って実装して」と言いたい。でもAIはNotionの中身を知らない。だから毎回、Notionを開いて該当ページを探して、テキストをコピーして、プロンプトに貼り付ける。足りなければまた取りに戻る。これを1日に何度もやる。&lt;&#x2F;p&gt;
+&lt;p&gt;Notion自体が悪いわけではない。人間が読むための道具としてはよくできている。ただ、リッチなブロック構造はAIにとっては邪魔で、ページ単位でしか情報を取れないから必要な1段落のためにページ全体のトークンを消費する。&lt;&#x2F;p&gt;
+&lt;p&gt;どうせ自分しか使わないナレッジベースなら自分で作るか、と。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;qu-de-noli-du-wofen-keru&quot;&gt;取得の粒度を分ける&lt;&#x2F;h2&gt;
+&lt;p&gt;設計で一番最初に考えたのは、AIがドキュメントを「どこまで読むか」を選べるようにすること。&lt;&#x2F;p&gt;
+&lt;p&gt;普通のAPIだと全文取得しかできない。でもAIが本当にやりたいのは「このドキュメント、自分に関係あるか？」の判断で、それにはタイトルと概要の数十トークンがあればいい。関係ありそうなら見出し構造を見て、必要なセクションだけ取る。&lt;&#x2F;p&gt;
+&lt;p&gt;なので &lt;code&gt;meta&lt;&#x2F;code&gt;、&lt;code&gt;outline&lt;&#x2F;code&gt;、&lt;code&gt;full&lt;&#x2F;code&gt;、&lt;code&gt;section&lt;&#x2F;code&gt; の4段階にした。図書館で目次だけ見て必要な章を開く、あれと同じことをAPIでやれるようにした感じ。地味だけど、これでトークン消費がだいぶ減った。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;cloudflaredequan-bu-makanau&quot;&gt;Cloudflareで全部まかなう&lt;&#x2F;h2&gt;
+&lt;p&gt;スタックはCloudflare Workers + D1 + R2。全部Cloudflareに寄せたのはコストの問題。&lt;&#x2F;p&gt;
+&lt;p&gt;ナレッジベースって一度作ったら何年も使うものだから、月額が発生するのは避けたい。使わない月にも金がかかるのは精神的に良くないし、サービス終了のリスクもある。Cloudflareの無料枠は個人利用なら実質無制限に近い。Workers 10万req&#x2F;日、D1 5GB、R2 10GB。&lt;&#x2F;p&gt;
+&lt;p&gt;フレームワークはHono。Workers上で動くものの中で一番取り回しがいい。D1がSQLiteベースなのでFTS5（全文検索）がそのまま使えて、検索エンジンを別に立てなくていいのが地味にでかい。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;vuewoyametehtmxnisita&quot;&gt;VueをやめてHTMXにした&lt;&#x2F;h2&gt;
+&lt;p&gt;フロントエンドは最初Vue MPAで設計した。仕事でVue.jsを使っているし、コンポーネントの切り方とかも慣れている。同一Workers上でMPAとして返せばSPAほど複雑にならないだろうと。&lt;&#x2F;p&gt;
+&lt;p&gt;で、実際書き始めて気づいた。ContextMixerのUIでやることって、一覧を出す、中身を表示する、テキストエリアで編集する、くらいしかない。状態管理らしい状態管理がない。Vueを入れるとビルドステップが増えるし、Workersへのデプロイも一手間余計にかかる。&lt;&#x2F;p&gt;
+&lt;p&gt;HTMXに変えた。サーバーからHTMLフラグメントを返すだけでUIが更新される仕組みで、ビルドステップがなくなる。&lt;code&gt;public&#x2F;index.html&lt;&#x2F;code&gt; と &lt;code&gt;public&#x2F;app.js&lt;&#x2F;code&gt; と &lt;code&gt;&#x2F;ui&#x2F;*&lt;&#x2F;code&gt; のフラグメントだけ。Honoのルートハンドラがそのままビューを兼ねる。&lt;&#x2F;p&gt;
+&lt;p&gt;HTMXのDXはお世辞にも洗練されているとは言えない。Vueのテンプレート構文に慣れた身からすると、属性でゴリゴリ制御を書いていく感じは正直ちょっとつらい。ただ、このツールのメインユーザーはWeb UIを開く人間ではなくMCP経由のAIなので、UI側の完成度は割り切った。&lt;&#x2F;p&gt;
+&lt;p&gt;結果的に、ビルドなし・デプロイは &lt;code&gt;wrangler deploy&lt;&#x2F;code&gt; 一発という運用になって、メンテ負荷は確実に下がった。正しい選択だったかはまだわからないけど、今のところ困っていない。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;ren-zheng-ga3tunifen-kareta&quot;&gt;認証が3つに分かれた&lt;&#x2F;h2&gt;
+&lt;p&gt;認証設計は面白かった。アクセスしてくる相手が3種類いる。&lt;&#x2F;p&gt;
+&lt;p&gt;人間がブラウザから来る場合はClerkのセッション認証。AIがREST APIを叩く場合はAPIキー。AIがMCPで来る場合はOAuth 2.1。このうちMCPのOAuthは後から足したが、REST APIキーとの共存で認証ミドルウェアが複雑にならないように、最初から「誰が・どの経路で・何を許可されているか」を統一的に扱う構造にしていたのが助かった。&lt;&#x2F;p&gt;
+&lt;p&gt;APIキーにはスコープとコレクション制限をつけられるようにした。「このキーはこのプロジェクトのreadだけ」みたいな運用ができる。信頼度の低い外部サービスに渡すキーの権限を絞れるのは安心感がある。&lt;&#x2F;p&gt;
+&lt;p&gt;あと、設計文書にはAPIキーのハッシュにbcryptと書いていたが、実装ではSHA-256にした。Workersの無料枠はCPU時間に上限があって、bcryptだと重い。APIキーは十分な長さの乱数なので辞書攻撃のリスクはパスワードとは違う。こういう「設計時に書いたこと」と「実装時の判断」のズレは出るたびにContextMixer自身に記録している。セルフドッグフーディングというやつ。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;fts5nohaihunwen-ti&quot;&gt;FTS5のハイフン問題&lt;&#x2F;h2&gt;
+&lt;p&gt;全文検索にD1のFTS5を使っている。SQLiteに組み込みの全文検索エンジンで、追加サービスなしで動くのが選んだ理由。&lt;&#x2F;p&gt;
+&lt;p&gt;で、ハイフン入りの語で壊れた。&lt;code&gt;context-mixer&lt;&#x2F;code&gt; と検索すると、FTS5はハイフンを「NOT」演算子として解釈する。つまり &lt;code&gt;context AND NOT mixer&lt;&#x2F;code&gt; になって、意図しない結果かエラーになる。&lt;&#x2F;p&gt;
+&lt;p&gt;厄介だったのは、UI側がFTSのエラーを空結果として握りつぶしていたこと。画面上は「0件」と出るだけなので、検索機能自体が壊れているとは気づきにくい。RESTで直接叩いて初めてエラーが見えた。&lt;&#x2F;p&gt;
+&lt;p&gt;修正は &lt;code&gt;toFtsQuery()&lt;&#x2F;code&gt; という前処理関数を作って、検索語をフレーズクォートしてからFTSに渡すようにした。REST・UI・MCPの3箇所で同じ関数を使う。地味な修正だけど、こういう細かい罠はSQLiteのFTSを使う人は知っておいた方がいいと思う。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;mcpworu-retekaragaben-fan&quot;&gt;MCPを入れてからが本番&lt;&#x2F;h2&gt;
+&lt;p&gt;MCP対応を入れてから使い方が変わった。&lt;&#x2F;p&gt;
+&lt;p&gt;それまでは自分でブラウザを開いて読み書きするツールだった。MCP対応後はClaude Desktopから「このプロジェクトの設計方針を確認して」と言えば、AIが勝手にContextMixerを検索してドキュメントを持ってくる。プロンプトにコンテキストを貼る作業がなくなった。&lt;&#x2F;p&gt;
+&lt;p&gt;もともとこの体験がほしくて作り始めたので、MCPを入れた時点でようやく当初の目的を達成した感じ。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;konoxian&quot;&gt;この先&lt;&#x2F;h2&gt;
+&lt;p&gt;次にやりたいのは「Context Bundle」。プロジェクトの開発を始めるとき、毎回 spec、decisions、research、rules と順番に取得しているのを、まとめて一発で取れる仕組み。定義済みのドキュメントセットを &lt;code&gt;GET &#x2F;bundles&#x2F;project-name&lt;&#x2F;code&gt; で返す。&lt;&#x2F;p&gt;
+&lt;p&gt;あとはGoogleが出したOKF（Open Knowledge Format）への対応。YAMLフロントマター付きMarkdownで知識を表現する標準規格。ContextMixerの内部構造とほぼ同じなので、対応は大して手間じゃないはず。そのうちやる。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>Fubako開発記録 — SSGの良さを非エンジニアに渡すために</title>
+        <published>2025-06-16T00:00:00+00:00</published>
+        <updated>2025-06-16T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://frog404.work/log/2025-06-16-fubako-dev/"/>
+        <id>https://frog404.work/log/2025-06-16-fubako-dev/</id>
+        
+        <content type="html" xml:base="https://frog404.work/log/2025-06-16-fubako-dev/">&lt;h2 id=&quot;wordpresshazhong-i-ssghafu-ju-gagao-i&quot;&gt;WordPressは重い、SSGは敷居が高い&lt;&#x2F;h2&gt;
+&lt;p&gt;もともとWebディレクターをやっていたので、サイトの管理を色々な人に渡す場面を多く見てきた。
+WordPressは定番だが、個人や小規模チームには重い。サーバーの維持、セキュリティアップデート、プラグインの互換性。管理画面も慣れないと何がどこにあるかわからない。クライアントが記事を更新しようとして管理画面で迷子になるのを何度も見た。
+Wixやstudioなども課金しないと意外と制約が多く、個人向けや予算が少ない案件ではもどかしく感じることが多かった。&lt;&#x2F;p&gt;
+&lt;p&gt;昔、個人的に友人のイラストレータのWebサイトを作ったことがある、駆け出しだったので、できるだけランニングコストが掛からず運用できて、広告が出ず、独自ドメインが使え、さらに簡単に更新できる、そんな条件で探すと驚くほど選択肢がなかった、無理やり作ったが結局うまく運用できず放置になってドメインの更新もやめてしまった経験がある。&lt;&#x2F;p&gt;
+&lt;p&gt;静的サイトジェネレーター（SSG）は技術的には正解だと思っている。速い、安い、安全、ホスティングも無料枠で十分。ただSSGで記事を書くにはMarkdown、YAML、ターミナル操作、Gitの知識が前提になる。エンジニア以外には事実上使えない。
+SSGの良さを残しつつ、非エンジニアにも渡せるものが作れないか。SSGのポテンシャルを最大限発揮するアプリ、これがFubakoの出発点。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;nazezolawoxuan-ndaka&quot;&gt;なぜZolaを選んだか&lt;&#x2F;h2&gt;
+&lt;p&gt;SSGはHugo、Astro、Eleventy、いろいろある。全部対応したら便利だが、最初から複数SSGに対応させるとなると工数がかかるうえに各SSGの仕様を把握する必要もあり、個人ではかなり重い。
+Zolaを選んだのは、ビルドが速い、設定がシンプル、テンプレートがWordPressに近くてWordPressを扱っていたような人にはテンプレートが書きやすい。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;electronnisitapan-duan&quot;&gt;Electronにした判断&lt;&#x2F;h2&gt;
+&lt;p&gt;デスクトップアプリのフレームワークはElectronとTauriを比較した。
+Tauriの方が新しくて軽量で、今から新しく作るなら選びたくなる気持ちはある。ただFubakoにはNode.js前提の要件がいくつかあった。Zolaの子プロセス管理、js-yamlでのfrontmatterパース、Dugite（GitバイナリのElectronバンドル）。TauriだとこのあたりをRust側で書き直すかサイドカーを使うことになる。
+別のプロジェクト（VoicePeel）でWailsというGo製のElectron代替を試していて、非Electronフレームワークの粗さを体感していた。Tauriはもっと成熟しているとはいえ、Electronのエコシステムの安定感は今でも強い。
+バンドルサイズが大きくなるのは確かだが、デスクトップCMSでバンドルサイズを気にする人はあまりいない。安定性を取った。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;site-config-ymlnoshe-ji&quot;&gt;site-config.ymlの設計&lt;&#x2F;h2&gt;
+&lt;p&gt;Fubakoの核はsite-config.yml。このファイルにコンテンツタイプとフィールド定義を書くと、Fubakoが管理画面のUIを動的に生成する。
+この仕組みにした理由は「サイトごとにフィールドが違う」から。ブログならタイトルと本文と日付があればいいが、ポートフォリオならプロジェクト名、ステータス、進捗率、技術タグが要る。フィールド構成をコードに埋め込むと、サイトごとにFubakoを改修することになる。
+このあたりはWordPressで辛かった体験とBlogメインではないことからこの設計にしている。
+設定ファイルの形式はYAMLにした。最初はZolaのconfig.toml内の&lt;code&gt;[extra]&lt;&#x2F;code&gt;に入れようとしたが、TOMLのネスト記法がフィールド定義のような構造化データには読みにくい。YAMLの方が素直。
+フィールドの型はZolaのfrontmatter仕様から逆算して決めた。Zolaの&lt;code&gt;extra&lt;&#x2F;code&gt;セクションに書ける型（文字列、数値、真偽値、日付、配列、マップ）にFubakoのフィールド型を1対1で対応させた。これでFubakoが出力するfrontmatterは常にZolaが解釈できる。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;dugitenisitali-you&quot;&gt;Dugiteにした理由&lt;&#x2F;h2&gt;
+&lt;p&gt;Git操作は最初simple-gitを使っていた。simple-gitはシステムにインストールされたgitコマンドをラップするライブラリで、開発中は問題ない。
+ただFubakoをアプリとして配布するとき、ユーザーの環境にgitが入っている保証がない。非エンジニアに渡すツールなのだから、gitが入っていない環境で動かないのは論外。
+Dugiteに切り替えた。GitHub Desktopチームが作ったライブラリで、gitバイナリ本体をElectronにバンドルしてくれる。コマンドの引数を直接組み立てるのでsimple-gitより低レベルだが、必要な操作（add、commit、push、clone、status）は限られているのでそこまで辛くない。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;frontmatternowang-fu-bian-huan&quot;&gt;frontmatterの往復変換&lt;&#x2F;h2&gt;
+&lt;p&gt;js-yamlでfrontmatterをパースして、Vueのフォームに渡して、編集後にYAMLに戻して保存する。この往復で地味にハマった。
+Zolaのfrontmatterは&lt;code&gt;extra&lt;&#x2F;code&gt;セクションにカスタムフィールドを入れる。YAMLとしてはネスト構造。Vue側では&lt;code&gt;extra.thumbnail&lt;&#x2F;code&gt;のようなドット記法のフラットなキーで扱いたい。フラット↔ネストの変換を入れて、往復で情報が落ちないようにする必要がある。
+もう1つ厄介だったのがYAMLの日付型。&lt;code&gt;date: 2025-06-20&lt;&#x2F;code&gt;はjs-yamlがJavaScriptのDateオブジェクトに変換するが、Zolaは文字列として&lt;code&gt;YYYY-MM-DD&lt;&#x2F;code&gt;を期待する。保存時にDateを文字列に戻す処理を入れないとZolaのビルドが壊れる。この手の型の不一致が何箇所かあって、全部潰すのに時間がかかった。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;zi-fen-nosaitodeshi-tutemite&quot;&gt;自分のサイトで使ってみて&lt;&#x2F;h2&gt;
+&lt;p&gt;frogworks404のサイトをFubakoで構築して運用している。自分で使うことで、UIの動線の悪さ、エディタの細かいバグ、プレビューの反映速度が体感でわかる。
+たとえば記事を保存した直後にプレビューが更新されないことがあった。Zolaのファイル監視が保存イベントを検知する前にプレビューのリロードが走ってしまうタイミング問題。自分で使っていなかったら気づかなかった類のもの。
+site-config.ymlのフィールド定義も、実際に使うと足りないものが見えてくる。tagsフィールドは当初Phase 2で後回しにしていたが、frogworks404のタグフィルタ機能を作るのにPhase 1で必要になった。実運用で優先順位が変わる典型例。
+もともとFubakoは「非エンジニアに渡せるCMS」として作り始めたが、自分でドッグフーディングすることでエンジニアの視点からの粗も見えてくる。機能やUX的な部分はまだまだ課題は多いがこのサイトの更新を続けながら、少しずつ改善を続けていこうと思っている。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>ハードウェアをOSSにするとはどういうことか</title>
+        <published>2025-06-15T00:00:00+00:00</published>
+        <updated>2025-06-15T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://frog404.work/log/2025-06-15-hardware-oss/"/>
+        <id>https://frog404.work/log/2025-06-15-hardware-oss/</id>
+        
+        <content type="html" xml:base="https://frog404.work/log/2025-06-15-hardware-oss/">&lt;h2 id=&quot;caddetawogong-kai-surebaoss-dehanai&quot;&gt;「CADデータを公開すればOSS」ではない&lt;&#x2F;h2&gt;
+&lt;p&gt;HalfGrip（スマホ用カメラグリップ）を自作して、自分用には動くものができた。次のステップとしてCADデータを公開してオープンソースにしようとして、これは思ったより大変だと気づいた。
+ソフトウェアのOSSはリポジトリをpublicにして、ライセンスを付けて、READMEにビルド手順を書けばとりあえず成立する。ハードウェアはそう簡単ではない。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;zi-fen-yong-noguritupuhazai-xian-dekinai&quot;&gt;自分用のグリップは再現できない&lt;&#x2F;h2&gt;
+&lt;p&gt;最初に作ったHalfGripのグリップは、普段使っているNothing Phone 3専用。ケース込みの寸法でぴったり合わせた筐体を3Dプリントして、PCBは使わず、マイコンやスイッチを接着剤で直接固定している。配線もはんだ付けで最短距離を取った。
+これで動く。自分にとっては完成品。
+でもこのCADデータを公開しても、他の人は使えない。まず機種が違う。ケースが違う。部品も選ぶ。しかも内部の部品固定が接着剤前提なので、寸法が0.5mmずれると収まらない。組み立て手順は自分の頭にしかない。
+「自分が使えるもの」と「他人がデータから再現できるもの」は全く別のものだ、作ったデータをそのまま公開しても誰も使えない。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;he-woshe-ji-sizhi-subi-yao-gaaruka&quot;&gt;何を設計し直す必要があるか&lt;&#x2F;h2&gt;
+&lt;p&gt;マウント部分の設計だ、今は専用なので汎用的な固定方法に改める必要がある。
+構想としては筐体をグリップ本体とマウントアダプターに分割し、マウントアダプターを可変できる方式に変更して汎用性を持たせるつもり。
+また、内部実装も接着剤前提の設計からスナップフィットとネジ止めの併用に変えて、組み立て・分解ができる構造にする必要ある。
+使用したパーツもリスト化して入手先も整理する必要がある。
+すべてちゃんとする必要はないかもしれないが、最低限で考えても結構やることがある。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;dokiyumentonowen-ti&quot;&gt;ドキュメントの問題&lt;&#x2F;h2&gt;
+&lt;p&gt;ソフトウェアのREADMEに相当するものを書くのも、ハードウェアは手間がかかる。
+必要な部品のリスト（BOM）、調達先、3Dプリントの推奨設定（素材、積層ピッチ、インフィル率）、組み立て手順、配線図。これらを全部書かないと「再現可能」にならない。ソフトウェアなら&lt;code&gt;npm install&lt;&#x2F;code&gt;で依存関係が解決するが、ハードウェアの依存関係は自分で調達して手で組み立てるしかない。
+特に配線図は、回路がシンプルでもKiCadあたりで描き起こす必要がある。手描きのメモでは他人に伝わらない。HalfGripの回路はRP2040 Zeroにスイッチとエンコーダを直結しているだけで、回路設計と呼べるほどのものではないが、それでも図面がないと「どのGPIOに何が繋がっているか」がわからない。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;sohutoueanoosstonowei-i&quot;&gt;ソフトウェアのOSSとの違い&lt;&#x2F;h2&gt;
+&lt;p&gt;ここまでやってみて感じた、ソフトウェアとの違いを整理しておく。
+フォークの意味が違う。 ソフトウェアのフォークはコピー＆修正だが、ハードウェアのフォークは「パラメータを変えて別機種用のマウントを生成する」。パラメータ化されていない設計はフォーク不可能。
+CIがない。 ソフトウェアならテストを回せばデグレに気づける。ハードウェアは出力して組み立てて確認するしかない。設計変更のたびに実機検証が必要。
+バージョン管理が不完全。 OnShapeにはバージョン機能があるが、Gitほど柔軟ではない。ブランチに相当する概念はあるが、マージは手作業。組み立て手順とかになると記録しておくこと自体が難しい。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;soredemoyaruli-you&quot;&gt;それでもやる理由&lt;&#x2F;h2&gt;
+&lt;p&gt;面倒なのは事実だが、
+ソフトウェアのOSSは山ほどある。ハードウェアのOSSで、3Dプリントで作れて、ファームウェアもアプリも込みで公開されているプロジェクトはまだ少ないと思う。
+しかも自分の作ったハードウェアで半押しAFロックが使えたときの嬉しさは想像以上だった。
+それを少しでも他の人にも体験してほしい、ソフトウェアとは違う感覚がある。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>触覚ノブデバイス —  試作記録</title>
+        <published>2025-06-10T00:00:00+00:00</published>
+        <updated>2025-06-10T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://frog404.work/log/haptic-knob/"/>
+        <id>https://frog404.work/log/haptic-knob/</id>
+        
+        <content type="html" xml:base="https://frog404.work/log/haptic-knob/">&lt;h2 id=&quot;gai-yao&quot;&gt;概要&lt;&#x2F;h2&gt;
+&lt;p&gt;左手用ノブ入力デバイス（dial-mixer）の試作記録。
+渦電流ブレーキによる疑似ハプティックフィードバックの実装を目指す&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;gou-cheng&quot;&gt;構成&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;MCU: ESP32-S3 Super Mini&lt;&#x2F;li&gt;
+&lt;li&gt;エンコーダー: AS5600 磁気式&lt;&#x2F;li&gt;
+&lt;li&gt;ディスプレイ: GC9A01 円形1.28インチ&lt;&#x2F;li&gt;
+&lt;li&gt;ブレーキ: アルミディスク + コイル（渦電流制動）&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;jin-bu-rogu&quot;&gt;進捗ログ&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;2025-06-10&quot;&gt;2025.06.10&lt;&#x2F;h3&gt;
+&lt;p&gt;フリーホイール逆転時にコイルが逆起電力でMOSFETを破壊する問題を確認。
+逆流防止ダイオードを追加して解決。エアギャップを 1.5mm → 0.8mm に詰めることでブレーキ力が向上。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;2025-05-28&quot;&gt;2025.05.28&lt;&#x2F;h3&gt;
+&lt;p&gt;コイル巻き数を150T → 200T に変更。制動トルクが体感できるレベルに到達。
+ただしMCUとの干渉ノイズが出始めたため、シールド対策が必要。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="ja">
+        <title>AIとの設計作業にASCIIワイヤーフレームが有効な理由</title>
+        <published>2025-05-12T00:00:00+00:00</published>
+        <updated>2025-05-12T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://frog404.work/log/2025-05-12-ascii-wireframe/"/>
+        <id>https://frog404.work/log/2025-05-12-ascii-wireframe/</id>
+        
+        <content type="html" xml:base="https://frog404.work/log/2025-05-12-ascii-wireframe/">&lt;h2 id=&quot;qian-ti&quot;&gt;前提&lt;&#x2F;h2&gt;
+&lt;p&gt;LLMとUIを共同設計する際、Figmaやスクリーンショットを共有するのが一般的だが、
+これはトークン消費が大きく、LLMの修正提案も「文章で説明」になってしまう。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;asciiwaiyahuremunoli-dian&quot;&gt;ASCIIワイヤーフレームの利点&lt;&#x2F;h2&gt;
+&lt;pre&gt;&lt;code&gt;+--[header]------------------+
+| frogworks404               |
+| 記録開始: 2024.01          |
++----------------------------+
+| [FILTER] all &amp;#x2F; build-log &amp;#x2F; |
++----------------------------+
+| 2025.06.10 [build-log]     |
+| タイトルがここに入る       |
+| 概要テキスト...            |
++----------------------------+
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;トークン効率&lt;&#x2F;strong&gt; — 同じ情報を画像より少ないトークンで伝えられる&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;修正のしやすさ&lt;&#x2F;strong&gt; — LLMがテキストとして直接編集できる&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;曖昧さの排除&lt;&#x2F;strong&gt; — レイアウト意図を構造で示せる&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;h2 id=&quot;shi-zhuang-asciiwire&quot;&gt;実装（ASCIIwire）&lt;&#x2F;h2&gt;
+&lt;p&gt;この考えを実装に落としたのが &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;ASCIIwire&quot;&gt;ASCIIwire&lt;&#x2F;a&gt;。
+マークダウンベースのDSLからASCIIアートを生成するCLIツール。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>
