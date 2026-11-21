@@ -65,3 +65,38 @@
     }
   });
 })();
+
+// ── 目次などのページ内リンク: コマ送りスクロール（1コマ 83ms × 6、滑らかな変化は使わない） ──
+(function () {
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var FRAME = 83;
+  var FRAMES = 6;
+
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var id = a.getAttribute('href').slice(1);
+      if (!id) return;
+      var target = document.getElementById(id);
+      if (!target) return; // 対応する見出しがないものは既定の挙動に任せる
+      e.preventDefault();
+      var start = window.scrollY;
+      var end = start + target.getBoundingClientRect().top;
+      var i = 0;
+      var tick = function () {
+        i += 1;
+        window.scrollTo(0, start + ((end - start) * i) / FRAMES);
+        if (i < FRAMES) {
+          window.setTimeout(tick, FRAME);
+        } else {
+          history.pushState(null, '', '#' + id);
+        }
+      };
+      if (reduced || start === end) {
+        window.scrollTo(0, end);
+        history.pushState(null, '', '#' + id);
+      } else {
+        tick();
+      }
+    });
+  });
+})();
