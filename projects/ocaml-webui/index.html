@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ocaml-webui — frogworks404</title>
+
+  
+  <meta name="description" content="OCamlのアプリに、HTML・CSS・JSの画面を付けるためのWebUIランタイム。画面とのやり取りのコードを型の定義から生成し、処理の流れをトレースで追える。">
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <link rel="canonical" href="https://frog404.work/projects/ocaml-webui/">
+  <link rel="alternate" type="application/atom+xml" title="frogworks404 · 記録" href="https://frog404.work/log/atom.xml">
+  <meta property="og:site_name" content="frogworks404">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="ocaml-webui">
+  <meta property="og:description" content="OCamlのアプリに、HTML・CSS・JSの画面を付けるためのWebUIランタイム。画面とのやり取りのコードを型の定義から生成し、処理の流れをトレースで追える。">
+  <meta property="og:url" content="https://frog404.work/projects/ocaml-webui/">
+  <link rel="icon" href="https://frog404.work/favicon.ico" sizes="16x16 32x32 48x48">
+  <link rel="apple-touch-icon" href="https://frog404.work/apple-touch-icon.png">
+  
+  
+  <meta property="og:image" content="https://frog404.work/uploads/2026/11/key-visual.png">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ocaml-webui">
+  <meta name="twitter:description" content="OCamlのアプリに、HTML・CSS・JSの画面を付けるためのWebUIランタイム。画面とのやり取りのコードを型の定義から生成し、処理の流れをトレースで追える。">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://frog404.work/main.css">
+
+  
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GXV2EYXZYE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GXV2EYXZYE');
+  </script>
+  
+</head>
+<body>
+<script>document.documentElement.classList.add('js');</script>
+<script src="https://frog404.work/js/menu.js" defer></script>
+
+<div class="frame">
+
+  
+  <aside class="binding" aria-label="サイトナビゲーション">
+    <a href="https://frog404.work" class="binding-logo">frogworks404</a>
+
+    <div class="binding-label">PAGES</div>
+    <nav class="binding-nav">
+      <a href="https://frog404.work" class="binding-link">表紙</a>
+      <a href="https://frog404.work/log" class="binding-link">記録一覧</a>
+      <a href="https://frog404.work/projects" class="binding-link is-current" aria-current="page">製作物</a>
+      <a href="https://frog404.work/pages/about" class="binding-link">About</a>
+    </nav>
+
+    <div class="binding-bottom">
+      <div class="binding-label">LINKS</div>
+      <nav class="binding-nav binding-nav--mono">
+        <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404" class="binding-link" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" class="binding-link" target="_blank" rel="noopener noreferrer">X ↗</a>
+        
+      </nav>
+    </div>
+  </aside>
+
+  
+  <header class="m-head">
+    <a href="https://frog404.work" class="m-head-logo">frogworks404</a>
+
+    
+      
+      
+    
+    
+      <span class="m-head-code">SHOPS 9</span>
+    
+    <button type="button" id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu">
+      <span class="menu-toggle-label">MENU</span><span class="menu-toggle-icon" aria-hidden="true">≡</span>
+    </button>
+  </header>
+
+  
+  
+<nav id="mobile-menu" class="menu-panel" aria-label="メニュー" hidden>
+  <div class="menu-label">INDEX</div>
+  <div class="menu-items">
+    <a href="https://frog404.work" class="menu-item">
+      <span class="menu-no">00</span><span class="menu-name">表紙</span><span class="menu-meta">—</span>
+    </a>
+    <a href="https://frog404.work/log" class="menu-item">
+      <span class="menu-no">01</span><span class="menu-name">記録一覧</span><span class="menu-meta">012</span>
+    </a>
+    <a href="https://frog404.work/projects" class="menu-item is-current">
+      <span class="menu-no">02</span><span class="menu-name">製作物</span><span class="menu-meta">9</span>
+    </a>
+    <a href="https://frog404.work/pages/about" class="menu-item">
+      <span class="menu-no">03</span><span class="menu-name">About</span><span class="menu-meta">—</span>
+    </a>
+  </div>
+
+  <div class="menu-label menu-label--links">LINKS</div>
+  <div class="menu-links">
+    <a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+    <a href="https:&#x2F;&#x2F;x.com&#x2F;frogworks404" target="_blank" rel="noopener noreferrer">X ↗</a>
+    <a href="https://frog404.work/log/atom.xml" target="_blank" rel="noopener noreferrer">RSS ↗</a>
+  </div>
+
+  <div class="menu-colophon">
+    <div class="menu-colophon-band">frogworks404</div>
+    <div class="menu-colophon-row"><span>ENTRIES</span><span>012</span></div>
+    <div class="menu-colophon-row"><span>SINCE</span><span>2024.01</span></div>
+    <div class="menu-colophon-row"><span>REV.</span><span>2026.11</span></div>
+  </div>
+</nav>
+
+
+  
+  <main class="sheet">
+    
+
+
+
+  
+
+
+
+
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+<header class="title-block title-block--entry">
+  <div class="title-left">
+    <div class="title-crumb-row">
+      <a href="https://frog404.work" class="title-crumb-link">SHEET 404</a>
+      <span class="title-crumb-sep">/</span>
+      <a href="https://frog404.work/projects" class="title-crumb-link">WORKS</a>
+      <span class="title-crumb-sep">/</span>
+      <span class="title-crumb">OCAML-WEBUI</span>
+    </div>
+    <h1 class="entry-title-heading">ocaml-webui</h1>
+    <div class="entry-lead-row">OCamlのアプリに、HTML・CSS・JSの画面を付けるためのWebUIランタイム。画面とのやり取りのコードを型の定義から生成し、処理の流れをトレースで追える。</div>
+  </div>
+  <div class="title-right title-right--entry">
+    <div class="title-band">PROJ</div>
+    <div class="title-row"><span class="title-row-label">DATE</span><span class="title-row-value">2026.07.18</span></div>
+    
+    <div class="title-row"><span class="title-row-label">STATUS</span><span class="title-row-value status-stamp status-stamp--inline">PROTOTYPE</span></div>
+    
+    <div class="title-row title-row--full"><span class="title-row-label">TAGS</span><span class="title-row-value">developer-tools · interface</span></div>
+    
+    
+    <div class="title-row title-row--full"><span class="title-row-label">SOURCE</span><span class="title-row-value title-row-link"><a href="https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;ocaml-webui" class="row-tag-link" target="_blank" rel="noopener noreferrer">GitHub ↗</a></span></div>
+    
+  </div>
+</header>
+
+<div class="page-body">
+  <article class="prose prose--wide">
+    <h2 id="korehahe-ka">これは何か</h2>
+<p>OCamlでデスクトップアプリを作るための土台。画面はOS標準のWebView（WindowsはWebView2、LinuxはWebKitGTK）にHTML・CSS・JSで描き、アプリの処理はOCamlで書く。</p>
+<p>Tauriのような汎用のフレームワークではない。画面とOCamlのあいだのやり取りを、型の定義と1本のトレースで扱えるようにすることに絞っている。基本は1つのOCamlプロセスで動かし、重い処理はOCamlのDomainで並列に、落ちやすい処理や別のランタイムが必要な処理だけをWorker（別プロセス）に分ける。</p>
+<h2 id="zuo-tutadong-ji">作った動機</h2>
+<p>Electronで作ったアプリ（FubakoやKoeNote）で、一番手間がかかったのはプロセス間のやり取りだった。機能を1つ足すたびに、呼び出し側、preload、チャンネル名、ハンドラ、型を合わせて書く必要があり、デバッグのときもログが分かれていて追いにくい。</p>
+<p>以前からOCamlを使ってみたかったが、GUIの環境構築でつまずいて止まっていた。そのGUIの部分を自分で作り、Electronで困っていたことを減らせないかと考えて作り始めた。経緯は<a href="/log/2026-11-22-ocaml-webui/">記事</a>に書いた。</p>
+<h2 id="te-zheng">特徴</h2>
+<h3 id="xing-noding-yi-kara-jing-jie-nokodowozuo-ru">型の定義から、境界のコードを作る</h3>
+<p>Commandの入力・出力・エラーをATDのスキーマで定義し、OCamlとTypeScriptの両方のコードを生成する。画面側は生成された関数を呼ぶだけで、チャンネル名を文字列で書く必要はない。Commandを1つ足すときに手で合わせる場所が減り、生成した型を使っている範囲では、型のずれにコンパイル時に気づける。</p>
+<h3 id="chu-li-wotoresudezhui-u">処理をトレースで追う</h3>
+<p>画面で作ったトレースIDを、OCamlの処理とWorkerへの依頼まで引き継ぐ。Commandの受付、処理の開始と終了、例外、キャンセル、タイムアウトなどをOCaml側で記録する。画面側の記録はまだない。</p>
+<h3 id="pu-duan-ha1purosesu-bi-yao-nachu-li-dakeworkerhe">普段は1プロセス、必要な処理だけWorkerへ</h3>
+<p>重い処理はOCamlのDomainで動かし、UIスレッドには結果だけを返す。外部プロセスのWorkerは、行区切りのJSON-RPCでやり取りし、落ちたときの再起動、タイムアウト、キャンセルをランタイムが受け持つ。</p>
+<h3 id="sonohoka">そのほか</h3>
+<ul>
+<li>非同期のCommand（キャンセルとタイムアウト）</li>
+<li>ウィンドウ単位などでのリソースの寿命管理。ウィンドウを閉じると、そのウィンドウに属するWorkerなどを片付ける</li>
+</ul>
+<h2 id="dui-ying-huan-jing">対応環境</h2>
+<table><thead><tr><th>OS</th><th>WebView</th><th>状態</th></tr></thead><tbody>
+<tr><td>Windows</td><td>WebView2</td><td>主に開発している環境</td></tr>
+<tr><td>Linux</td><td>WebKitGTK</td><td>WSL2で確認。ウィンドウは1つまで</td></tr>
+<tr><td>macOS</td><td>WKWebView</td><td>未確認</td></tr>
+</tbody></table>
+<h2 id="insutoru">インストール</h2>
+<p>ライブラリとして使える段階ではないが、手元で試すことはできる。</p>
+<pre data-lang="sh" class="language-sh "><code class="language-sh" data-lang="sh">git clone --recurse-submodules https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;ocaml-webui
+cd ocaml-webui
+opam switch create . 5.4.1
+opam pin add ocaml-webui .
+</code></pre>
+<h2 id="sutatuku">スタック</h2>
+<table><thead><tr><th>項目</th><th>採用技術</th></tr></thead><tbody>
+<tr><td>言語</td><td>OCaml 5</td></tr>
+<tr><td>WebView</td><td>webview（C/C++のライブラリを直接使用）</td></tr>
+<tr><td>スキーマとコード生成</td><td>ATD（atdml、atdts）</td></tr>
+<tr><td>画面側のクライアント</td><td>TypeScript</td></tr>
+<tr><td>ビルド</td><td>Dune、opam</td></tr>
+<tr><td>CI</td><td>GitHub Actions（Windows、Ubuntu）</td></tr>
+</tbody></table>
+<h2 id="jin-nozhuang-tai">今の状態</h2>
+<p>PROTOTYPE。このランタイムで、AIツールの使用量を一覧するアプリ（Usage Monitor）を作って使っている。</p>
+<p>まだ手をつけていないのは、JSからOCamlへのイベント通知、Workerの複数化、ファイル選択ダイアログなどのOSの機能、配布の仕組み、macOSでの確認など。ゆくゆくは、ほかの人も使えるライブラリとして公開したい。</p>
+<p>リポジトリ: <a href="https://github.com/iwabuchi404/ocaml-webui">github.com/iwabuchi404/ocaml-webui</a></p>
+
+  </article>
+</div>
+
+
+<section class="block block--related">
+  <div class="section-head">
+    <span class="section-no">01</span>
+    <h2 class="section-title">この製作物の記録</h2>
+  </div>
+
+  <div class="rows">
+    
+    
+    
+    <a href="https:&#x2F;&#x2F;frog404.work&#x2F;log&#x2F;2026-11-22-ocaml-webui&#x2F;" class="row row--m-simple">
+      <div class="row-left">
+        <span class="row-md">2026.11.22</span>
+        <span class="row-no">No.012</span>
+        <span class="row-tag">developer-tools</span>
+      </div>
+      <div class="row-center">
+        <div class="row-title">10年前に挫折したOCamlで、WebUIランタイム「ocaml-webui」を作っている話</div>
+        <div class="row-excerpt">OCamlのWebViewバインディングの上に立つ、単一プロセス基本のWebUIランタイム ocaml-webui の設計と検証の記録</div>
+      </div>
+    </a>
+    
+  </div>
+</section>
+
+
+    <footer class="colophon">
+  <div class="colophon-band">COLOPHON</div>
+  <div class="colophon-name">frogworks404 — 制作・実験記録</div>
+  <div class="colophon-item colophon-item--built">BUILT WITH Fubako + Zola</div>
+  <div class="colophon-row">
+    <span class="colophon-item">© 2024–2026</span>
+    <a href="https://frog404.work/log/atom.xml" class="colophon-rss" target="_blank" rel="noopener noreferrer">RSS ↗</a>
+  </div>
+</footer>
+
+  </main>
+
+</div>
+</body>
+</html>

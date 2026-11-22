@@ -5,8 +5,106 @@
     <link rel="self" type="application/atom+xml" href="https://frog404.work/log/atom.xml"/>
     <link rel="alternate" type="text/html" href="https://frog404.work/log/"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2026-08-03T00:00:00+00:00</updated>
+    <updated>2026-11-22T00:00:00+00:00</updated>
     <id>https://frog404.work/log/atom.xml</id>
+    <entry xml:lang="ja">
+        <title>10年前に挫折したOCamlで、WebUIランタイム「ocaml-webui」を作っている話</title>
+        <published>2026-11-22T00:00:00+00:00</published>
+        <updated>2026-11-22T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://frog404.work/log/2026-11-22-ocaml-webui/"/>
+        <id>https://frog404.work/log/2026-11-22-ocaml-webui/</id>
+        
+        <content type="html" xml:base="https://frog404.work/log/2026-11-22-ocaml-webui/">&lt;p&gt;最初に断っておくと、ここで書くOCamlのWebUIランタイムは、まだ人に使ってもらえる状態ではない。&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;ocaml-webui&quot;&gt;リポジトリは公開している&lt;&#x2F;a&gt;が、使い方のドキュメントもほとんどない。OCamlをほとんど書けない自分が、AIと相談しながら設計を決めて、実際に動かして確かめてきた記録として読んでほしい。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;si-toocaml&quot;&gt;私とOCaml&lt;&#x2F;h2&gt;
+&lt;p&gt;OCamlを知ったのは、15年以上前だったと思う。当時はプログラミング言語を調べるのが好きで、使ったことはないけれど名前と特徴だけは知っている言語がたくさんあった。&lt;&#x2F;p&gt;
+&lt;p&gt;その中で、関数型言語はよく分からないジャンルだった。HaskellやMLは新しい考え方の言語なんだろうと思いつつ、難しそうで、研究向けで、実際に何かを作るのには向いていないのではないかという印象を持っていた。&lt;&#x2F;p&gt;
+&lt;p&gt;OCamlは少し違って見えた。関数型なのにオブジェクト指向も使えて、パフォーマンスにもかなり力が入っている。普通のアプリも作れそうだったし、向いているかは分からないけれど、ゲームなんかも作ってみたいと思った。&lt;&#x2F;p&gt;
+&lt;p&gt;10年くらい前に、一度きちんと触ってみようとしたことがある。対話環境でコードを動かすところまではできたが、GUIライブラリの環境構築がうまくいかず、そこで止まってしまった。&lt;&#x2F;p&gt;
+&lt;p&gt;その後もOCamlのことは気になっていた。ただ、仕事を言い訳にして時間を取らないまま、もう触ることはないのかなと思っていた。&lt;&#x2F;p&gt;
+&lt;p&gt;考えが変わったのは、AIでのコーディングがかなり使えるようになってきたからだ。自分で書けなくても、AIが書いたコードを読みながら進められるなら、もう一度OCamlをやってみてもいいのではないかと思った。&lt;&#x2F;p&gt;
+&lt;p&gt;最近はRustがよく話題になる。RustはOCamlの影響を受けた言語だが、自分にとって憧れなのはOCamlのほうで、用途によってはRustより向いている場面もあるのではないかと思っている。これは今の自分の考えで、何かで確かめたわけではない。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;guiganainarazuo-ru&quot;&gt;GUIがないなら作る&lt;&#x2F;h2&gt;
+&lt;p&gt;OCamlとほかの言語を比べた記事を読むと、ほぼ必ずライブラリやコミュニティの少なさが挙がる。せっかく触るなら、OCamlを少しでも使いやすくするものを作りたかった。理想を言えば、自分でも便利に使えて、OCamlを使う人の役にも立つものがいい。&lt;&#x2F;p&gt;
+&lt;p&gt;そこで、何を作るかをAIといろいろ相談した。AIは、状態遷移を中心にしたUI、型からUIを生成する仕組み、AIが操作しやすいUIなど、6つの方向を出してきた。どれも理屈は通っていたが、ピンとこなかった。それを作っても、自分がOCamlを使っている姿が想像できなかった。&lt;&#x2F;p&gt;
+&lt;p&gt;自分が最初につまずいたのはGUIだった。それなら、WebViewを使ってTauriのようなものを作ればいいのではないか、という話になった。AIは乗り気だった。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;konseputo&quot;&gt;コンセプト&lt;&#x2F;h2&gt;
+&lt;p&gt;ちょうどその前の月に、OCamlからOS標準のWebViewを使うためのバインディング（&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;korkorran&#x2F;Owebview&quot;&gt;owebview&lt;&#x2F;a&gt;）が公開されたばかりで、技術的にはできそうだった。&lt;&#x2F;p&gt;
+&lt;p&gt;ただ、Tauriのクローンを作っても意味がないと思った。Tauriは機能が多く、個人で同じものを目指しても、中途半端なものにしかならない気がした。それに、自分で使うだけなら、OCamlで直接アプリを作ればいい。わざわざ土台から作るなら、OCamlで作る意味のあるものにしたい。コンセプトがないなら、作るべきではないと思った。&lt;&#x2F;p&gt;
+&lt;p&gt;それでAIに「独自性が無い、気にしなくていい？」と聞いた。&lt;&#x2F;p&gt;
+&lt;p&gt;やり取りを続けるうちに、今まで自分が作ってきたものを振り返った。FubakoもKoeNoteもElectronで作っていて、一番面倒だったのは画面ではなく、プロセス間のやり取りだった。&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;プロセス間通信が面倒過ぎる、実装もデバッグも&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;Electronでは、機能を1つ足すたびに、レンダラー側の呼び出し、preloadで公開する関数、IPCのチャンネル名、mainプロセスのハンドラ、引数と戻り値の型を、それぞれ合わせて書く必要がある。どこかで名前や型がずれても、動かしてみるまで分からない。デバッグのときも、レンダラーとmainでログが分かれていて、追いかけるのに手間がかかる。&lt;a href=&quot;&#x2F;log&#x2F;2026-07-12-kamoxelectronvscode&#x2F;&quot;&gt;KamoXの記事&lt;&#x2F;a&gt;で書いた「画面では正常に見えるのに、IPCの向こうで失敗している」問題も、根っこは同じだと思う。&lt;&#x2F;p&gt;
+&lt;p&gt;そこから、次のような仮説を立てた。デスクトップアプリの開発が重くなるのは、プロセスが分かれていることそのものより、境界をまたぐための決まりきった実装と、デバッグの情報があちこちに散らばることのほうが大きいのではないか。&lt;&#x2F;p&gt;
+&lt;p&gt;これは自分が実際に困っている問題で、Electronで同じように困っている人もいると思う。型をしっかり書くOCamlなら、境界の定義を1か所にまとめる作りとも相性が良さそうだった。ここでやっと、OCamlで作る意味がありそうなものが見つかった。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;she-ji-wozi-fen-nosaizunisuru&quot;&gt;設計を自分のサイズにする&lt;&#x2F;h2&gt;
+&lt;p&gt;方向が決まってから、設計を詰めていった。1人で作るので、できるだけスコープを小さく、自分でコントロールできる形にしたかった。そこで、基本は単一プロセスにすることを考えた（WebView自体は内部で別のプロセスを使うので、ここで言うのはOCaml側の話）。&lt;&#x2F;p&gt;
+&lt;p&gt;単一プロセスにする利点と欠点をAIに聞いた。欠点として挙がったのは、一部がクラッシュするとアプリ全体が落ちること、信頼できないコードを分けて動かせないこと、などだった。KoeNoteの音声処理のように、本当に別のプロセスに分けたい処理もある。&lt;&#x2F;p&gt;
+&lt;p&gt;結局、普段は単一プロセスで動かし、必要な処理だけをWorkerに分ける形にした。境界をなくすのではなく、境界をまたぐための決まりきったコードだけを自動で作る。独自性として目指すのは、次の3点に絞った。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;OCamlの型付きのCommand定義から、OCaml側とJS側のやり取りのコードを生成する&lt;&#x2F;li&gt;
+&lt;li&gt;JS、OCaml、Workerをまたぐ処理を、1本のトレースとして追えるようにする&lt;&#x2F;li&gt;
+&lt;li&gt;単一プロセスを基本にして、必要な処理だけを明示的にWorkerへ分ける&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;作っているものを一言で言うと、画面をHTMLとJSで作り、アプリの処理をOCamlで書くための土台だ。画面からOCamlの処理を呼ぶときのやり取りのコードは、型の定義から自動で作る。重い処理はOCamlの中で別のDomain（並列に動く単位）に回し、落ちやすい処理や別のランタイムが必要な処理だけをWorker（別プロセス）に出す。そのあいだを通る処理は、どこを通っても1本のトレースで追えるようにする。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;uploads&#x2F;2026&#x2F;11&#x2F;architecture.png&quot; alt=&quot;作っているものの構成&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;この時点で、設計文書は31節まで膨らんでいた。権限管理や、大きなデータの受け渡しの仕組みまで書いてあった。これを別のAIにレビューしてもらい、権限管理と大きなデータの章はいったん凍結した。今の段階では、使う場面がまだないからだ。&lt;&#x2F;p&gt;
+&lt;p&gt;実装の順番も変えた。自分はOCamlの初心者なので、いきなりコード生成から作るのではなく、なくしたいはずの決まりきったコードを一度手で書いて、それを比較の基準にする。そのあとで、スキーマから生成する版を作って比べることにした。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;shi-ji-nizuo-ruzhong-denoke-ti&quot;&gt;実際に作る中での課題&lt;&#x2F;h2&gt;
+&lt;p&gt;作り始めて最初にやったのは、分かっているつもりの前提を、実機で一つずつ確かめることだった。知っていることでも、自分の環境で数字にしておかないと、設計の前提にしにくい。以下は7月に、WindowsのWebView2で確かめたことだ。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;uisuretudowozhi-metemo-hua-mian-hadong-iteiru&quot;&gt;UIスレッドを止めても、画面は動いている&lt;&#x2F;h3&gt;
+&lt;p&gt;OCamlの処理でUIスレッドを3秒止めてみた。別のスレッドからUIスレッドに処理を頼むと、約2.7秒待たされた。それでも、画面のアニメーションは動き続けていた（フレームの間隔は最大23ms）。WebView2の描画は別のプロセスなので当たり前ではあるのだが、見た目ではUIスレッドが止まっているかどうかを判断できない。&lt;&#x2F;p&gt;
+&lt;p&gt;そこで、重い処理は別のDomain（OCaml 5の並列実行の単位）で動かし、UIスレッドには結果だけを返す形にした。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;baindeingunokuratusiyuto-linuxnozhi-yue&quot;&gt;バインディングのクラッシュと、Linuxの制約&lt;&#x2F;h3&gt;
+&lt;p&gt;途中で、owebviewのネイティブ側のコードで、解放の順番が原因のクラッシュが起きた。ここは手元で直した。低レベルのバインディングを自分で持つことは最初から計画していたが、このクラッシュを見つけてから優先度を上げた。&lt;&#x2F;p&gt;
+&lt;p&gt;Linux（WebKitGTK）では、複数のウィンドウを同時に作るとWebKitGTKが落ちた。いったんLinuxではウィンドウを1つに制限し、2つ目を作ろうとすると実行時にエラーを返すようにした。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;xing-shu-hazeng-etaga-shou-dehe-waseruchang-suo-hajian-tuta&quot;&gt;行数は増えたが、手で合わせる場所は減った&lt;&#x2F;h3&gt;
+&lt;p&gt;同じCommandを、手書きの版と、ATD（スキーマの定義からOCamlとTypeScriptのコードを生成するツール）を使う版で作って比べた。&lt;&#x2F;p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;項目&lt;&#x2F;th&gt;&lt;th&gt;手書き版&lt;&#x2F;th&gt;&lt;th&gt;ATD版&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;汎用のbridgeの行数&lt;&#x2F;td&gt;&lt;td&gt;284行&lt;&#x2F;td&gt;&lt;td&gt;400行&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Commandを1つ足すときに、手で合わせる場所&lt;&#x2F;td&gt;&lt;td&gt;5か所以上&lt;&#x2F;td&gt;&lt;td&gt;3か所&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;型の不一致に気づくタイミング&lt;&#x2F;td&gt;&lt;td&gt;主に実行時&lt;&#x2F;td&gt;&lt;td&gt;コンパイル時&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;p&gt;bridgeの行数は、かえって増えた。ただ、Commandを1つ足すたびにあちこち直していた手間は減り、生成した型を使っている範囲では、型のずれにコンパイルの時点で気づけるようになった。減らしたかったのは行数より、人が気をつけて合わせる場所のほうだったので、方向としては合っていたと思う。比べたのはCommand 1つだけなので、数が増えたときにどうなるかはまだ分からない。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;madashi-metabakari&quot;&gt;まだ始めたばかり&lt;&#x2F;h3&gt;
+&lt;p&gt;いろいろ進めてはいるが、まだ始めたばかりで、実用には厳しい状態だ。Tauriより向いていそうな用途で試してみるのは、もっと先の話になる。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;poc&quot;&gt;PoC&lt;&#x2F;h2&gt;
+&lt;p&gt;普段、複数のAIエージェントのツールを使っていて、それぞれの残りの使用量を一目で確認できるツールが欲しかった。それで、動作確認も兼ねて、このランタイムでUsage Monitorを作った。毎日ではないけれど、わりと使っている。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;uploads&#x2F;2026&#x2F;11&#x2F;usage-monitor.png&quot; alt=&quot;Usage Monitorの画面。サービスごとに残りの使用量とリセット時刻が並ぶ&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;使ってみると、Refreshを押してから全部そろうまでに数秒かかった。サービスを一つずつ順番に問い合わせているからだ。最初はアプリ側でごまかしていたが、アプリごとに対応するよりランタイム側で用意したほうがいいので、非同期のCommandを足した。途中でキャンセルしたり、時間がかかりすぎたら打ち切ったりできる。&lt;&#x2F;p&gt;
+&lt;p&gt;認証情報の扱い方がまだ人に見せられる形ではないので、こちらのリポジトリは公開していない。それでも、最低限は実用的に使える段階になっていると思う。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;jin-hou-noyu-ding&quot;&gt;今後の予定&lt;&#x2F;h2&gt;
+&lt;p&gt;7月以降も実装は進めていて、11月の時点で次のものは一通り入っている。これは別の記事で書くつもりだ。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;JS、OCaml、Workerをまたぐトレース&lt;&#x2F;li&gt;
+&lt;li&gt;外部プロセスのWorkerの管理&lt;&#x2F;li&gt;
+&lt;li&gt;ウィンドウ単位などで、リソースの寿命を管理する仕組み&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;まだ手をつけていないのは、次のあたりだ。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;JSからOCamlへのイベント通知&lt;&#x2F;li&gt;
+&lt;li&gt;低レベルのバインディングのAPIを固めるためのレビュー&lt;&#x2F;li&gt;
+&lt;li&gt;Workerを複数動かす仕組み&lt;&#x2F;li&gt;
+&lt;li&gt;呼ぶたびに起動する外部プロセス向けの仕組み&lt;&#x2F;li&gt;
+&lt;li&gt;WSLではないLinuxと、macOSでの確認&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;権限管理と大きなデータの受け渡しは、引き続き凍結している。&lt;&#x2F;p&gt;
+&lt;p&gt;ゆくゆくは、ほかの人も使えるライブラリとして公開できる状態にしていきたい。今はまだ、自分のアプリで必要になったものを足している段階なので、APIを固めたり、使い方のドキュメントを書いたりするのはその先になると思う。OCamlでデスクトップアプリを作るときの選択肢の一つになれたらいいなと思っている。&lt;&#x2F;p&gt;
+&lt;p&gt;10年前はGUIの環境構築で止まったが、今回はそのGUIの部分から作っている。&lt;&#x2F;p&gt;
+&lt;p&gt;ocaml-webuiのリポジトリ: &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;iwabuchi404&#x2F;ocaml-webui&quot;&gt;github.com&#x2F;iwabuchi404&#x2F;ocaml-webui&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="ja">
         <title>WebGPUでイラストソフトを作っている</title>
         <published>2026-08-03T00:00:00+00:00</published>
