@@ -9,6 +9,7 @@ taxonomies:
 extra:
   entry_type: essay
   project_slug: halfgrip
+  image: /uploads/2026/06/b803c61a-fb1d-4d59-9bfb-bd5754845c66.png
   og_image: /uploads/2026/06/b803c61a-fb1d-4d59-9bfb-bd5754845c66.png
 slug: 2025-06-18-halfgrip-dev
 ---

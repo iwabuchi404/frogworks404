@@ -9,6 +9,7 @@ taxonomies:
 extra:
   entry_type: article
   project_slug: photon-mixer
+  image: /uploads/2026/08/oklab-mix.png
   og_image: /uploads/2026/08/oklab-mix.png
 slug: 2026-08-03-photon-mixer
 ---
